@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Admin · Complaint detail & reply</title>
+    <title>Admin Settings - Admin Portal</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
@@ -37,13 +37,6 @@
       };
     </script>
     <style>
-      .material-symbols-outlined {
-        font-variation-settings:
-          "FILL" 0,
-          "wght" 400,
-          "GRAD" 0,
-          "opsz" 24;
-      }
       body {
         background-color: #f6f7f8;
         color: #0f172a;
@@ -51,6 +44,9 @@
       .dark body {
         background-color: #101922;
         color: #f1f5f9;
+      }
+      .flex.h-full.min-h-screen {
+        min-height: 100vh;
       }
 
       /* mobile sidebar overlay & transition */
@@ -100,41 +96,23 @@
         .main-content {
           width: 100%;
         }
+        /* bigger hamburger menu button */
         #menuBtn {
           padding: 0.5rem;
         }
         #menuBtn .material-symbols-outlined {
           font-size: 2.25rem;
         }
+        /* reduce search input width */
         .mobile-search-wrapper {
           max-width: 65%;
         }
       }
-
-      /* custom vertical timeline line */
-      .response-line {
-        position: absolute;
-        left: 23px;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background-color: #e2e8f0;
-      }
-      .dark .response-line {
-        background-color: #1e293b;
-      }
-      @media (max-width: 640px) {
-        .response-line {
-          left: 15px;
-        }
-      }
     </style>
   </head>
-  <body
-    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen"
-  >
-    <div class="flex h-screen overflow-hidden">
-      <!-- SIDEBAR – admin version (same as previous) -->
+  <body class="font-display min-h-screen">
+    <div class="flex h-full min-h-screen">
+      <!-- SIDEBAR – desktop version (visible on md and up) -->
       <aside
         class="desktop-sidebar w-64 flex-shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col fixed h-full z-20 hidden lg:flex md:flex"
       >
@@ -159,7 +137,6 @@
             <span class="material-symbols-outlined text-[22px]">dashboard</span>
             <span class="text-sm font-medium">Dashboard</span>
           </a>
-          <!-- complaints active -->
           <a
             class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             href="student-complaints.html"
@@ -179,7 +156,7 @@
           class="p-4 border-t border-slate-200 dark:border-slate-800 space-y-1"
         >
           <a
-            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary font-medium"
             href="settings.html"
           >
             <span class="material-symbols-outlined text-[22px]">settings</span>
@@ -188,11 +165,12 @@
         </div>
       </aside>
 
-      <!-- Mobile Sidebar (same structure) -->
+      <!-- Mobile Sidebar - wider (70% of screen) so Admin Portal fits well -->
       <div
         id="mobileSidebar"
         class="fixed top-0 left-0 h-full w-[70%] sm:w-80 bg-white dark:bg-slate-900 shadow-xl z-30 flex flex-col transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden md:hidden"
       >
+        <!-- header with logo -->
         <div class="p-6 flex items-center gap-3">
           <div
             class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white"
@@ -208,6 +186,7 @@
             </p>
           </div>
         </div>
+        <!-- navigation menu -->
         <nav class="flex-1 px-4 space-y-1 mt-2">
           <a
             class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
@@ -231,11 +210,12 @@
             <span class="text-sm font-medium">Students</span>
           </a>
         </nav>
+        <!-- Settings at bottom (active on mobile) -->
         <div
           class="p-4 border-t border-slate-200 dark:border-slate-800 space-y-1"
         >
           <a
-            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary font-medium"
             href="settings.html"
           >
             <span class="material-symbols-outlined text-[22px]">settings</span>
@@ -244,21 +224,22 @@
         </div>
       </div>
 
-      <!-- Backdrop -->
+      <!-- Backdrop (hidden by default) -->
       <div
         id="sidebarBackdrop"
         class="sidebar-backdrop hidden opacity-0 transition-opacity duration-300"
       ></div>
 
-      <!-- MAIN CONTENT -->
+      <!-- MAIN CONTENT (Settings page) -->
       <main
-        class="flex-1 flex flex-col overflow-hidden ml-0 lg:ml-64 md:ml-64 main-content"
+        class="flex-1 ml-0 lg:ml-64 md:ml-64 main-content flex flex-col overflow-hidden"
       >
-        <!-- Header (simple) -->
         <header
-          class="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 sm:px-8 z-10"
+          class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 h-20 flex items-center justify-between px-4 sm:px-8 sticky top-0 z-10"
         >
+          <!-- Left: hamburger + search -->
           <div class="flex items-center gap-2 flex-1">
+            <!-- Hamburger button (bigger on mobile) -->
             <button
               id="menuBtn"
               class="mobile-only block lg:hidden md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
@@ -268,171 +249,182 @@
               >
             </button>
           </div>
+          <!-- placeholder for symmetry -->
           <div class="w-10"></div>
         </header>
 
-        <!-- Scrollable complaint detail + reply chatbox -->
-        <div
-          class="flex-1 overflow-y-auto p-4 sm:p-8 bg-background-light dark:bg-background-dark"
-        >
+        <!-- settings page content -->
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8">
           <div class="max-w-4xl mx-auto">
-            <!-- back navigation -->
-            <div class="mb-6">
-              <a
-                href="student-complaints.html"
-                class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary dark:text-slate-400 transition-colors"
+            <!-- page heading -->
+            <div class="mb-8">
+              <h2
+                class="text-2xl font-extrabold tracking-tight dark:text-white"
               >
-                <span class="material-symbols-outlined text-[18px]"
-                  >arrow_back</span
-                >
-                Back to complaints
-              </a>
+                Admin Settings
+              </h2>
+              <p class="text-slate-500 dark:text-slate-400 text-sm">
+                Manage your account preferences and system configuration
+              </p>
             </div>
 
-            <!-- Complaint header with status -->
-            <div class="flex flex-wrap justify-between items-start gap-4 mb-6">
-              <div>
-                <span
-                  class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border border-orange-200 dark:border-orange-800"
-                  >PENDING</span
+            <!-- settings content grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <!-- left column - profile photo & basic info -->
+              <div class="md:col-span-1">
+                <div
+                  class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm"
                 >
-                <h1 class="text-2xl md:text-3xl font-black tracking-tight mt-3">
-                  Hostel Wi-Fi Connectivity Down (Block C, 3rd floor)
-                </h1>
-              </div>
-            </div>
-
-            <!-- ORIGINAL COMPLAINT CARD (student submission) -->
-            <div
-              class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden mb-8"
-            >
-              <div class="p-6 md:p-8">
-                <div class="flex flex-col md:flex-row gap-6">
-                  <!-- placeholder image (optional) -->
-                  <div class="w-full md:w-1/4 shrink-0">
+                  <div class="flex flex-col items-center text-center">
                     <div
-                      class="aspect-video md:aspect-square rounded-lg bg-slate-200 dark:bg-slate-800 bg-cover bg-center overflow-hidden"
-                      style="
-                        background-image: url(&quot;https://images.unsplash.com/photo-1573164713988-9665fc3c3e2f?w=300&h=300&fit=crop&quot;);
-                      "
-                    ></div>
-                  </div>
-                  <div class="flex-1 space-y-4">
-                    <div class="flex items-center gap-3">
-                      <div
-                        class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs"
+                      class="w-32 h-32 rounded-full bg-primary/10 flex items-center justify-center mb-4 ring-4 ring-primary/20"
+                    >
+                      <span
+                        class="material-symbols-outlined text-5xl text-primary"
+                        >admin_panel_settings</span
                       >
-                        AJ
-                      </div>
-                      <div>
-                        <p
-                          class="text-sm font-bold text-slate-900 dark:text-white"
+                    </div>
+                    <h3 class="text-xl font-bold dark:text-white">
+                      Admin User
+                    </h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-3">
+                      System Administrator
+                    </p>
+                    <p class="text-xs text-slate-400">ID: ADMIN-001</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- right column - detailed information -->
+              <div class="md:col-span-2 space-y-6">
+                <!-- personal details card -->
+                <div
+                  class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm"
+                >
+                  <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold dark:text-white">
+                      Administrator Information
+                    </h3>
+                    <button
+                      class="text-primary text-sm font-medium flex items-center gap-1 hover:underline"
+                    >
+                      <span class="material-symbols-outlined text-sm"
+                        >edit</span
+                      >
+                      Edit
+                    </button>
+                  </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <p
+                        class="text-xs text-slate-400 uppercase tracking-wider mb-1"
+                      >
+                        Full Name
+                      </p>
+                      <p class="text-sm font-medium dark:text-white">
+                        Admin User
+                      </p>
+                    </div>
+                    <div>
+                      <p
+                        class="text-xs text-slate-400 uppercase tracking-wider mb-1"
+                      >
+                        Email Address
+                      </p>
+                      <p class="text-sm font-medium dark:text-white">
+                        admin@campusresolve.edu
+                      </p>
+                    </div>
+                    <div>
+                      <p
+                        class="text-xs text-slate-400 uppercase tracking-wider mb-1"
+                      >
+                        Department
+                      </p>
+                      <p class="text-sm font-medium dark:text-white">
+                        Student Affairs
+                      </p>
+                    </div>
+                    <div>
+                      <p
+                        class="text-xs text-slate-400 uppercase tracking-wider mb-1"
+                      >
+                        Last Login
+                      </p>
+                      <p class="text-sm font-medium dark:text-white">
+                        Today, 09:30 AM
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- system settings card -->
+                <div
+                  class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm"
+                >
+                  <h3 class="text-lg font-bold dark:text-white mb-4">
+                    System Settings
+                  </h3>
+                  <div class="space-y-3">
+                    <a
+                      href="#"
+                      class="flex items-center justify-between p-3 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                    >
+                      <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-slate-400"
+                          >lock</span
                         >
-                          Alex Johnson ·
-                          <span class="font-normal text-slate-500">STU001</span>
-                        </p>
-                        <p class="text-xs text-slate-500">
-                          Submitted on Oct 24, 2023 · 11:20 AM
-                        </p>
+                        <span class="text-sm font-medium dark:text-white"
+                          >Change Password</span
+                        >
                       </div>
-                    </div>
-                    <div
-                      class="prose prose-sm dark:prose-invert max-w-none text-slate-700 dark:text-slate-300"
-                    >
-                      <p>
-                        The Wi-Fi in Block C (3rd floor, near rooms 312-320) has
-                        been completely down for two days. Multiple students
-                        have reported the issue to the hostel warden but no
-                        action has been taken. I need stable internet for my
-                        online exams next week. Please resolve urgently.
-                      </p>
-                      <p class="mt-2 text-sm italic">
-                        Attached screenshot: wifi_error.png
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- RESPONSE THREAD (admin + student) with chat box for admin reply -->
-            <div class="relative pl-8 md:pl-12">
-              <!-- previous admin reply (example) -->
-              <div class="mb-8 relative">
-                <div
-                  class="absolute -left-8 md:-left-12 top-0 w-8 md:w-12 flex justify-center"
-                >
-                  <div
-                    class="w-8 h-8 rounded-full bg-primary/20 border-2 border-primary text-primary flex items-center justify-center z-10"
-                  >
-                    <span class="material-symbols-outlined text-sm">reply</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- CHAT BOX: admin reply area (always visible) -->
-              <div class="relative mt-8">
-                <div
-                  class="absolute -left-8 md:-left-12 top-0 w-8 md:w-12 flex justify-center"
-                >
-                  <div
-                    class="w-8 h-8 rounded-full bg-primary/20 border-2 border-primary text-primary flex items-center justify-center z-10"
-                  >
-                    <span class="material-symbols-outlined text-sm">reply</span>
-                  </div>
-                </div>
-                <div
-                  class="bg-white dark:bg-slate-900 rounded-xl border-2 border-primary/30 dark:border-primary/40 shadow-md p-5 ml-2"
-                >
-                  <div class="flex items-center gap-2 mb-3">
-                    <span class="material-symbols-outlined text-primary"
-                      >edit_note</span
-                    >
-                    <span class="text-sm font-semibold">Write your reply</span>
-                  </div>
-                  <textarea
-                    rows="3"
-                    class="w-full p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary/50 focus:border-transparent resize-none"
-                    placeholder="Type your message to the student..."
-                  ></textarea>
-                  <div class="flex justify-end gap-3 mt-4">
-                    <button
-                      class="px-5 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      class="px-5 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg text-sm font-bold flex items-center gap-2 shadow-sm transition-all"
-                    >
-                      <span class="material-symbols-outlined text-[18px]"
-                        >send</span
+                      <span
+                        class="material-symbols-outlined text-slate-400 text-sm"
+                        >chevron_right</span
                       >
-                      Send reply
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- bottom actions (resolve, escalate) -->
-            <div
-              class="mt-10 flex flex-wrap gap-3 justify-end border-t border-slate-200 dark:border-slate-800 pt-6"
-            >
-              <button
-                class="px-5 py-2 border border-green-500 text-green-600 dark:text-green-400 dark:border-green-800 rounded-lg text-sm font-bold hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors flex items-center gap-2"
-              >
-                <span class="material-symbols-outlined text-[18px]"
-                  >check_circle</span
-                >
-                Mark as resolved
-              </button>
-            </div>
+            <!-- bottom spacing -->
+            <div class="h-10"></div>
           </div>
         </div>
       </main>
     </div>
 
-    <!-- Mobile sidebar script (same as before) -->
+    <!-- Add custom styles for toggle switches -->
+    <style>
+      .toggle-checkbox {
+        right: 0;
+        z-index: 1;
+        border-color: #e2e8f0;
+        transition: all 0.3s;
+      }
+      .toggle-checkbox:checked {
+        right: 50%;
+        border-color: #137fec;
+      }
+      .toggle-checkbox:checked + .toggle-label {
+        background-color: #137fec;
+      }
+      .toggle-label {
+        background-color: #cbd5e1;
+        transition: all 0.3s;
+      }
+      .dark .toggle-label {
+        background-color: #334155;
+      }
+      .dark .toggle-checkbox {
+        border-color: #475569;
+      }
+      .dark .toggle-checkbox:checked {
+        border-color: #137fec;
+      }
+    </style>
+
     <script>
       (function () {
         const menuBtn = document.getElementById("menuBtn");
@@ -444,7 +436,7 @@
           mobileSidebar.classList.remove("-translate-x-full");
           mobileSidebar.classList.add("translate-x-0");
           backdrop.classList.remove("hidden");
-          void backdrop.offsetWidth;
+          void backdrop.offsetWidth; // force reflow
           backdrop.classList.remove("opacity-0");
           backdrop.classList.add("opacity-100");
           document.body.style.overflow = "hidden";
@@ -499,6 +491,18 @@
             }
           }
         });
+
+        // Dark mode toggle functionality (simple demo)
+        const darkModeToggle = document.getElementById("darkmode-toggle");
+        if (darkModeToggle) {
+          darkModeToggle.addEventListener("change", function (e) {
+            if (e.target.checked) {
+              document.documentElement.classList.add("dark");
+            } else {
+              document.documentElement.classList.remove("dark");
+            }
+          });
+        }
       })();
     </script>
   </body>
