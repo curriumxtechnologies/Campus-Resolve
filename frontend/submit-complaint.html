@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Submit Complaint - CampusResolve</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+            },
+            fontFamily: {
+              display: ["Inter"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background-color: #f6f7f8;
+        color: #0f172a;
+      }
+      .dark body {
+        background-color: #101922;
+        color: #f1f5f9;
+      }
+      /* ensure the layout fills the viewport */
+      .flex.h-full.min-h-screen {
+        min-height: 100vh;
+      }
+
+      /* mobile sidebar overlay & transition */
+      .sidebar-backdrop {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 25;
+        transition: opacity 300ms;
+      }
+
+      /* desktop: always show sidebar, hide hamburger */
+      @media (min-width: 1024px) {
+        .mobile-only {
+          display: none !important;
+        }
+        .desktop-sidebar {
+          display: flex !important;
+          transform: none !important;
+        }
+      }
+
+      /* tablet (between 768px and 1024px): keep desktop layout (sidebar visible) */
+      @media (min-width: 768px) and (max-width: 1023px) {
+        .mobile-only {
+          display: none !important;
+        }
+        .desktop-sidebar {
+          display: flex !important;
+          transform: none !important;
+        }
+        .ml-72 {
+          margin-left: 18rem;
+        }
+      }
+
+      /* mobile: up to 767px */
+      @media (max-width: 767px) {
+        .desktop-sidebar {
+          display: none;
+        }
+        .ml-72 {
+          margin-left: 0;
+        }
+        .main-content {
+          width: 100%;
+        }
+        /* bigger hamburger menu button */
+        #menuBtn {
+          padding: 0.5rem;
+        }
+        #menuBtn .material-symbols-outlined {
+          font-size: 2.25rem;
+        }
+        /* reduce search input width, keep new button visible (though we don't have new button here, but keep pattern) */
+        .mobile-search-wrapper {
+          max-width: 65%;
+        }
+      }
+    </style>
+  </head>
+  <body class="font-display min-h-screen">
+    <div class="flex h-full min-h-screen">
+      <!-- SIDEBAR – desktop version (visible on md and up) -->
+      <aside
+        class="desktop-sidebar w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col fixed h-full z-20 hidden lg:flex md:flex"
+      >
+        <div class="p-6 flex items-center gap-3">
+          <div class="flex items-center gap-3 text-primary">
+            <div
+              class="size-8 flex items-center justify-center bg-primary/10 rounded-lg"
+            >
+              <span class="material-symbols-outlined text-primary"
+                >campaign</span
+              >
+            </div>
+            <h2
+              class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight"
+            >
+              CampusResolve
+            </h2>
+          </div>
+        </div>
+        <nav class="flex-1 px-4 py-4 space-y-1">
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            href="student-dashboard.html"
+          >
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="text-sm font-semibold">Dashboard</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-lg transition-colors"
+            href="submit-complaint.html"
+          >
+            <span class="material-symbols-outlined">add_circle</span>
+            <span class="text-sm font-medium">Submit Complaint</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            href="feedback.html"
+          >
+            <span class="material-symbols-outlined">feedback</span>
+            <span class="text-sm font-medium">Feedback</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            href="profile.html"
+          >
+            <span class="material-symbols-outlined">account_circle</span>
+            <span class="text-sm font-medium">Profile</span>
+          </a>
+        </nav>
+        <div
+          class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800"
+        >
+          <div class="flex items-center gap-3 p-2">
+            <div
+              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"
+            >
+              <img
+                alt="Student profile"
+                class="w-full h-full object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl3N2Jz9Rg4pjH57BLCNXFzcNFeAQNChh3EEwXciVJVcqra_j0_OSRAmiShmc_5M_F78EA1xLe7EHGt-fndbpSvfAEMw4ji1huOHddSbXHcnAO6tODMrnlbJ-4Jv9A46x2zkklB-HPR9zd9B33zrtM389TheucXNbnx0fVqM_91RLKr4Rl7Ndv4ciipUrX2oKRdM7Ij6x_8IuABsv_ybfSjACtHkpfoKcBTbFmFDUaL8nodkHVQR5u98WTTHTuFkoKmLGDjHREeYU"
+              />
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold truncate dark:text-white">
+                Alex Johnson
+              </p>
+              <p class="text-xs text-slate-500 truncate">ID: 2023-9942</p>
+            </div>
+            <button class="text-slate-400 hover:text-red-500 transition-colors">
+              <span class="material-symbols-outlined text-xl">logout</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Mobile Sidebar - wider (70% of screen) so CampusResolve fits well, profile at bottom -->
+      <div
+        id="mobileSidebar"
+        class="fixed top-0 left-0 h-full w-[70%] sm:w-80 bg-white dark:bg-slate-900 shadow-xl z-30 flex flex-col transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden md:hidden"
+      >
+        <!-- header with logo -->
+        <div class="p-6 flex items-center gap-3">
+          <div class="flex items-center gap-3 text-primary">
+            <div
+              class="size-8 flex items-center justify-center bg-primary/10 rounded-lg"
+            >
+              <span class="material-symbols-outlined text-primary"
+                >campaign</span
+              >
+            </div>
+            <h2
+              class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight whitespace-nowrap"
+            >
+              CampusResolve
+            </h2>
+          </div>
+        </div>
+        <!-- navigation menu -->
+        <nav class="flex-1 px-4 py-4 space-y-1">
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            href="student-dashboard.html"
+          >
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="text-sm font-semibold">Dashboard</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-lg transition-colors"
+            href="submit-complaint.html"
+          >
+            <span class="material-symbols-outlined">add_circle</span>
+            <span class="text-sm font-medium">Submit Complaint</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            href="feedback.html"
+          >
+            <span class="material-symbols-outlined">feedback</span>
+            <span class="text-sm font-medium">Feedback</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            href="profile.html"
+          >
+            <span class="material-symbols-outlined">account_circle</span>
+            <span class="text-sm font-medium">Profile</span>
+          </a>
+        </nav>
+        <!-- Profile and logout at bottom -->
+        <div
+          class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800"
+        >
+          <div class="flex items-center gap-3 p-2">
+            <div
+              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex-shrink-0"
+            >
+              <img
+                alt="Student profile"
+                class="w-full h-full object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl3N2Jz9Rg4pjH57BLCNXFzcNFeAQNChh3EEwXciVJVcqra_j0_OSRAmiShmc_5M_F78EA1xLe7EHGt-fndbpSvfAEMw4ji1huOHddSbXHcnAO6tODMrnlbJ-4Jv9A46x2zkklB-HPR9zd9B33zrtM389TheucXNbnx0fVqM_91RLKr4Rl7Ndv4ciipUrX2oKRdM7Ij6x_8IuABsv_ybfSjACtHkpfoKcBTbFmFDUaL8nodkHVQR5u98WTTHTuFkoKmLGDjHREeYU"
+              />
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold truncate dark:text-white">
+                Alex Johnson
+              </p>
+              <p class="text-xs text-slate-500 truncate">ID: 2023-9942</p>
+            </div>
+            <button class="text-slate-400 hover:text-red-500 transition-colors">
+              <span class="material-symbols-outlined text-xl">logout</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Backdrop (hidden by default) -->
+      <div
+        id="sidebarBackdrop"
+        class="sidebar-backdrop hidden opacity-0 transition-opacity duration-300"
+      ></div>
+
+      <!-- MAIN CONTENT (Submit Complaint form) -->
+      <main class="flex-1 ml-0 lg:ml-72 md:ml-72 main-content">
+        <header
+          class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 h-20 flex items-center justify-between px-4 sm:px-8 sticky top-0 z-10"
+        >
+          <!-- Left: hamburger + search (search takes less space on mobile) -->
+          <div class="flex items-center gap-2 flex-1">
+            <!-- Hamburger button (bigger on mobile) -->
+            <button
+              id="menuBtn"
+              class="mobile-only block lg:hidden md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            >
+              <span class="material-symbols-outlined text-3xl sm:text-4xl"
+                >menu</span
+              >
+            </button>
+          </div>
+          <!-- placeholder to maintain layout (no New button here, but could be blank) -->
+          <div class="w-10"></div>
+        </header>
+
+        <!-- form container -->
+        <div class="p-4 sm:p-8 max-w-3xl mx-auto">
+          <!-- breadcrumb / title -->
+          <div class="mb-6">
+            <h2
+              class="text-2xl font-extrabold tracking-tight dark:text-white flex items-center gap-2"
+            >
+              <span class="material-symbols-outlined text-primary"
+                >feedback</span
+              >
+              Submit a new complaint
+            </h2>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">
+              Please provide details so we can assist you efficiently.
+            </p>
+          </div>
+
+          <!-- main form card -->
+          <div
+            class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm p-6 md:p-8"
+          >
+            <form action="#" method="POST" enctype="multipart/form-data">
+              <!-- Subject / Title -->
+              <div class="mb-6">
+                <label
+                  for="subject"
+                  class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
+                >
+                  Subject / Title <span class="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  required
+                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm dark:text-white placeholder-slate-400"
+                  placeholder="e.g., Hostel Wi-Fi issue, Library book missing..."
+                />
+                <p class="text-xs text-slate-400 mt-1">
+                  Short, descriptive title (max 100 characters)
+                </p>
+              </div>
+
+              <!-- Category dropdown -->
+              <div class="mb-6">
+                <label
+                  for="category"
+                  class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
+                >
+                  Category
+                  <span class="text-slate-400 font-normal">(optional)</span>
+                </label>
+                <select
+                  id="category"
+                  name="category"
+                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm dark:text-white"
+                >
+                  <option value="" disabled selected>Select a category</option>
+                  <option value="infrastructure">
+                    Infrastructure (Wi-Fi, facilities)
+                  </option>
+                  <option value="academic">Academic (courses, library)</option>
+                  <option value="cafeteria">Cafeteria / Food</option>
+                  <option value="administrative">Administrative / Fees</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <!-- Complaint details (text area) -->
+              <div class="mb-6">
+                <label
+                  for="complaint"
+                  class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
+                >
+                  Complaint description <span class="text-red-500">*</span>
+                </label>
+                <textarea
+                  id="complaint"
+                  name="complaint"
+                  rows="6"
+                  required
+                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm dark:text-white placeholder-slate-400"
+                  placeholder="Please describe the issue in detail. Include location, time, and any relevant information..."
+                ></textarea>
+              </div>
+
+              <!-- Attachments (optional) -->
+              <div class="mb-8">
+                <label
+                  class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
+                >
+                  Attachments
+                  <span class="text-slate-400 font-normal"
+                    >(optional — images, documents)</span
+                  >
+                </label>
+                <div class="flex items-center justify-center w-full">
+                  <label
+                    for="dropzone-file"
+                    class="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg cursor-pointer bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  >
+                    <div
+                      class="flex flex-col items-center justify-center pt-5 pb-6"
+                    >
+                      <span
+                        class="material-symbols-outlined text-3xl text-slate-400 mb-2"
+                        >cloud_upload</span
+                      >
+                      <p
+                        class="mb-1 text-sm text-slate-500 dark:text-slate-400"
+                      >
+                        <span class="font-semibold">Click to upload</span> or
+                        drag and drop
+                      </p>
+                      <p class="text-xs text-slate-400 dark:text-slate-500">
+                        PNG, JPG, PDF up to 10 MB
+                      </p>
+                    </div>
+                    <input
+                      id="dropzone-file"
+                      type="file"
+                      name="attachments"
+                      multiple
+                      class="hidden"
+                    />
+                  </label>
+                </div>
+                <p class="text-xs text-slate-400 mt-2 flex items-center gap-1">
+                  <span class="material-symbols-outlined text-xs">info</span>
+                  You can attach multiple files. Allowed: .jpg, .png, .pdf
+                </p>
+              </div>
+
+              <!-- Form actions (submit/cancel) -->
+              <div
+                class="flex flex-wrap items-center gap-4 pt-2 border-t border-slate-200 dark:border-slate-800"
+              >
+                <button
+                  type="submit"
+                  class="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg text-sm font-semibold flex items-center gap-2 transition-all shadow-sm"
+                >
+                  <span class="material-symbols-outlined text-sm">send</span>
+                  Submit complaint
+                </button>
+                <button
+                  type="reset"
+                  class="bg-white dark:bg-transparent border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-300 px-6 py-3 rounded-lg text-sm font-medium transition-colors"
+                >
+                  Clear
+                </button>
+                <a
+                  href="student-dashboard.html"
+                  class="text-sm text-slate-400 hover:text-primary ml-auto transition-colors"
+                  >Cancel and back to dashboard</a
+                >
+              </div>
+            </form>
+          </div>
+
+          <!-- extra info cards -->
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div
+              class="bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-start gap-3"
+            >
+              <span
+                class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg shrink-0"
+                >lightbulb</span
+              >
+              <div>
+                <h4
+                  class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+                >
+                  Before submitting
+                </h4>
+                <p class="text-sm text-slate-700 dark:text-slate-300 mt-1">
+                  Check if a similar complaint already exists on the dashboard.
+                  Duplicates may be merged.
+                </p>
+              </div>
+            </div>
+            <div
+              class="bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-start gap-3"
+            >
+              <span
+                class="material-symbols-outlined text-green-500 bg-green-500/10 p-2 rounded-lg shrink-0"
+                >schedule</span
+              >
+              <div>
+                <h4
+                  class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+                >
+                  Response time
+                </h4>
+                <p class="text-sm text-slate-700 dark:text-slate-300 mt-1">
+                  Most complaints receive an initial reply within 2 working
+                  days.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        const menuBtn = document.getElementById("menuBtn");
+        const mobileSidebar = document.getElementById("mobileSidebar");
+        const backdrop = document.getElementById("sidebarBackdrop");
+
+        function openSidebar() {
+          if (!mobileSidebar || !backdrop) return;
+          mobileSidebar.classList.remove("-translate-x-full");
+          mobileSidebar.classList.add("translate-x-0");
+          backdrop.classList.remove("hidden");
+          void backdrop.offsetWidth; // force reflow
+          backdrop.classList.remove("opacity-0");
+          backdrop.classList.add("opacity-100");
+          document.body.style.overflow = "hidden";
+        }
+
+        function closeSidebar() {
+          if (!mobileSidebar || !backdrop) return;
+          mobileSidebar.classList.remove("translate-x-0");
+          mobileSidebar.classList.add("-translate-x-full");
+          backdrop.classList.remove("opacity-100");
+          backdrop.classList.add("opacity-0");
+          setTimeout(() => {
+            backdrop.classList.add("hidden");
+            document.body.style.overflow = "";
+          }, 300);
+        }
+
+        if (menuBtn) {
+          menuBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            openSidebar();
+          });
+        }
+
+        if (backdrop) {
+          backdrop.addEventListener("click", closeSidebar);
+        }
+
+        document.addEventListener("keydown", (e) => {
+          if (
+            e.key === "Escape" &&
+            mobileSidebar &&
+            !mobileSidebar.classList.contains("-translate-x-full")
+          ) {
+            closeSidebar();
+          }
+        });
+
+        window.addEventListener("resize", function () {
+          if (window.innerWidth >= 768) {
+            if (
+              mobileSidebar &&
+              !mobileSidebar.classList.contains("-translate-x-full")
+            ) {
+              mobileSidebar.classList.add("-translate-x-full");
+              mobileSidebar.classList.remove("translate-x-0");
+              if (backdrop) {
+                backdrop.classList.add("hidden");
+                backdrop.classList.remove("opacity-100", "opacity-0");
+                document.body.style.overflow = "";
+              }
+            }
+          }
+        });
+
+        // Optional file input preview (from original)
+        const fileInput = document.getElementById("dropzone-file");
+        if (fileInput) {
+          fileInput.addEventListener("change", function (e) {
+            const files = Array.from(e.target.files);
+            const labelDiv = document.querySelector(
+              'label[for="dropzone-file"] .flex',
+            );
+            if (labelDiv) {
+              const messageEl = labelDiv.querySelector(".mb-1");
+              if (messageEl) {
+                if (files.length > 0) {
+                  const fileNames = files.map((f) => f.name).join(", ");
+                  messageEl.innerHTML = `<span class="font-semibold">${files.length} file(s) selected</span> <span class="text-xs block truncate max-w-[200px]">${fileNames}</span>`;
+                } else {
+                  messageEl.innerHTML =
+                    '<span class="font-semibold">Click to upload</span> or drag and drop';
+                }
+              }
+            }
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

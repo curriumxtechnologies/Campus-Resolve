@@ -1,0 +1,420 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CampusResolve - Online Complaint &amp; Feedback System</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased transition-colors duration-300"
+  >
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+      <header
+        class="sticky top-0 z-50 w-full border-b border-primary/10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md"
+      >
+        <div
+          class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10"
+        >
+          <div class="flex items-center gap-3 text-primary">
+            <div
+              class="size-8 flex items-center justify-center bg-primary/10 rounded-lg"
+            >
+              <span class="material-symbols-outlined text-primary"
+                >campaign</span
+              >
+            </div>
+            <h2
+              class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight"
+            >
+              CampusResolve
+            </h2>
+          </div>
+          <nav class="hidden md:flex items-center gap-10">
+            <a
+              class="text-sm font-semibold hover:text-primary transition-colors"
+              href="#"
+              >Home</a
+            >
+            <a
+              class="text-sm font-semibold hover:text-primary transition-colors"
+              href="#features"
+              >Features</a
+            >
+            <a
+              class="text-sm font-semibold hover:text-primary transition-colors"
+              href="#how-it-works"
+              >How it Works</a
+            >
+          </nav>
+          <div class="flex items-center gap-3">
+            <a href="student-signin.html">
+              <button
+                class="hidden sm:flex h-10 items-center justify-center rounded-lg bg-primary/10 px-5 text-sm font-bold text-primary hover:bg-primary/20 transition-all"
+              >
+                Login
+              </button>
+            </a>
+            <a href="student-signup.html">
+              <button
+                class="flex h-10 items-center justify-center rounded-lg bg-primary px-5 text-sm font-bold text-white hover:opacity-90 shadow-lg shadow-primary/20 transition-all"
+              >
+                Get Started
+              </button>
+            </a>
+          </div>
+        </div>
+      </header>
+      <main class="flex-1">
+        <section class="relative overflow-hidden py-16 lg:py-24">
+          <div class="mx-auto max-w-7xl px-6 lg:px-10">
+            <div
+              class="flex flex-col items-center gap-12 lg:flex-row lg:gap-16"
+            >
+              <div class="flex flex-1 flex-col gap-8 text-center lg:text-left">
+                <div
+                  class="inline-flex items-center self-center lg:self-start rounded-full bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-primary"
+                >
+                  Campus feedback reimagined
+                </div>
+                <h1
+                  class="text-5xl font-black leading-[1.1] tracking-tight text-slate-900 dark:text-white md:text-6xl xl:text-7xl"
+                >
+                  Empowering Students to
+                  <span class="text-primary">Speak Up</span>
+                </h1>
+                <p
+                  class="text-lg leading-relaxed text-slate-600 dark:text-slate-400 md:text-xl max-w-2xl mx-auto lg:mx-0"
+                >
+                  Submit complaints, track feedback, and resolve campus issues
+                  in one centralized platform designed for the modern student
+                  body.
+                </p>
+                <div
+                  class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                >
+                  <button
+                    class="h-14 rounded-xl bg-primary px-8 text-base font-bold text-white hover:opacity-90 shadow-xl shadow-primary/20 transition-all"
+                  >
+                    Create Account
+                  </button>
+                  <button
+                    class="h-14 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-transparent px-8 text-base font-bold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all flex items-center justify-center gap-2"
+                  >
+                    <span class="material-symbols-outlined text-xl"
+                      >play_circle</span
+                    >
+                    Learn More
+                  </button>
+                </div>
+              </div>
+              <div class="flex-1 w-full max-w-2xl lg:max-w-none">
+                <div
+                  class="relative rounded-2xl bg-gradient-to-tr from-primary/20 to-primary/5 p-4 shadow-2xl"
+                >
+                  <img
+                    alt="Students collaborating on campus"
+                    class="aspect-video w-full rounded-xl object-cover shadow-lg"
+                    data-alt="Modern university students collaborating in a bright library"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcW6BsiI9bMqtAi8_P8ASl0NLeV_zpmeNN7BfZyrMw0AMyHZQrJxbrjk8o8ERxzjn7s5jflr1Ck-O60MbNB6RDpUyYvWHbt-ESuUE_doLbCsBOXSi7wOt1n0QdBidGum_i52chRfvtVOXyo4Cc8uFf240Ky80WKIXTGZS64DdRv9gAV0fj9VYaOqOdKl-ygp9pySp08HSJAQSKZYKyTU3XudBQbb3sRwl1ckRt_oCoWyp38Ie2RGa3hM1eKzHK2PabXrTYUPKR56c"
+                  />
+                  <div
+                    class="absolute -bottom-6 -left-6 hidden xl:block rounded-xl bg-white dark:bg-slate-800 p-6 shadow-xl border border-primary/10"
+                  >
+                    <div class="flex items-center gap-4">
+                      <div
+                        class="rounded-full bg-green-500/20 p-2 text-green-600"
+                      >
+                        <span class="material-symbols-outlined"
+                          >check_circle</span
+                        >
+                      </div>
+                      <div>
+                        <p
+                          class="text-xs font-bold text-slate-500 uppercase tracking-wide"
+                        >
+                          Last Resolution
+                        </p>
+                        <p class="font-bold text-slate-900 dark:text-white">
+                          Cafeteria Lighting Fixed
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          class="bg-white dark:bg-slate-900/50 py-20 border-y border-primary/5"
+          id="how-it-works"
+        >
+          <div class="mx-auto max-w-7xl px-6 lg:px-10">
+            <div class="mb-16 text-center">
+              <h2
+                class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl"
+              >
+                How It Works
+              </h2>
+              <div
+                class="mt-4 h-1.5 w-20 bg-primary mx-auto rounded-full"
+              ></div>
+            </div>
+            <div class="grid gap-8 md:grid-cols-3">
+              <div
+                class="group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-background-light dark:bg-background-dark p-8 transition-all hover:shadow-2xl hover:-translate-y-1"
+              >
+                <div
+                  class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white"
+                >
+                  <span class="material-symbols-outlined text-3xl"
+                    >chat_bubble</span
+                  >
+                </div>
+                <h3
+                  class="mb-3 text-xl font-bold text-slate-900 dark:text-white"
+                >
+                  1. Submit
+                </h3>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                  Easily file a formal complaint or feedback in seconds using
+                  our intuitive interface.
+                </p>
+              </div>
+              <div
+                class="group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-background-light dark:bg-background-dark p-8 transition-all hover:shadow-2xl hover:-translate-y-1"
+              >
+                <div
+                  class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white"
+                >
+                  <span class="material-symbols-outlined text-3xl"
+                    >insights</span
+                  >
+                </div>
+                <h3
+                  class="mb-3 text-xl font-bold text-slate-900 dark:text-white"
+                >
+                  2. Track
+                </h3>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                  Monitor the status of your request in real-time with live
+                  updates and notifications.
+                </p>
+              </div>
+              <div
+                class="group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-background-light dark:bg-background-dark p-8 transition-all hover:shadow-2xl hover:-translate-y-1"
+              >
+                <div
+                  class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white"
+                >
+                  <span class="material-symbols-outlined text-3xl"
+                    >verified</span
+                  >
+                </div>
+                <h3
+                  class="mb-3 text-xl font-bold text-slate-900 dark:text-white"
+                >
+                  3. Resolve
+                </h3>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                  Receive official responses and resolutions from administration
+                  directly in your portal.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="py-24" id="features">
+          <div class="mx-auto max-w-7xl px-6 lg:px-10">
+            <div class="mb-16 flex flex-col items-start gap-4">
+              <h2
+                class="text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl"
+              >
+                Designed for Student Success
+              </h2>
+              <p class="max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+                Our platform streamlines communication between students and
+                administration to ensure every voice is counted.
+              </p>
+            </div>
+            <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+              <div class="flex flex-col gap-5">
+                <div
+                  class="overflow-hidden rounded-2xl shadow-lg transition-transform hover:scale-[1.02]"
+                >
+                  <img
+                    alt="Security focus"
+                    class="aspect-[16/9] w-full object-cover"
+                    data-alt="Abstract image representing security and digital encryption"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEPvukFHD4RTtlEXunTt-1RnIp1imYjeKc-RF-yE34FgwzpEYCsz3TBESe3Vx63lwGxMhFGnb-kAsPefqt9Gf39629oaW7TTnOmrPvxXoaGK_mZX5OnJjOSRcsaAvA8GrwvMcUBWC9-lhD2rqV071Tao_BRVygP3F_yfe6TfKsa3slkQ0Od_SPtOVHhAN60ipdxlH74rFEaIw_7UTpHDFYLF0bgBxxmxJOw5Iyrj_v2VCHCT9lfJdTuvEaLOPEZmX8Oj8FckuwCBU"
+                  />
+                </div>
+                <div>
+                  <h4
+                    class="mb-2 text-xl font-bold text-slate-900 dark:text-white"
+                  >
+                    Secure &amp; Anonymous
+                  </h4>
+                  <p
+                    class="text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+                  >
+                    Choose to remain anonymous while providing critical feedback
+                    without fear of repercussions.
+                  </p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-5">
+                <div
+                  class="overflow-hidden rounded-2xl shadow-lg transition-transform hover:scale-[1.02]"
+                >
+                  <img
+                    alt="Direct communication"
+                    class="aspect-[16/9] w-full object-cover"
+                    data-alt="People talking across a table in a modern workspace"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCESeB6kk2qEhNHMY5kH23yqyEryWplA9Su05qsGEwLrYpfKMOo3Lv2Rlf3fpkVqO7Nje68DANv5Cn1pzFxyaSMBO4Bl5SQRs0f1Z0yk2MUyVPWjB6tiknFmFDdS__rN3ejRgSAsA_nzRvpw0P2Ya64UUXr-SYX1Pw_06lWwyqbdKcJM-a8xSjDF7814fASP6AH3sNQX3_OkCktBvC7FUziaN2FTf0b0wGc5r51kKtDWfyaEYWGYb4gvZZnTHxliy9kS085NK-dDXY"
+                  />
+                </div>
+                <div>
+                  <h4
+                    class="mb-2 text-xl font-bold text-slate-900 dark:text-white"
+                  >
+                    Direct Communication
+                  </h4>
+                  <p
+                    class="text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+                  >
+                    Connect directly with department heads without the
+                    bureaucratic red tape.
+                  </p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-5">
+                <div
+                  class="overflow-hidden rounded-2xl shadow-lg transition-transform hover:scale-[1.02]"
+                >
+                  <img
+                    alt="Data insights"
+                    class="aspect-[16/9] w-full object-cover"
+                    data-alt="Close up of a screen showing data charts and analytics"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO0tbwOkmFm3ctGZbQeIsTmk2uTk8JCDOkH5H_tRaAh6MoUrUAlg9a8xku0smsJSnnug_sYYLejlX3ubawaR5h4FM66Xm1z3WuefcCUZgN_dvTy1bYMAnMg2mB4mynHzMy_M38oQ-yOyyCjs1fDYWfjgBCEHAH8VpT9I6Nx_VdnnK6MTJoUh1aLqSifioaNSDV0uVmIFhefgWV0yo_JN8qWh1NihpuZSd1ZpRRwscIlUXrPNS1XXuWLDXQKFy6f7lYystPqOxok4o"
+                  />
+                </div>
+                <div>
+                  <h4
+                    class="mb-2 text-xl font-bold text-slate-900 dark:text-white"
+                  >
+                    Data-Driven Insights
+                  </h4>
+                  <p
+                    class="text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+                  >
+                    Administration tools help identify trends and solve
+                    recurring campus-wide issues efficiently.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="mx-auto max-w-7xl px-6 py-20 lg:px-10">
+          <div
+            class="rounded-3xl bg-primary p-12 lg:p-20 relative overflow-hidden text-center lg:text-left"
+          >
+            <div
+              class="absolute top-0 right-0 -mr-20 -mt-20 h-64 w-64 rounded-full bg-white/10 blur-3xl"
+            ></div>
+            <div
+              class="absolute bottom-0 left-0 -ml-20 -mb-20 h-64 w-64 rounded-full bg-black/5 blur-3xl"
+            ></div>
+            <div
+              class="relative z-10 flex flex-col items-center justify-between gap-10 lg:flex-row"
+            >
+              <div class="max-w-2xl">
+                <h2 class="text-3xl font-black text-white sm:text-5xl">
+                  Ready to make a difference?
+                </h2>
+                <p class="mt-6 text-lg text-white/90">
+                  Join thousands of students who are actively shaping their
+                  campus environment today.
+                </p>
+              </div>
+              <div class="flex shrink-0 flex-col gap-4 sm:flex-row">
+                <button
+                  class="h-14 rounded-xl bg-white px-8 text-base font-bold text-primary hover:bg-slate-50 transition-all shadow-xl"
+                >
+                  Create Account
+                </button>
+                <button
+                  class="h-14 rounded-xl border border-white/30 bg-white/10 px-8 text-base font-bold text-white hover:bg-white/20 transition-all"
+                >
+                  Contact Admin
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <!-- Footer Section -->
+      <footer
+        class="py-6 px-6 md:px-20 lg:px-40 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50"
+      >
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-4"
+        >
+          <p class="text-slate-500 text-sm">
+            © 2026 CampusResolve. All rights reserved.
+          </p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
