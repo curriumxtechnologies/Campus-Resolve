@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Admin Dashboard Overview</title>
+    <title>Admin · All Complaints</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
@@ -136,20 +136,23 @@
           </div>
         </div>
         <nav class="flex-1 px-4 space-y-1 mt-4">
+          <!-- Dashboard (overview) link -->
           <a
-            class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary group"
+            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             href="admin-dashboard.html"
           >
             <span class="material-symbols-outlined text-[22px]">dashboard</span>
             <span class="text-sm font-medium">Dashboard</span>
           </a>
+          <!-- Complaints (current page) active -->
           <a
-            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary group"
             href="student-complaints.html"
           >
             <span class="material-symbols-outlined text-[22px]">inbox</span>
             <span class="text-sm font-medium">Complaints</span>
           </a>
+          <!-- Students link (points to students.html) -->
           <a
             class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             href="students.html"
@@ -171,12 +174,11 @@
         </div>
       </aside>
 
-      <!-- Mobile Sidebar - wider (70% of screen) so Admin Portal fits well, with profile at bottom -->
+      <!-- Mobile Sidebar - wider (70% of screen) -->
       <div
         id="mobileSidebar"
         class="fixed top-0 left-0 h-full w-[70%] sm:w-80 bg-white dark:bg-slate-900 shadow-xl z-30 flex flex-col transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden md:hidden"
       >
-        <!-- header with logo -->
         <div class="p-6 flex items-center gap-3">
           <div
             class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white"
@@ -192,17 +194,16 @@
             </p>
           </div>
         </div>
-        <!-- navigation menu -->
         <nav class="flex-1 px-4 space-y-1 mt-2">
           <a
-            class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary group"
+            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             href="admin-dashboard.html"
           >
             <span class="material-symbols-outlined text-[22px]">dashboard</span>
             <span class="text-sm font-medium">Dashboard</span>
           </a>
           <a
-            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary group"
             href="student-complaints.html"
           >
             <span class="material-symbols-outlined text-[22px]">inbox</span>
@@ -216,7 +217,6 @@
             <span class="text-sm font-medium">Students</span>
           </a>
         </nav>
-        <!-- Settings and Export at bottom (profile/logout replaced with admin actions) -->
         <div
           class="p-4 border-t border-slate-200 dark:border-slate-800 space-y-1"
         >
@@ -230,13 +230,13 @@
         </div>
       </div>
 
-      <!-- Backdrop (hidden by default) -->
+      <!-- Backdrop -->
       <div
         id="sidebarBackdrop"
         class="sidebar-backdrop hidden opacity-0 transition-opacity duration-300"
       ></div>
 
-      <!-- MAIN CONTENT (margin left for desktop, no margin mobile) -->
+      <!-- MAIN CONTENT -->
       <main
         class="flex-1 flex flex-col overflow-hidden ml-0 lg:ml-64 md:ml-64 main-content"
       >
@@ -244,9 +244,7 @@
         <header
           class="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 sm:px-8 z-10"
         >
-          <!-- Left: hamburger + search -->
           <div class="flex items-center gap-2 flex-1">
-            <!-- Hamburger button (bigger on mobile) -->
             <button
               id="menuBtn"
               class="mobile-only block lg:hidden md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
@@ -255,7 +253,6 @@
                 >menu</span
               >
             </button>
-            <!-- search container with reduced width on mobile -->
             <div
               class="relative mobile-search-wrapper w-full max-w-[180px] sm:max-w-xs md:max-w-md"
             >
@@ -270,7 +267,6 @@
               />
             </div>
           </div>
-          <!-- placeholder for symmetry -->
           <div class="w-10"></div>
         </header>
 
@@ -278,16 +274,16 @@
         <div
           class="flex-1 overflow-y-auto p-4 sm:p-8 bg-background-light dark:bg-background-dark"
         >
-          <!-- Welcome Section -->
+          <!-- Page Title & Filters -->
           <div
             class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8"
           >
             <div>
               <h1 class="text-2xl sm:text-3xl font-black tracking-tight mb-2">
-                Complaint Dashboard
+                All student complaints
               </h1>
               <p class="text-slate-500 dark:text-slate-400">
-                Manage and resolve student issues across the campus network.
+                View, filter and respond to every complaint submitted.
               </p>
             </div>
             <div class="flex gap-3">
@@ -295,124 +291,31 @@
                 <select
                   class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-all cursor-pointer appearance-none pr-10"
                 >
-                  <option value="filters">Filters</option>
+                  <option value="all">All complaints</option>
                   <option value="pending">Pending</option>
-                  <option value="replies">Replies</option>
+                  <option value="replied">Replied</option>
                   <option value="resolved">Resolved</option>
                 </select>
-              </div>
-            </div>
-          </div>
-
-          <!-- Stats Cards -->
-          <div
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
-          >
-            <div
-              class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <span class="text-sm font-medium text-slate-500"
-                  >Total Complaints</span
-                >
-                <div
-                  class="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-lg"
-                >
-                  <span class="material-symbols-outlined text-[20px]"
-                    >assignment</span
-                  >
-                </div>
-              </div>
-              <div class="flex items-baseline gap-2">
-                <span class="text-2xl font-bold">1,284</span>
                 <span
-                  class="text-xs font-semibold text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded"
-                  >+12%</span
-                >
-              </div>
-            </div>
-            <div
-              class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <span class="text-sm font-medium text-slate-500">Pending</span>
-                <div
-                  class="p-2 bg-orange-50 dark:bg-orange-900/20 text-orange-600 rounded-lg"
-                >
-                  <span class="material-symbols-outlined text-[20px]"
-                    >pending_actions</span
-                  >
-                </div>
-              </div>
-              <div class="flex items-baseline gap-2">
-                <span class="text-2xl font-bold">156</span>
-                <span
-                  class="text-xs font-semibold text-red-600 bg-red-50 dark:bg-red-900/20 px-2 py-0.5 rounded"
-                  >+5%</span
-                >
-              </div>
-            </div>
-            <div
-              class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <span class="text-sm font-medium text-slate-500">Resolved</span>
-                <div
-                  class="p-2 bg-green-50 dark:bg-green-900/20 text-green-600 rounded-lg"
-                >
-                  <span class="material-symbols-outlined text-[20px]"
-                    >task_alt</span
-                  >
-                </div>
-              </div>
-              <div class="flex items-baseline gap-2">
-                <span class="text-2xl font-bold">1,128</span>
-                <span
-                  class="text-xs font-semibold text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded"
-                  >+22%</span
-                >
-              </div>
-            </div>
-            <div
-              class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm"
-            >
-              <div class="flex items-center justify-between mb-4">
-                <span class="text-sm font-medium text-slate-500">Replies</span>
-                <div
-                  class="p-2 bg-purple-50 dark:bg-purple-900/20 text-purple-600 rounded-lg"
-                >
-                  <span class="material-symbols-outlined text-[20px]"
-                    >forum</span
-                  >
-                </div>
-              </div>
-              <div class="flex items-baseline gap-2">
-                <span class="text-2xl font-bold">147</span>
-                <span
-                  class="text-xs font-semibold text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded"
-                  >+12%</span
+                  class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400"
+                  >arrow_drop_down</span
                 >
               </div>
             </div>
           </div>
 
-          <!-- Complaints Table -->
+          <!-- Complaints table (full data, all students) -->
           <div
             class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden @container"
           >
             <div
               class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between"
             >
-              <h3 class="font-bold text-lg">Recent Complaints</h3>
-              <div class="flex gap-2">
-                <a href="admin-complaint-details.html">
-                  <button
-                    class="text-primary text-sm font-bold hover:underline"
-                  >
-                    View All
-                  </button>
-                </a>
-              </div>
+              <h3 class="font-bold text-lg">All Complaints</h3>
+              <span
+                class="text-xs bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full font-medium"
+                >1,284 total</span
+              >
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left border-collapse">
@@ -421,22 +324,22 @@
                     <th
                       class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500"
                     >
-                      Student Name
+                      Student
                     </th>
                     <th
                       class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500"
                     >
-                      Student ID
+                      ID
                     </th>
                     <th
                       class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500"
                     >
-                      Subject
+                      Subject / complaint
                     </th>
                     <th
                       class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500"
                     >
-                      Date Submitted
+                      Date
                     </th>
                     <th
                       class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500"
@@ -470,8 +373,8 @@
                     >
                       STU001
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      Hostel Wi-Fi Connectivity Down
+                    <td class="px-6 py-4 text-sm font-medium max-w-xs truncate">
+                      Hostel Wi-Fi Connectivity Down – Block C, 3rd floor
                     </td>
                     <td
                       class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
@@ -488,7 +391,7 @@
                       <button
                         class="text-primary hover:text-primary/80 font-bold text-sm tracking-wide"
                       >
-                        View
+                        View/Reply
                       </button>
                     </td>
                   </tr>
@@ -511,8 +414,8 @@
                     >
                       STU045
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      Library Resource Access Request
+                    <td class="px-6 py-4 text-sm font-medium max-w-xs truncate">
+                      Library Resource Access – cannot log into e‑library
                     </td>
                     <td
                       class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
@@ -529,7 +432,7 @@
                       <button
                         class="text-primary hover:text-primary/80 font-bold text-sm tracking-wide"
                       >
-                        View
+                        View/Reply
                       </button>
                     </td>
                   </tr>
@@ -552,8 +455,8 @@
                     >
                       STU089
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      Canteen Hygiene Standard Issue
+                    <td class="px-6 py-4 text-sm font-medium max-w-xs truncate">
+                      Canteen Hygiene – found foreign object in food
                     </td>
                     <td
                       class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
@@ -570,7 +473,7 @@
                       <button
                         class="text-primary hover:text-primary/80 font-bold text-sm tracking-wide"
                       >
-                        View
+                        View/Reply
                       </button>
                     </td>
                   </tr>
@@ -593,8 +496,8 @@
                     >
                       STU112
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      Course Enrollment Portal Error
+                    <td class="px-6 py-4 text-sm font-medium max-w-xs truncate">
+                      Course Enrollment – portal shows error after payment
                     </td>
                     <td
                       class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
@@ -611,7 +514,7 @@
                       <button
                         class="text-primary hover:text-primary/80 font-bold text-sm tracking-wide"
                       >
-                        View
+                        View/Reply
                       </button>
                     </td>
                   </tr>
@@ -634,8 +537,8 @@
                     >
                       STU033
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      ID Card Replacement Delay
+                    <td class="px-6 py-4 text-sm font-medium max-w-xs truncate">
+                      ID Card Replacement – 2 weeks, still not received
                     </td>
                     <td
                       class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
@@ -652,12 +555,72 @@
                       <button
                         class="text-primary hover:text-primary/80 font-bold text-sm tracking-wide"
                       >
-                        View
+                        View/Reply
+                      </button>
+                    </td>
+                  </tr>
+                  <!-- Row 6 – extra student to show variety -->
+                  <tr
+                    class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors"
+                  >
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center gap-3">
+                        <div
+                          class="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center text-red-600 font-bold text-xs"
+                        >
+                          PN
+                        </div>
+                        <span class="text-sm font-medium">Priya Nair</span>
+                      </div>
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                    >
+                      STU156
+                    </td>
+                    <td class="px-6 py-4 text-sm font-medium max-w-xs truncate">
+                      Scholarship amount not credited – September cycle
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                    >
+                      Oct 20, 2023
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
+                        >Replied</span
+                      >
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right">
+                      <button
+                        class="text-primary hover:text-primary/80 font-bold text-sm tracking-wide"
+                      >
+                        View/Reply
                       </button>
                     </td>
                   </tr>
                 </tbody>
               </table>
+            </div>
+            <!-- Pagination -->
+            <div
+              class="p-4 bg-slate-50 dark:bg-slate-800/30 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between"
+            >
+              <p class="text-sm text-slate-500">Showing 1-6 of 1,284 results</p>
+              <div class="flex gap-2">
+                <button
+                  class="p-1 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 disabled:opacity-50"
+                  disabled
+                >
+                  <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button
+                  class="p-1 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
+                >
+                  <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
