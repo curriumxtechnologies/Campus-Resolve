@@ -17,12 +17,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(
-  cors({
-    origin: "http://127.0.0.1:5500",
+app.use(cors({
+    origin: [
+       'http://127.0.0.1:5500',
+       'https://campus-resolve-19w8.onrender.com'
+
+    ],
     credentials: true,
-  })
-);
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH','OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
 
 app.get("/api/health", (req, res) => {
   res.status(200).json({
