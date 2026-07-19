@@ -1,5 +1,16 @@
 // js/apiService.js
-const BASE_URL = 'http://127.0.0.1:8000';
+
+// Determine the base URL based on the current environment
+const getBaseUrl = () => {
+  // If we're running on localhost or 127.0.0.1, use local dev server
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return 'http://127.0.0.1:8000';
+  }
+  // Otherwise, use the production Render API
+  return 'https://campus-resolve-api-eqof.onrender.com';
+};
+
+const BASE_URL = getBaseUrl();
 
 // Helper to get stored token
 function getToken() {
