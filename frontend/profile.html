@@ -48,8 +48,6 @@
       .flex.h-full.min-h-screen {
         min-height: 100vh;
       }
-
-      /* mobile sidebar overlay & transition */
       .sidebar-backdrop {
         position: fixed;
         inset: 0;
@@ -57,8 +55,12 @@
         z-index: 25;
         transition: opacity 300ms;
       }
-
-      /* desktop: always show sidebar, hide hamburger */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.55);
+        z-index: 80;
+      }
       @media (min-width: 1024px) {
         .mobile-only {
           display: none !important;
@@ -68,8 +70,6 @@
           transform: none !important;
         }
       }
-
-      /* tablet (between 768px and 1024px): keep desktop layout (sidebar visible) */
       @media (min-width: 768px) and (max-width: 1023px) {
         .mobile-only {
           display: none !important;
@@ -82,8 +82,6 @@
           margin-left: 18rem;
         }
       }
-
-      /* mobile: up to 767px */
       @media (max-width: 767px) {
         .desktop-sidebar {
           display: none;
@@ -94,42 +92,32 @@
         .main-content {
           width: 100%;
         }
-        /* bigger hamburger menu button */
         #menuBtn {
           padding: 0.5rem;
         }
         #menuBtn .material-symbols-outlined {
           font-size: 2.25rem;
         }
-        /* reduce search input width */
-        .mobile-search-wrapper {
-          max-width: 65%;
-        }
       }
     </style>
   </head>
   <body class="font-display min-h-screen">
     <div class="flex h-full min-h-screen">
-      <!-- SIDEBAR – desktop version (visible on md and up) -->
+      <!-- Desktop Sidebar -->
       <aside
         class="desktop-sidebar w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col fixed h-full z-20 hidden lg:flex md:flex"
       >
         <div class="p-6 flex items-center gap-3">
           <div class="flex items-center gap-3 text-primary">
-            <div
-              class="size-8 flex items-center justify-center bg-primary/10 rounded-lg"
-            >
-              <span class="material-symbols-outlined text-primary"
-                >campaign</span
-              >
+            <div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+              <span class="material-symbols-outlined text-primary">campaign</span>
             </div>
-            <h2
-              class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight"
-            >
+            <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">
               CampusResolve
             </h2>
           </div>
         </div>
+
         <nav class="flex-1 px-4 py-4 space-y-1">
           <a
             class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
@@ -154,61 +142,68 @@
           </a>
           <a
             class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-lg transition-colors"
-            href="#"
+            href="profile.html"
           >
             <span class="material-symbols-outlined">account_circle</span>
             <span class="text-sm font-semibold">Profile</span>
           </a>
         </nav>
-        <div
-          class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800"
-        >
+
+        <div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
           <div class="flex items-center gap-3 p-2">
             <div
-              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"
+              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex items-center justify-center"
             >
               <img
+                id="sidebarProfileImage"
                 alt="Student profile"
-                class="w-full h-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl3N2Jz9Rg4pjH57BLCNXFzcNFeAQNChh3EEwXciVJVcqra_j0_OSRAmiShmc_5M_F78EA1xLe7EHGt-fndbpSvfAEMw4ji1huOHddSbXHcnAO6tODMrnlbJ-4Jv9A46x2zkklB-HPR9zd9B33zrtM389TheucXNbnx0fVqM_91RLKr4Rl7Ndv4ciipUrX2oKRdM7Ij6x_8IuABsv_ybfSjACtHkpfoKcBTbFmFDUaL8nodkHVQR5u98WTTHTuFkoKmLGDjHREeYU"
+                class="w-full h-full object-cover hidden"
+                src=""
               />
+              <span
+                id="sidebarProfileFallback"
+                class="material-symbols-outlined text-slate-500"
+                >person</span
+              >
             </div>
             <div class="flex-1 min-w-0">
-              <p class="text-sm font-semibold truncate dark:text-white">
-                Alex Johnson
+              <p
+                id="sidebarStudentName"
+                class="text-sm font-semibold truncate dark:text-white"
+              >
+                Loading...
               </p>
-              <p class="text-xs text-slate-500 truncate">ID: 2023-9942</p>
+              <p id="sidebarStudentId" class="text-xs text-slate-500 truncate">
+                ID: --
+              </p>
             </div>
-            <button class="text-slate-400 hover:text-red-500 transition-colors">
+            <button
+              id="logoutBtnDesktop"
+              class="text-slate-400 hover:text-red-500 transition-colors"
+              type="button"
+            >
               <span class="material-symbols-outlined text-xl">logout</span>
             </button>
           </div>
         </div>
       </aside>
 
-      <!-- Mobile Sidebar - wider (70% of screen) so CampusResolve fits well, profile at bottom -->
+      <!-- Mobile Sidebar -->
       <div
         id="mobileSidebar"
         class="fixed top-0 left-0 h-full w-[70%] sm:w-80 bg-white dark:bg-slate-900 shadow-xl z-30 flex flex-col transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden md:hidden"
       >
-        <!-- header with logo -->
         <div class="p-6 flex items-center gap-3">
           <div class="flex items-center gap-3 text-primary">
-            <div
-              class="size-8 flex items-center justify-center bg-primary/10 rounded-lg"
-            >
-              <span class="material-symbols-outlined text-primary"
-                >campaign</span
-              >
+            <div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+              <span class="material-symbols-outlined text-primary">campaign</span>
             </div>
-            <h2
-              class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight whitespace-nowrap"
-            >
+            <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight whitespace-nowrap">
               CampusResolve
             </h2>
           </div>
         </div>
-        <!-- navigation menu -->
+
         <nav class="flex-1 px-4 py-4 space-y-1">
           <a
             class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
@@ -233,69 +228,78 @@
           </a>
           <a
             class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-lg transition-colors"
-            href="#"
+            href="profile.html"
           >
             <span class="material-symbols-outlined">account_circle</span>
             <span class="text-sm font-semibold">Profile</span>
           </a>
         </nav>
-        <!-- Profile and logout at bottom -->
-        <div
-          class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800"
-        >
+
+        <div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
           <div class="flex items-center gap-3 p-2">
             <div
-              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex-shrink-0"
+              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex-shrink-0 flex items-center justify-center"
             >
               <img
+                id="mobileSidebarProfileImage"
                 alt="Student profile"
-                class="w-full h-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl3N2Jz9Rg4pjH57BLCNXFzcNFeAQNChh3EEwXciVJVcqra_j0_OSRAmiShmc_5M_F78EA1xLe7EHGt-fndbpSvfAEMw4ji1huOHddSbXHcnAO6tODMrnlbJ-4Jv9A46x2zkklB-HPR9zd9B33zrtM389TheucXNbnx0fVqM_91RLKr4Rl7Ndv4ciipUrX2oKRdM7Ij6x_8IuABsv_ybfSjACtHkpfoKcBTbFmFDUaL8nodkHVQR5u98WTTHTuFkoKmLGDjHREeYU"
+                class="w-full h-full object-cover hidden"
+                src=""
               />
+              <span
+                id="mobileSidebarProfileFallback"
+                class="material-symbols-outlined text-slate-500"
+                >person</span
+              >
             </div>
             <div class="flex-1 min-w-0">
-              <p class="text-sm font-semibold truncate dark:text-white">
-                Alex Johnson
+              <p
+                id="mobileSidebarStudentName"
+                class="text-sm font-semibold truncate dark:text-white"
+              >
+                Loading...
               </p>
-              <p class="text-xs text-slate-500 truncate">ID: 2023-9942</p>
+              <p
+                id="mobileSidebarStudentId"
+                class="text-xs text-slate-500 truncate"
+              >
+                ID: --
+              </p>
             </div>
-            <button class="text-slate-400 hover:text-red-500 transition-colors">
+            <button
+              id="logoutBtnMobile"
+              class="text-slate-400 hover:text-red-500 transition-colors"
+              type="button"
+            >
               <span class="material-symbols-outlined text-xl">logout</span>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Backdrop (hidden by default) -->
       <div
         id="sidebarBackdrop"
         class="sidebar-backdrop hidden opacity-0 transition-opacity duration-300"
       ></div>
 
-      <!-- MAIN CONTENT (Profile page) -->
+      <!-- Main -->
       <main class="flex-1 ml-0 lg:ml-72 md:ml-72 main-content">
         <header
           class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 h-20 flex items-center justify-between px-4 sm:px-8 sticky top-0 z-10"
         >
-          <!-- Left: hamburger + search -->
           <div class="flex items-center gap-2 flex-1">
-            <!-- Hamburger button (bigger on mobile) -->
             <button
               id="menuBtn"
               class="mobile-only block lg:hidden md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              type="button"
             >
-              <span class="material-symbols-outlined text-3xl sm:text-4xl"
-                >menu</span
-              >
+              <span class="material-symbols-outlined text-3xl sm:text-4xl">menu</span>
             </button>
           </div>
-          <!-- placeholder for symmetry -->
           <div class="w-10"></div>
         </header>
 
-        <!-- profile page content -->
         <div class="p-4 sm:p-8 max-w-4xl mx-auto">
-          <!-- page heading -->
           <div class="mb-8">
             <h2 class="text-2xl font-extrabold tracking-tight dark:text-white">
               My Profile
@@ -305,107 +309,439 @@
             </p>
           </div>
 
-          <!-- profile content grid -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- left column - profile photo & basic info -->
-            <div class="md:col-span-1">
-              <div
-                class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm"
-              >
-                <div class="flex flex-col items-center text-center">
-                  <div
-                    class="w-32 h-32 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden mb-4 ring-4 ring-primary/20"
-                  >
-                    <img
-                      alt="Student profile"
-                      class="w-full h-full object-cover"
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl3N2Jz9Rg4pjH57BLCNXFzcNFeAQNChh3EEwXciVJVcqra_j0_OSRAmiShmc_5M_F78EA1xLe7EHGt-fndbpSvfAEMw4ji1huOHddSbXHcnAO6tODMrnlbJ-4Jv9A46x2zkklB-HPR9zd9B33zrtM389TheucXNbnx0fVqM_91RLKr4Rl7Ndv4ciipUrX2oKRdM7Ij6x_8IuABsv_ybfSjACtHkpfoKcBTbFmFDUaL8nodkHVQR5u98WTTHTuFkoKmLGDjHREeYU"
-                    />
-                  </div>
-                  <h3 class="text-xl font-bold dark:text-white">
-                    Alex Johnson
-                  </h3>
-                  <p class="text-sm text-slate-500 dark:text-slate-400 mb-3">
-                    Computer Science · Year 3
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div
+            id="alertBox"
+            class="hidden mb-6 rounded-lg border px-4 py-3 text-sm font-medium"
+          ></div>
 
-            <!-- right column - detailed information -->
-            <div class="md:col-span-2 space-y-6">
-              <!-- personal details card -->
-              <div
-                class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm"
-              >
-                <div class="flex items-center justify-between mb-4">
-                  <h3 class="text-lg font-bold dark:text-white">
-                    Personal Information
-                  </h3>
-                  <button
-                    class="text-primary text-sm font-medium flex items-center gap-1 hover:underline"
-                  >
-                    <span class="material-symbols-outlined text-sm">edit</span>
-                    Edit
-                  </button>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <p
-                      class="text-xs text-slate-400 uppercase tracking-wider mb-1"
-                    >
-                      Full Name
-                    </p>
-                    <p class="text-sm font-medium dark:text-white">
-                      Alexander James Johnson
-                    </p>
-                  </div>
-                  <div>
-                    <p
-                      class="text-xs text-slate-400 uppercase tracking-wider mb-1"
-                    >
-                      Student ID
-                    </p>
-                    <p class="text-sm font-medium dark:text-white">2023-9942</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- account settings card -->
-              <div
-                class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm"
-              >
-                <h3 class="text-lg font-bold dark:text-white mb-4">
-                  Account Settings
-                </h3>
-                <div class="space-y-3">
-                  <a
-                    href="#"
-                    class="flex items-center justify-between p-3 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                  >
-                    <div class="flex items-center gap-3">
-                      <span class="material-symbols-outlined text-slate-400"
-                        >lock</span
-                      >
-                      <span class="text-sm font-medium dark:text-white"
-                        >Change Password</span
-                      >
-                    </div>
-                    <span
-                      class="material-symbols-outlined text-slate-400 text-sm"
-                      >chevron_right</span
-                    >
-                  </a>
-                </div>
-              </div>
-            </div>
+          <div
+            id="loadingState"
+            class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 text-sm text-slate-500 dark:text-slate-400 mb-6"
+          >
+            Loading profile...
           </div>
-          <div class="h-10"></div>
+
+          <div id="profileContent" class="hidden">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <!-- left -->
+              <div class="md:col-span-1">
+                <div
+                  class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm"
+                >
+                  <div class="flex flex-col items-center text-center">
+                    <input
+                      id="profileImageInput"
+                      type="file"
+                      accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                      class="hidden"
+                    />
+
+                    <button
+                      id="profileImageButton"
+                      type="button"
+                      class="relative w-32 h-32 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden mb-4 ring-4 ring-primary/20 flex items-center justify-center group"
+                    >
+                      <img
+                        id="profileImage"
+                        alt="Student profile"
+                        class="w-full h-full object-cover hidden"
+                        src=""
+                      />
+                      <span
+                        id="profileImageFallback"
+                        class="material-symbols-outlined text-5xl text-slate-500"
+                        >person</span
+                      >
+                      <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center"
+                      >
+                        <div
+                          class="opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center text-white"
+                        >
+                          <span class="material-symbols-outlined text-3xl">photo_camera</span>
+                          <span class="text-xs font-semibold mt-1">Update Photo</span>
+                        </div>
+                      </div>
+                    </button>
+
+                    <h3 id="profileName" class="text-xl font-bold dark:text-white">--</h3>
+                    <p id="profileDeptYear" class="text-sm text-slate-500 dark:text-slate-400 mb-3">--</p>
+                    <p class="text-xs text-slate-400">
+                      Click image to update profile picture
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- right -->
+              <div class="md:col-span-2 space-y-6">
+                <div
+                  class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm"
+                >
+                  <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold dark:text-white">Personal Information</h3>
+                  </div>
+
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Full Name</p>
+                      <p id="fullNameValue" class="text-sm font-medium dark:text-white">--</p>
+                    </div>
+                    <div>
+                      <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Student ID</p>
+                      <p id="studentIdValue" class="text-sm font-medium dark:text-white">--</p>
+                    </div>
+                    <div>
+                      <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Institutional Email</p>
+                      <p id="emailValue" class="text-sm font-medium dark:text-white break-all">--</p>
+                    </div>
+                    <div>
+                      <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Department</p>
+                      <p id="departmentValue" class="text-sm font-medium dark:text-white">--</p>
+                    </div>
+                    <div>
+                      <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Year of Study</p>
+                      <p id="yearValue" class="text-sm font-medium dark:text-white">--</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm"
+                >
+                  <h3 class="text-lg font-bold dark:text-white mb-4">Account Settings</h3>
+                  <div class="space-y-3">
+                    <button
+                      id="openPasswordModalBtn"
+                      type="button"
+                      class="w-full flex items-center justify-between p-3 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                    >
+                      <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-slate-400">lock</span>
+                        <span class="text-sm font-medium dark:text-white">Change Password</span>
+                      </div>
+                      <span class="material-symbols-outlined text-slate-400 text-sm">chevron_right</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="h-10"></div>
+          </div>
         </div>
       </main>
     </div>
 
-    <script>
+    <!-- Password Modal -->
+    <div id="passwordModal" class="hidden fixed inset-0 z-[90]">
+      <div id="passwordModalBackdrop" class="modal-backdrop"></div>
+      <div class="fixed inset-0 flex items-center justify-center p-4 z-[91]">
+        <div
+          class="w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl"
+        >
+          <div
+            class="flex items-center justify-between p-5 border-b border-slate-200 dark:border-slate-800"
+          >
+            <h3 class="text-lg font-bold dark:text-white">Update Password</h3>
+            <button
+              id="closePasswordModalBtn"
+              type="button"
+              class="text-slate-400 hover:text-red-500 transition-colors"
+            >
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+
+          <form id="passwordForm" class="p-5 space-y-4">
+            <div>
+              <label
+                for="newPassword"
+                class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
+              >
+                New Password
+              </label>
+              <div class="relative">
+                <input
+                  id="newPassword"
+                  type="password"
+                  class="w-full px-4 py-3 pr-11 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm dark:text-white"
+                  placeholder="Enter new password"
+                  required
+                />
+                <button
+                  id="togglePasswordBtn"
+                  type="button"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors"
+                >
+                  <span id="togglePasswordIcon" class="material-symbols-outlined text-xl">visibility</span>
+                </button>
+              </div>
+            </div>
+            <p class="text-xs text-slate-400">
+              Password should be at least 6 characters.
+            </p>
+
+            <div class="flex items-center justify-end gap-3 pt-2">
+              <button
+                id="cancelPasswordBtn"
+                type="button"
+                class="px-4 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                id="savePasswordBtn"
+                type="submit"
+                class="px-5 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white text-sm font-semibold transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                Update Password
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modular Script -->
+    <script type="module">
+      import { authService } from './js/authService.js';
+      import { userService } from './js/userService.js';
+
+      // ---------- DOM References ----------
+      const sidebarStudentName = document.getElementById("sidebarStudentName");
+      const sidebarStudentId = document.getElementById("sidebarStudentId");
+      const mobileSidebarStudentName = document.getElementById("mobileSidebarStudentName");
+      const mobileSidebarStudentId = document.getElementById("mobileSidebarStudentId");
+      const sidebarProfileImage = document.getElementById("sidebarProfileImage");
+      const sidebarProfileFallback = document.getElementById("sidebarProfileFallback");
+      const mobileSidebarProfileImage = document.getElementById("mobileSidebarProfileImage");
+      const mobileSidebarProfileFallback = document.getElementById("mobileSidebarProfileFallback");
+      const logoutBtnDesktop = document.getElementById("logoutBtnDesktop");
+      const logoutBtnMobile = document.getElementById("logoutBtnMobile");
+
+      const alertBox = document.getElementById("alertBox");
+      const loadingState = document.getElementById("loadingState");
+      const profileContent = document.getElementById("profileContent");
+
+      const profileName = document.getElementById("profileName");
+      const profileDeptYear = document.getElementById("profileDeptYear");
+      const fullNameValue = document.getElementById("fullNameValue");
+      const studentIdValue = document.getElementById("studentIdValue");
+      const emailValue = document.getElementById("emailValue");
+      const departmentValue = document.getElementById("departmentValue");
+      const yearValue = document.getElementById("yearValue");
+
+      const profileImageButton = document.getElementById("profileImageButton");
+      const profileImageInput = document.getElementById("profileImageInput");
+      const profileImage = document.getElementById("profileImage");
+      const profileImageFallback = document.getElementById("profileImageFallback");
+
+      const passwordModal = document.getElementById("passwordModal");
+      const passwordModalBackdrop = document.getElementById("passwordModalBackdrop");
+      const openPasswordModalBtn = document.getElementById("openPasswordModalBtn");
+      const closePasswordModalBtn = document.getElementById("closePasswordModalBtn");
+      const cancelPasswordBtn = document.getElementById("cancelPasswordBtn");
+      const passwordForm = document.getElementById("passwordForm");
+      const newPasswordInput = document.getElementById("newPassword");
+      const savePasswordBtn = document.getElementById("savePasswordBtn");
+      const togglePasswordBtn = document.getElementById("togglePasswordBtn");
+      const togglePasswordIcon = document.getElementById("togglePasswordIcon");
+
+      // ---------- Helpers ----------
+      function showAlert(message, type = "error") {
+        alertBox.classList.remove("hidden");
+        alertBox.textContent = message;
+        alertBox.className = type === "success"
+          ? "mb-6 rounded-lg border px-4 py-3 text-sm font-medium border-green-200 bg-green-50 text-green-700"
+          : "mb-6 rounded-lg border px-4 py-3 text-sm font-medium border-red-200 bg-red-50 text-red-700";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function hideAlert() {
+        alertBox.classList.add("hidden");
+        alertBox.textContent = "";
+      }
+
+      function setImageOrFallback(imageEl, fallbackEl, imageUrl) {
+        if (!imageEl || !fallbackEl) return;
+        if (imageUrl) {
+          imageEl.src = imageUrl;
+          imageEl.classList.remove("hidden");
+          fallbackEl.classList.add("hidden");
+        } else {
+          imageEl.src = "";
+          imageEl.classList.add("hidden");
+          fallbackEl.classList.remove("hidden");
+        }
+      }
+
+      function updateSidebarUser(user) {
+        const fullName = user?.fullName || "Student";
+        const studentId = user?.studentId || "--";
+        const profilePicture = user?.profilePicture || "";
+        sidebarStudentName.textContent = fullName;
+        sidebarStudentId.textContent = `ID: ${studentId}`;
+        mobileSidebarStudentName.textContent = fullName;
+        mobileSidebarStudentId.textContent = `ID: ${studentId}`;
+        setImageOrFallback(sidebarProfileImage, sidebarProfileFallback, profilePicture);
+        setImageOrFallback(mobileSidebarProfileImage, mobileSidebarProfileFallback, profilePicture);
+      }
+
+      function updateProfileUI(user) {
+        profileName.textContent = user?.fullName || "--";
+        profileDeptYear.textContent = `${user?.department || "--"} · Year ${user?.yearOfStudy || "--"}`;
+        fullNameValue.textContent = user?.fullName || "--";
+        studentIdValue.textContent = user?.studentId || "--";
+        emailValue.textContent = user?.institutionalEmail || "--";
+        departmentValue.textContent = user?.department || "--";
+        yearValue.textContent = `Year ${user?.yearOfStudy || "--"}`;
+        setImageOrFallback(profileImage, profileImageFallback, user?.profilePicture || "");
+      }
+
+      function saveUserToStorage(user) {
+        localStorage.setItem("campusresolve_user", JSON.stringify(user));
+        sessionStorage.setItem("campusresolve_user", JSON.stringify(user));
+      }
+
+      function logout() {
+        authService.logout();
+        window.location.href = "student-signin.html";
+      }
+
+      // ---------- Load Profile ----------
+      async function loadProfile() {
+        if (!authService.isLoggedIn()) {
+          showAlert("You are not logged in. Redirecting...");
+          setTimeout(() => (window.location.href = "student-signin.html"), 1500);
+          return;
+        }
+
+        try {
+          const response = await userService.getUserInfo();
+          const user = response.user || response;
+          if (!user || !user._id) throw new Error("Invalid user data");
+
+          saveUserToStorage(user);
+          updateSidebarUser(user);
+          updateProfileUI(user);
+
+          loadingState.classList.add("hidden");
+          profileContent.classList.remove("hidden");
+        } catch (error) {
+          console.error("Profile load error:", error);
+          loadingState.classList.add("hidden");
+          // Fallback to stored user if API fails
+          const storedUser = authService.getCurrentUser();
+          if (storedUser) {
+            updateSidebarUser(storedUser);
+            updateProfileUI(storedUser);
+            profileContent.classList.remove("hidden");
+          } else {
+            showAlert("Unable to load profile. Please try again.");
+          }
+        }
+      }
+
+      // ---------- Profile Picture Upload ----------
+      profileImageButton.addEventListener("click", () => profileImageInput.click());
+
+      profileImageInput.addEventListener("change", async (e) => {
+        hideAlert();
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Validation
+        const allowedTypes = ["image/jpeg", "image/png"];
+        const maxSize = 5 * 1024 * 1024;
+        if (!allowedTypes.includes(file.type)) {
+          showAlert("Only JPG and PNG images are allowed.");
+          profileImageInput.value = "";
+          return;
+        }
+        if (file.size > maxSize) {
+          showAlert("Profile image must not be more than 5 MB.");
+          profileImageInput.value = "";
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("profilePicture", file); // field name must match backend
+
+        try {
+          showAlert("Updating profile picture...", "success");
+          const result = await userService.updateProfile(formData, true);
+          const updatedUser = result.user || result;
+          saveUserToStorage(updatedUser);
+          updateSidebarUser(updatedUser);
+          updateProfileUI(updatedUser);
+          showAlert(result.message || "Profile picture updated successfully", "success");
+        } catch (error) {
+          showAlert(error.message || "Failed to update profile picture");
+        } finally {
+          profileImageInput.value = "";
+        }
+      });
+
+      // ---------- Password Modal ----------
+      function openPasswordModal() {
+        passwordModal.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+        newPasswordInput.value = "";
+        newPasswordInput.type = "password";
+        togglePasswordIcon.textContent = "visibility";
+      }
+
+      function closePasswordModal() {
+        passwordModal.classList.add("hidden");
+        document.body.style.overflow = "";
+        newPasswordInput.value = "";
+      }
+
+      openPasswordModalBtn.addEventListener("click", openPasswordModal);
+      closePasswordModalBtn.addEventListener("click", closePasswordModal);
+      cancelPasswordBtn.addEventListener("click", closePasswordModal);
+      passwordModalBackdrop.addEventListener("click", closePasswordModal);
+
+      togglePasswordBtn.addEventListener("click", () => {
+        const isHidden = newPasswordInput.type === "password";
+        newPasswordInput.type = isHidden ? "text" : "password";
+        togglePasswordIcon.textContent = isHidden ? "visibility_off" : "visibility";
+      });
+
+      passwordForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        hideAlert();
+        const password = newPasswordInput.value.trim();
+
+        if (!password) {
+          showAlert("Please enter a new password.");
+          return;
+        }
+        if (password.length < 6) {
+          showAlert("Password must be at least 6 characters.");
+          return;
+        }
+
+        savePasswordBtn.disabled = true;
+        savePasswordBtn.textContent = "Updating...";
+
+        try {
+          const result = await userService.updateProfile({ password }, false);
+          showAlert(result.message || "Password updated successfully", "success");
+          closePasswordModal();
+        } catch (error) {
+          showAlert(error.message || "Failed to update password");
+        } finally {
+          savePasswordBtn.disabled = false;
+          savePasswordBtn.textContent = "Update Password";
+        }
+      });
+
+      // Logout
+      logoutBtnDesktop.addEventListener("click", logout);
+      logoutBtnMobile.addEventListener("click", logout);
+
+      // Mobile sidebar toggle (unchanged)
       (function () {
         const menuBtn = document.getElementById("menuBtn");
         const mobileSidebar = document.getElementById("mobileSidebar");
@@ -416,7 +752,7 @@
           mobileSidebar.classList.remove("-translate-x-full");
           mobileSidebar.classList.add("translate-x-0");
           backdrop.classList.remove("hidden");
-          void backdrop.offsetWidth; // force reflow
+          void backdrop.offsetWidth;
           backdrop.classList.remove("opacity-0");
           backdrop.classList.add("opacity-100");
           document.body.style.overflow = "hidden";
@@ -430,48 +766,34 @@
           backdrop.classList.add("opacity-0");
           setTimeout(() => {
             backdrop.classList.add("hidden");
-            document.body.style.overflow = "";
+            if (passwordModal.classList.contains("hidden")) {
+              document.body.style.overflow = "";
+            }
           }, 300);
         }
 
-        if (menuBtn) {
-          menuBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            openSidebar();
-          });
-        }
-
-        if (backdrop) {
-          backdrop.addEventListener("click", closeSidebar);
-        }
+        if (menuBtn) menuBtn.addEventListener("click", (e) => { e.stopPropagation(); openSidebar(); });
+        if (backdrop) backdrop.addEventListener("click", closeSidebar);
 
         document.addEventListener("keydown", (e) => {
-          if (
-            e.key === "Escape" &&
-            mobileSidebar &&
-            !mobileSidebar.classList.contains("-translate-x-full")
-          ) {
-            closeSidebar();
-          }
-        });
-
-        window.addEventListener("resize", function () {
-          if (window.innerWidth >= 768) {
-            if (
-              mobileSidebar &&
-              !mobileSidebar.classList.contains("-translate-x-full")
-            ) {
-              mobileSidebar.classList.add("-translate-x-full");
-              mobileSidebar.classList.remove("translate-x-0");
-              if (backdrop) {
-                backdrop.classList.add("hidden");
-                backdrop.classList.remove("opacity-100", "opacity-0");
-                document.body.style.overflow = "";
-              }
+          if (e.key === "Escape") {
+            if (!passwordModal.classList.contains("hidden")) {
+              closePasswordModal();
+            } else if (mobileSidebar && !mobileSidebar.classList.contains("-translate-x-full")) {
+              closeSidebar();
             }
           }
         });
+
+        window.addEventListener("resize", () => {
+          if (window.innerWidth >= 768 && mobileSidebar && !mobileSidebar.classList.contains("-translate-x-full")) {
+            closeSidebar();
+          }
+        });
       })();
+
+      // Start
+      loadProfile();
     </script>
   </body>
 </html>

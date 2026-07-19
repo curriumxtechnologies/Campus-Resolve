@@ -48,8 +48,6 @@
       .flex.h-full.min-h-screen {
         min-height: 100vh;
       }
-
-      /* mobile sidebar overlay & transition */
       .sidebar-backdrop {
         position: fixed;
         inset: 0;
@@ -57,8 +55,6 @@
         z-index: 25;
         transition: opacity 300ms;
       }
-
-      /* desktop: always show sidebar, hide hamburger */
       @media (min-width: 1024px) {
         .mobile-only {
           display: none !important;
@@ -68,8 +64,6 @@
           transform: none !important;
         }
       }
-
-      /* tablet (between 768px and 1024px): keep desktop layout (sidebar visible) */
       @media (min-width: 768px) and (max-width: 1023px) {
         .mobile-only {
           display: none !important;
@@ -82,8 +76,6 @@
           margin-left: 18rem;
         }
       }
-
-      /* mobile: up to 767px */
       @media (max-width: 767px) {
         .desktop-sidebar {
           display: none;
@@ -94,42 +86,32 @@
         .main-content {
           width: 100%;
         }
-        /* bigger hamburger menu button */
         #menuBtn {
           padding: 0.5rem;
         }
         #menuBtn .material-symbols-outlined {
           font-size: 2.25rem;
         }
-        /* reduce search input width */
-        .mobile-search-wrapper {
-          max-width: 65%;
-        }
       }
     </style>
   </head>
   <body class="font-display min-h-screen">
     <div class="flex h-full min-h-screen">
-      <!-- SIDEBAR – desktop version (visible on md and up) -->
+      <!-- Desktop Sidebar -->
       <aside
         class="desktop-sidebar w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col fixed h-full z-20 hidden lg:flex md:flex"
       >
         <div class="p-6 flex items-center gap-3">
           <div class="flex items-center gap-3 text-primary">
-            <div
-              class="size-8 flex items-center justify-center bg-primary/10 rounded-lg"
-            >
-              <span class="material-symbols-outlined text-primary"
-                >campaign</span
-              >
+            <div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+              <span class="material-symbols-outlined text-primary">campaign</span>
             </div>
-            <h2
-              class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight"
-            >
+            <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">
               CampusResolve
             </h2>
           </div>
         </div>
+
         <nav class="flex-1 px-4 py-4 space-y-1">
           <a
             class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
@@ -160,55 +142,60 @@
             <span class="text-sm font-medium">Profile</span>
           </a>
         </nav>
-        <div
-          class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800"
-        >
+
+        <div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
           <div class="flex items-center gap-3 p-2">
             <div
-              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"
+              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex items-center justify-center"
             >
               <img
+                id="sidebarProfileImage"
                 alt="Student profile"
-                class="w-full h-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl3N2Jz9Rg4pjH57BLCNXFzcNFeAQNChh3EEwXciVJVcqra_j0_OSRAmiShmc_5M_F78EA1xLe7EHGt-fndbpSvfAEMw4ji1huOHddSbXHcnAO6tODMrnlbJ-4Jv9A46x2zkklB-HPR9zd9B33zrtM389TheucXNbnx0fVqM_91RLKr4Rl7Ndv4ciipUrX2oKRdM7Ij6x_8IuABsv_ybfSjACtHkpfoKcBTbFmFDUaL8nodkHVQR5u98WTTHTuFkoKmLGDjHREeYU"
+                class="w-full h-full object-cover hidden"
+                src=""
               />
+              <span
+                id="sidebarProfileFallback"
+                class="material-symbols-outlined text-slate-500"
+              >
+                person
+              </span>
             </div>
             <div class="flex-1 min-w-0">
-              <p class="text-sm font-semibold truncate dark:text-white">
-                Alex Johnson
+              <p id="sidebarStudentName" class="text-sm font-semibold truncate dark:text-white">
+                Loading...
               </p>
-              <p class="text-xs text-slate-500 truncate">ID: 2023-9942</p>
+              <p id="sidebarStudentId" class="text-xs text-slate-500 truncate">
+                ID: --
+              </p>
             </div>
-            <button class="text-slate-400 hover:text-red-500 transition-colors">
+            <button
+              id="logoutBtnDesktop"
+              class="text-slate-400 hover:text-red-500 transition-colors"
+              type="button"
+            >
               <span class="material-symbols-outlined text-xl">logout</span>
             </button>
           </div>
         </div>
       </aside>
 
-      <!-- Mobile Sidebar - wider (70% of screen) so CampusResolve fits well, profile at bottom -->
+      <!-- Mobile Sidebar -->
       <div
         id="mobileSidebar"
         class="fixed top-0 left-0 h-full w-[70%] sm:w-80 bg-white dark:bg-slate-900 shadow-xl z-30 flex flex-col transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden md:hidden"
       >
-        <!-- header with logo -->
         <div class="p-6 flex items-center gap-3">
           <div class="flex items-center gap-3 text-primary">
-            <div
-              class="size-8 flex items-center justify-center bg-primary/10 rounded-lg"
-            >
-              <span class="material-symbols-outlined text-primary"
-                >campaign</span
-              >
+            <div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+              <span class="material-symbols-outlined text-primary">campaign</span>
             </div>
-            <h2
-              class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight whitespace-nowrap"
-            >
+            <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight whitespace-nowrap">
               CampusResolve
             </h2>
           </div>
         </div>
-        <!-- navigation menu -->
+
         <nav class="flex-1 px-4 py-4 space-y-1">
           <a
             class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
@@ -239,63 +226,67 @@
             <span class="text-sm font-medium">Profile</span>
           </a>
         </nav>
-        <!-- Profile and logout at bottom -->
-        <div
-          class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800"
-        >
+
+        <div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
           <div class="flex items-center gap-3 p-2">
             <div
-              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex-shrink-0"
+              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex-shrink-0 flex items-center justify-center"
             >
               <img
+                id="mobileSidebarProfileImage"
                 alt="Student profile"
-                class="w-full h-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl3N2Jz9Rg4pjH57BLCNXFzcNFeAQNChh3EEwXciVJVcqra_j0_OSRAmiShmc_5M_F78EA1xLe7EHGt-fndbpSvfAEMw4ji1huOHddSbXHcnAO6tODMrnlbJ-4Jv9A46x2zkklB-HPR9zd9B33zrtM389TheucXNbnx0fVqM_91RLKr4Rl7Ndv4ciipUrX2oKRdM7Ij6x_8IuABsv_ybfSjACtHkpfoKcBTbFmFDUaL8nodkHVQR5u98WTTHTuFkoKmLGDjHREeYU"
+                class="w-full h-full object-cover hidden"
+                src=""
               />
+              <span
+                id="mobileSidebarProfileFallback"
+                class="material-symbols-outlined text-slate-500"
+              >
+                person
+              </span>
             </div>
             <div class="flex-1 min-w-0">
-              <p class="text-sm font-semibold truncate dark:text-white">
-                Alex Johnson
+              <p id="mobileSidebarStudentName" class="text-sm font-semibold truncate dark:text-white">
+                Loading...
               </p>
-              <p class="text-xs text-slate-500 truncate">ID: 2023-9942</p>
+              <p id="mobileSidebarStudentId" class="text-xs text-slate-500 truncate">
+                ID: --
+              </p>
             </div>
-            <button class="text-slate-400 hover:text-red-500 transition-colors">
+            <button
+              id="logoutBtnMobile"
+              class="text-slate-400 hover:text-red-500 transition-colors"
+              type="button"
+            >
               <span class="material-symbols-outlined text-xl">logout</span>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Backdrop (hidden by default) -->
       <div
         id="sidebarBackdrop"
         class="sidebar-backdrop hidden opacity-0 transition-opacity duration-300"
       ></div>
 
-      <!-- MAIN CONTENT (Feedback page) -->
+      <!-- Main -->
       <main class="flex-1 ml-0 lg:ml-72 md:ml-72 main-content">
         <header
           class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 h-20 flex items-center justify-between px-4 sm:px-8 sticky top-0 z-10"
         >
-          <!-- Left: hamburger + search -->
           <div class="flex items-center gap-2 flex-1">
-            <!-- Hamburger button (bigger on mobile) -->
             <button
               id="menuBtn"
               class="mobile-only block lg:hidden md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              type="button"
             >
-              <span class="material-symbols-outlined text-3xl sm:text-4xl"
-                >menu</span
-              >
+              <span class="material-symbols-outlined text-3xl sm:text-4xl">menu</span>
             </button>
           </div>
-          <!-- placeholder for symmetry (no New button here) -->
           <div class="w-10"></div>
         </header>
 
-        <!-- feedback page content -->
         <div class="p-4 sm:p-8 max-w-7xl mx-auto">
-          <!-- page heading -->
           <div class="mb-8">
             <h2 class="text-2xl font-extrabold tracking-tight dark:text-white">
               Feedback
@@ -305,138 +296,226 @@
             </p>
           </div>
 
-          <!-- feedback list - clean and simple (original items preserved but deduplicated for clarity) -->
-          <div class="space-y-4">
-            <!-- feedback item 1 -->
-            <div
-              class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm"
-            >
-              <div class="flex items-start gap-4">
-                <div class="flex-1 min-w-0">
-                  <p class="text-sm font-semibold dark:text-white mb-2">
-                    Hostel Wi-Fi Connectivity Issue
-                  </p>
-                  <div
-                    class="text-sm text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 p-3 rounded-lg border border-slate-200 dark:border-slate-700"
-                  >
-                    “We have forwarded your issue to the IT department. They
-                    will inspect the router in Block B tomorrow morning. Thank
-                    you for reporting.”
-                  </div>
-                  <div class="mt-3">
-                    <a
-                      href="#"
-                      class="text-primary text-xs font-medium flex items-center gap-1 hover:underline"
-                    >
-                      View complaint
-                      <span class="material-symbols-outlined text-xs"
-                        >arrow_forward</span
-                      >
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div
+            id="alertBox"
+            class="hidden mb-6 rounded-lg border px-4 py-3 text-sm font-medium"
+          ></div>
 
-            <!-- feedback item 2 (distinct content to avoid monotony) -->
-            <div
-              class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm"
-            >
-              <div class="flex items-start gap-4">
-                <div class="flex-1 min-w-0">
-                  <p class="text-sm font-semibold dark:text-white mb-2">
-                    Missing Library Reference Books
-                  </p>
-                  <div
-                    class="text-sm text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 p-3 rounded-lg border border-slate-200 dark:border-slate-700"
-                  >
-                    “The book 'Digital Logic Design' has been ordered and will
-                    be available in the reserved section by next week. We
-                    apologize for the inconvenience.”
-                  </div>
-                  <div class="mt-3">
-                    <a
-                      href="#"
-                      class="text-primary text-xs font-medium flex items-center gap-1 hover:underline"
-                    >
-                      View complaint
-                      <span class="material-symbols-outlined text-xs"
-                        >arrow_forward</span
-                      >
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- feedback item 3 -->
-            <div
-              class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm"
-            >
-              <div class="flex items-start gap-4">
-                <div class="flex-1 min-w-0">
-                  <p class="text-sm font-semibold dark:text-white mb-2">
-                    Cafeteria Food Quality
-                  </p>
-                  <div
-                    class="text-sm text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 p-3 rounded-lg border border-slate-200 dark:border-slate-700"
-                  >
-                    “We have shared your feedback with the catering supervisor.
-                    They will ensure fresh food is served during dinner hours.
-                    Thank you for bringing this to our attention.”
-                  </div>
-                  <div class="mt-3">
-                    <a
-                      href="#"
-                      class="text-primary text-xs font-medium flex items-center gap-1 hover:underline"
-                    >
-                      View complaint
-                      <span class="material-symbols-outlined text-xs"
-                        >arrow_forward</span
-                      >
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- feedback item 4 -->
-            <div
-              class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm"
-            >
-              <div class="flex items-start gap-4">
-                <div class="flex-1 min-w-0">
-                  <p class="text-sm font-semibold dark:text-white mb-2">
-                    Administrative Fee Query
-                  </p>
-                  <div
-                    class="text-sm text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 p-3 rounded-lg border border-slate-200 dark:border-slate-700"
-                  >
-                    “Your fee receipt has been emailed to your student account.
-                    Please check and let us know if you need further
-                    clarification.”
-                  </div>
-                  <div class="mt-3">
-                    <a
-                      href="#"
-                      class="text-primary text-xs font-medium flex items-center gap-1 hover:underline"
-                    >
-                      View complaint
-                      <span class="material-symbols-outlined text-xs"
-                        >arrow_forward</span
-                      >
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div
+            id="loadingState"
+            class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 text-sm text-slate-500 dark:text-slate-400"
+          >
+            Loading feedback...
           </div>
+
+          <div
+            id="emptyState"
+            class="hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-8 text-center"
+          >
+            <span class="material-symbols-outlined text-4xl text-slate-400">forum</span>
+            <h3 class="mt-3 text-lg font-bold dark:text-white">No feedback yet</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              When admin replies to your complaints, they will appear here.
+            </p>
+          </div>
+
+          <div id="feedbackList" class="space-y-4"></div>
           <div class="h-10"></div>
         </div>
       </main>
     </div>
 
-    <script>
+    <!-- Modular Script with Services -->
+    <script type="module">
+      import { authService } from './js/authService.js';
+      import { userService } from './js/userService.js';
+      import { complaintService } from './js/complaintService.js';
+
+      // ---------- DOM References ----------
+      const alertBox = document.getElementById("alertBox");
+      const loadingState = document.getElementById("loadingState");
+      const emptyState = document.getElementById("emptyState");
+      const feedbackList = document.getElementById("feedbackList");
+
+      // Sidebar elements
+      const sidebarStudentName = document.getElementById("sidebarStudentName");
+      const sidebarStudentId = document.getElementById("sidebarStudentId");
+      const mobileSidebarStudentName = document.getElementById("mobileSidebarStudentName");
+      const mobileSidebarStudentId = document.getElementById("mobileSidebarStudentId");
+      const sidebarProfileImage = document.getElementById("sidebarProfileImage");
+      const sidebarProfileFallback = document.getElementById("sidebarProfileFallback");
+      const mobileSidebarProfileImage = document.getElementById("mobileSidebarProfileImage");
+      const mobileSidebarProfileFallback = document.getElementById("mobileSidebarProfileFallback");
+      const logoutBtnDesktop = document.getElementById("logoutBtnDesktop");
+      const logoutBtnMobile = document.getElementById("logoutBtnMobile");
+
+      // ---------- Helper Functions ----------
+      function showAlert(message, type = "error") {
+        alertBox.classList.remove("hidden");
+        alertBox.textContent = message;
+        alertBox.className = type === "success"
+          ? "mb-6 rounded-lg border px-4 py-3 text-sm font-medium border-green-200 bg-green-50 text-green-700"
+          : "mb-6 rounded-lg border px-4 py-3 text-sm font-medium border-red-200 bg-red-50 text-red-700";
+      }
+
+      function hideAlert() {
+        alertBox.classList.add("hidden");
+        alertBox.textContent = "";
+      }
+
+      function setImageOrFallback(imageEl, fallbackEl, imageUrl) {
+        if (!imageEl || !fallbackEl) return;
+        if (imageUrl) {
+          imageEl.src = imageUrl;
+          imageEl.classList.remove("hidden");
+          fallbackEl.classList.add("hidden");
+        } else {
+          imageEl.src = "";
+          imageEl.classList.add("hidden");
+          fallbackEl.classList.remove("hidden");
+        }
+      }
+
+      function updateSidebarUser(user) {
+        const fullName = user?.fullName || "Student";
+        const studentId = user?.studentId || "--";
+        const profilePicture = user?.profilePicture || "";
+
+        sidebarStudentName.textContent = fullName;
+        sidebarStudentId.textContent = `ID: ${studentId}`;
+        mobileSidebarStudentName.textContent = fullName;
+        mobileSidebarStudentId.textContent = `ID: ${studentId}`;
+
+        setImageOrFallback(sidebarProfileImage, sidebarProfileFallback, profilePicture);
+        setImageOrFallback(mobileSidebarProfileImage, mobileSidebarProfileFallback, profilePicture);
+      }
+
+      function formatDateTime(dateString) {
+        if (!dateString) return "--";
+        return new Date(dateString).toLocaleString([], {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+        });
+      }
+
+      function getLatestFeedback(feedbackArray = []) {
+        if (!feedbackArray.length) return null;
+        return feedbackArray[feedbackArray.length - 1];
+      }
+
+      function renderFeedbackItems(complaints) {
+        feedbackList.innerHTML = "";
+
+        const complaintsWithFeedback = complaints.filter(
+          (complaint) => Array.isArray(complaint.feedback) && complaint.feedback.length > 0
+        );
+
+        if (!complaintsWithFeedback.length) {
+          emptyState.classList.remove("hidden");
+          return;
+        }
+
+        emptyState.classList.add("hidden");
+
+        complaintsWithFeedback.forEach((complaint) => {
+          const latestFeedback = getLatestFeedback(complaint.feedback);
+          const item = document.createElement("div");
+          item.className = "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm";
+
+          item.innerHTML = `
+            <div class="flex items-start gap-4">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-3 flex-wrap mb-2">
+                  <p class="text-sm font-semibold dark:text-white">
+                    ${complaint.title || "Untitled Complaint"}
+                  </p>
+                  <span class="text-[11px] text-slate-400">
+                    ${formatDateTime(latestFeedback?.createdAt)}
+                  </span>
+                </div>
+
+                <div class="text-sm text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 p-3 rounded-lg border border-slate-200 dark:border-slate-700 whitespace-pre-line">
+                  ${latestFeedback?.message || "No feedback message"}
+                </div>
+
+                <div class="mt-3 flex items-center justify-between gap-3 flex-wrap">
+                  <div class="flex items-center gap-2 text-xs text-slate-500">
+                    <span class="px-2 py-1 rounded-full bg-primary/10 text-primary font-semibold">
+                      ${complaint.category || "General"}
+                    </span>
+                    <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold">
+                      ${complaint.status || "pending"}
+                    </span>
+                  </div>
+                  <a
+                    href="complaint-details.html?id=${complaint._id}"
+                    class="text-primary text-xs font-medium flex items-center gap-1 hover:underline"
+                  >
+                    View complaint
+                    <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          `;
+          feedbackList.appendChild(item);
+        });
+      }
+
+      function logout() {
+        authService.logout(); // clears local/session storage
+        window.location.href = "student-signin.html";
+      }
+
+      // ---------- Load Data ----------
+      async function loadFeedbackPage() {
+        hideAlert();
+        loadingState.classList.remove("hidden");
+        emptyState.classList.add("hidden");
+        feedbackList.innerHTML = "";
+
+        // Check authentication
+        if (!authService.isLoggedIn()) {
+          showAlert("You are not logged in. Redirecting...");
+          setTimeout(() => window.location.href = "student-signin.html", 1500);
+          return;
+        }
+
+        try {
+          // Load user info for sidebar (with fallback)
+          try {
+            const userResponse = await userService.getUserInfo();
+            const user = userResponse.user || userResponse;
+            updateSidebarUser(user);
+          } catch (userError) {
+            console.warn("Failed to load user info, using stored user");
+            const storedUser = authService.getCurrentUser();
+            if (storedUser) updateSidebarUser(storedUser);
+          }
+
+          // 👇 FIX: Use getMyComplaints so the student only sees their own complaints with feedback
+          const complaintsResponse = await complaintService.getMyComplaints();
+          const complaints = Array.isArray(complaintsResponse)
+            ? complaintsResponse
+            : complaintsResponse.complaints || complaintsResponse.data || [];
+
+          renderFeedbackItems(complaints);
+        } catch (error) {
+          console.error("Feedback page load error:", error);
+          showAlert("Unable to load feedback data. Please try again.");
+        } finally {
+          loadingState.classList.add("hidden");
+        }
+      }
+
+      // Event Listeners
+      logoutBtnDesktop.addEventListener("click", logout);
+      logoutBtnMobile.addEventListener("click", logout);
+
+      // Mobile sidebar toggle (kept same as before)
       (function () {
         const menuBtn = document.getElementById("menuBtn");
         const mobileSidebar = document.getElementById("mobileSidebar");
@@ -447,7 +526,7 @@
           mobileSidebar.classList.remove("-translate-x-full");
           mobileSidebar.classList.add("translate-x-0");
           backdrop.classList.remove("hidden");
-          void backdrop.offsetWidth; // force reflow
+          void backdrop.offsetWidth;
           backdrop.classList.remove("opacity-0");
           backdrop.classList.add("opacity-100");
           document.body.style.overflow = "hidden";
@@ -465,44 +544,24 @@
           }, 300);
         }
 
-        if (menuBtn) {
-          menuBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            openSidebar();
-          });
-        }
-
-        if (backdrop) {
-          backdrop.addEventListener("click", closeSidebar);
-        }
+        if (menuBtn) menuBtn.addEventListener("click", (e) => { e.stopPropagation(); openSidebar(); });
+        if (backdrop) backdrop.addEventListener("click", closeSidebar);
 
         document.addEventListener("keydown", (e) => {
-          if (
-            e.key === "Escape" &&
-            mobileSidebar &&
-            !mobileSidebar.classList.contains("-translate-x-full")
-          ) {
+          if (e.key === "Escape" && mobileSidebar && !mobileSidebar.classList.contains("-translate-x-full")) {
             closeSidebar();
           }
         });
 
-        window.addEventListener("resize", function () {
-          if (window.innerWidth >= 768) {
-            if (
-              mobileSidebar &&
-              !mobileSidebar.classList.contains("-translate-x-full")
-            ) {
-              mobileSidebar.classList.add("-translate-x-full");
-              mobileSidebar.classList.remove("translate-x-0");
-              if (backdrop) {
-                backdrop.classList.add("hidden");
-                backdrop.classList.remove("opacity-100", "opacity-0");
-                document.body.style.overflow = "";
-              }
-            }
+        window.addEventListener("resize", () => {
+          if (window.innerWidth >= 768 && mobileSidebar && !mobileSidebar.classList.contains("-translate-x-full")) {
+            closeSidebar();
           }
         });
       })();
+
+      // Initialize
+      loadFeedbackPage();
     </script>
   </body>
 </html>

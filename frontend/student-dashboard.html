@@ -6,11 +6,11 @@
     <title>Student Dashboard - CampusResolve</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
       rel="stylesheet"
     />
     <script id="tailwind-config">
@@ -45,12 +45,9 @@
         background-color: #101922;
         color: #f1f5f9;
       }
-      /* ensure the layout fills the viewport */
       .flex.h-full.min-h-screen {
         min-height: 100vh;
       }
-
-      /* mobile sidebar overlay & transition */
       .sidebar-backdrop {
         position: fixed;
         inset: 0;
@@ -58,8 +55,6 @@
         z-index: 25;
         transition: opacity 300ms;
       }
-
-      /* desktop: always show sidebar, hide hamburger */
       @media (min-width: 1024px) {
         .mobile-only {
           display: none !important;
@@ -69,8 +64,6 @@
           transform: none !important;
         }
       }
-
-      /* tablet (between 768px and 1024px): keep desktop layout (sidebar visible) */
       @media (min-width: 768px) and (max-width: 1023px) {
         .mobile-only {
           display: none !important;
@@ -83,8 +76,6 @@
           margin-left: 18rem;
         }
       }
-
-      /* mobile: up to 767px */
       @media (max-width: 767px) {
         .desktop-sidebar {
           display: none;
@@ -95,14 +86,12 @@
         .main-content {
           width: 100%;
         }
-        /* bigger hamburger menu button */
         #menuBtn {
           padding: 0.5rem;
         }
         #menuBtn .material-symbols-outlined {
-          font-size: 2.25rem; /* bigger icon */
+          font-size: 2.25rem;
         }
-        /* reduce search input width, keep new button visible */
         .mobile-search-wrapper {
           max-width: 65%;
         }
@@ -111,26 +100,21 @@
   </head>
   <body class="font-display min-h-screen">
     <div class="flex h-full min-h-screen">
-      <!-- SIDEBAR – desktop version (visible on md and up) -->
+      <!-- Desktop Sidebar -->
       <aside
         class="desktop-sidebar w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col fixed h-full z-20 hidden lg:flex md:flex"
       >
         <div class="p-6 flex items-center gap-3">
           <div class="flex items-center gap-3 text-primary">
-            <div
-              class="size-8 flex items-center justify-center bg-primary/10 rounded-lg"
-            >
-              <span class="material-symbols-outlined text-primary"
-                >campaign</span
-              >
+            <div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+              <span class="material-symbols-outlined text-primary">campaign</span>
             </div>
-            <h2
-              class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight"
-            >
+            <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">
               CampusResolve
             </h2>
           </div>
         </div>
+
         <nav class="flex-1 px-4 py-4 space-y-1">
           <a
             class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-lg transition-colors"
@@ -161,55 +145,66 @@
             <span class="text-sm font-medium">Profile</span>
           </a>
         </nav>
-        <div
-          class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800"
-        >
+
+        <div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
           <div class="flex items-center gap-3 p-2">
             <div
-              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"
+              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex items-center justify-center"
             >
               <img
+                id="sidebarProfileImage"
                 alt="Student profile"
-                class="w-full h-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl3N2Jz9Rg4pjH57BLCNXFzcNFeAQNChh3EEwXciVJVcqra_j0_OSRAmiShmc_5M_F78EA1xLe7EHGt-fndbpSvfAEMw4ji1huOHddSbXHcnAO6tODMrnlbJ-4Jv9A46x2zkklB-HPR9zd9B33zrtM389TheucXNbnx0fVqM_91RLKr4Rl7Ndv4ciipUrX2oKRdM7Ij6x_8IuABsv_ybfSjACtHkpfoKcBTbFmFDUaL8nodkHVQR5u98WTTHTuFkoKmLGDjHREeYU"
+                class="w-full h-full object-cover hidden"
+                src=""
               />
+              <span
+                id="sidebarProfileFallback"
+                class="material-symbols-outlined text-slate-500"
+              >
+                person
+              </span>
             </div>
             <div class="flex-1 min-w-0">
-              <p class="text-sm font-semibold truncate dark:text-white">
-                Alex Johnson
+              <p
+                id="sidebarStudentName"
+                class="text-sm font-semibold truncate dark:text-white"
+              >
+                Loading...
               </p>
-              <p class="text-xs text-slate-500 truncate">ID: 2023-9942</p>
+              <p
+                id="sidebarStudentId"
+                class="text-xs text-slate-500 truncate"
+              >
+                ID: --
+              </p>
             </div>
-            <button class="text-slate-400 hover:text-red-500 transition-colors">
+            <button
+              id="logoutBtnDesktop"
+              class="text-slate-400 hover:text-red-500 transition-colors"
+              type="button"
+            >
               <span class="material-symbols-outlined text-xl">logout</span>
             </button>
           </div>
         </div>
       </aside>
 
-      <!-- Mobile Sidebar - wider (70% of screen) so CampusResolve fits well, profile at bottom -->
+      <!-- Mobile Sidebar -->
       <div
         id="mobileSidebar"
         class="fixed top-0 left-0 h-full w-[70%] sm:w-80 bg-white dark:bg-slate-900 shadow-xl z-30 flex flex-col transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden md:hidden"
       >
-        <!-- header with logo (now fits comfortably) -->
         <div class="p-6 flex items-center gap-3">
           <div class="flex items-center gap-3 text-primary">
-            <div
-              class="size-8 flex items-center justify-center bg-primary/10 rounded-lg"
-            >
-              <span class="material-symbols-outlined text-primary"
-                >campaign</span
-              >
+            <div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+              <span class="material-symbols-outlined text-primary">campaign</span>
             </div>
-            <h2
-              class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight whitespace-nowrap"
-            >
+            <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight whitespace-nowrap">
               CampusResolve
             </h2>
           </div>
         </div>
-        <!-- navigation menu -->
+
         <nav class="flex-1 px-4 py-4 space-y-1">
           <a
             class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-lg transition-colors"
@@ -240,75 +235,89 @@
             <span class="text-sm font-medium">Profile</span>
           </a>
         </nav>
-        <!-- Profile and logout at bottom -->
-        <div
-          class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800"
-        >
+
+        <div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
           <div class="flex items-center gap-3 p-2">
             <div
-              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex-shrink-0"
+              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex items-center justify-center flex-shrink-0"
             >
               <img
+                id="mobileSidebarProfileImage"
                 alt="Student profile"
-                class="w-full h-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl3N2Jz9Rg4pjH57BLCNXFzcNFeAQNChh3EEwXciVJVcqra_j0_OSRAmiShmc_5M_F78EA1xLe7EHGt-fndbpSvfAEMw4ji1huOHddSbXHcnAO6tODMrnlbJ-4Jv9A46x2zkklB-HPR9zd9B33zrtM389TheucXNbnx0fVqM_91RLKr4Rl7Ndv4ciipUrX2oKRdM7Ij6x_8IuABsv_ybfSjACtHkpfoKcBTbFmFDUaL8nodkHVQR5u98WTTHTuFkoKmLGDjHREeYU"
+                class="w-full h-full object-cover hidden"
+                src=""
               />
+              <span
+                id="mobileSidebarProfileFallback"
+                class="material-symbols-outlined text-slate-500"
+              >
+                person
+              </span>
             </div>
             <div class="flex-1 min-w-0">
-              <p class="text-sm font-semibold truncate dark:text-white">
-                Alex Johnson
+              <p
+                id="mobileSidebarStudentName"
+                class="text-sm font-semibold truncate dark:text-white"
+              >
+                Loading...
               </p>
-              <p class="text-xs text-slate-500 truncate">ID: 2023-9942</p>
+              <p
+                id="mobileSidebarStudentId"
+                class="text-xs text-slate-500 truncate"
+              >
+                ID: --
+              </p>
             </div>
-            <button class="text-slate-400 hover:text-red-500 transition-colors">
+            <button
+              id="logoutBtnMobile"
+              class="text-slate-400 hover:text-red-500 transition-colors"
+              type="button"
+            >
               <span class="material-symbols-outlined text-xl">logout</span>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Backdrop (hidden by default) -->
       <div
         id="sidebarBackdrop"
         class="sidebar-backdrop hidden opacity-0 transition-opacity duration-300"
       ></div>
 
-      <!-- MAIN CONTENT (margin left for desktop, no margin mobile) -->
+      <!-- Main -->
       <main class="flex-1 ml-0 lg:ml-72 md:ml-72 main-content">
         <header
           class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 h-20 flex items-center justify-between px-4 sm:px-8 sticky top-0 z-10"
         >
-          <!-- Left: hamburger + search (search takes less space on mobile) -->
           <div class="flex items-center gap-2 flex-1">
-            <!-- Hamburger button (bigger on mobile) -->
             <button
               id="menuBtn"
               class="mobile-only block lg:hidden md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              type="button"
             >
-              <span class="material-symbols-outlined text-3xl sm:text-4xl"
-                >menu</span
-              >
+              <span class="material-symbols-outlined text-3xl sm:text-4xl">menu</span>
             </button>
-            <!-- search container with reduced width on mobile -->
-            <div
-              class="relative mobile-search-wrapper w-full max-w-[180px] sm:max-w-xs md:max-w-md"
-            >
+
+            <div class="relative mobile-search-wrapper w-full max-w-[180px] sm:max-w-xs md:max-w-md">
               <span
                 class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl"
-                >search</span
               >
+                search
+              </span>
               <input
+                id="searchInput"
                 class="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg focus:ring-2 focus:ring-primary text-sm transition-all"
                 placeholder="Search complaints"
                 type="text"
               />
             </div>
           </div>
-          <!-- New Complaint button (always visible with gap) -->
+
           <div class="flex items-center gap-4 flex-shrink-0">
             <a href="submit-complaint.html">
               <button
                 class="bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition-all shadow-sm"
+                type="button"
               >
                 <span class="material-symbols-outlined text-sm">add</span>
                 <span class="hidden sm:inline">New Complaint</span>
@@ -318,213 +327,344 @@
           </div>
         </header>
 
-        <!-- main dashboard content -->
         <div class="p-4 sm:p-8 max-w-7xl mx-auto">
-          <!-- greeting + stats -->
+          <div
+            id="alertBox"
+            class="hidden mb-6 rounded-lg border px-4 py-3 text-sm font-medium"
+          ></div>
+
           <div class="mb-8">
-            <h2 class="text-2xl font-extrabold tracking-tight dark:text-white">
-              Welcome back, Alex!
+            <h2
+              id="welcomeText"
+              class="text-2xl font-extrabold tracking-tight dark:text-white"
+            >
+              Welcome back!
             </h2>
             <p class="text-slate-500 dark:text-slate-400 text-sm">
               Here's an overview of your feedback activity and recent updates.
             </p>
           </div>
 
-          <!-- stats cards row -->
-          <div
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8"
-          >
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
             <div
               class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm border-l-4 border-l-primary"
             >
               <div class="flex justify-between items-start">
                 <div>
-                  <p
-                    class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider"
-                  >
+                  <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">
                     Total Filed
                   </p>
-                  <h3 class="text-3xl font-bold mt-1 dark:text-white">12</h3>
+                  <h3 id="totalFiledCount" class="text-3xl font-bold mt-1 dark:text-white">0</h3>
                 </div>
-                <span
-                  class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg"
-                  >description</span
-                >
+                <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg">
+                  description
+                </span>
               </div>
             </div>
+
             <div
               class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm border-l-4 border-l-yellow-500"
             >
               <div class="flex justify-between items-start">
                 <div>
-                  <p
-                    class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider"
-                  >
+                  <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">
                     Pending
                   </p>
-                  <h3 class="text-3xl font-bold mt-1 dark:text-white">4</h3>
+                  <h3 id="pendingCount" class="text-3xl font-bold mt-1 dark:text-white">0</h3>
                 </div>
-                <span
-                  class="material-symbols-outlined text-yellow-500 bg-yellow-500/10 p-2 rounded-lg"
-                  >pending_actions</span
-                >
+                <span class="material-symbols-outlined text-yellow-500 bg-yellow-500/10 p-2 rounded-lg">
+                  pending_actions
+                </span>
               </div>
             </div>
+
             <div
               class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm border-l-4 border-l-green-500"
             >
               <div class="flex justify-between items-start">
                 <div>
-                  <p
-                    class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider"
-                  >
+                  <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">
                     Resolved
                   </p>
-                  <h3 class="text-3xl font-bold mt-1 dark:text-white">6</h3>
+                  <h3 id="resolvedCount" class="text-3xl font-bold mt-1 dark:text-white">0</h3>
                 </div>
-                <span
-                  class="material-symbols-outlined text-green-500 bg-green-500/10 p-2 rounded-lg"
-                  >task_alt</span
-                >
+                <span class="material-symbols-outlined text-green-500 bg-green-500/10 p-2 rounded-lg">
+                  task_alt
+                </span>
               </div>
             </div>
+
             <div
               class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm border-l-4 border-l-blue-500"
             >
               <div class="flex justify-between items-start">
                 <div>
-                  <p
-                    class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider"
-                  >
+                  <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">
                     Replied
                   </p>
-                  <h3 class="text-3xl font-bold mt-1 dark:text-white">2</h3>
+                  <h3 id="repliedCount" class="text-3xl font-bold mt-1 dark:text-white">0</h3>
                 </div>
-                <span
-                  class="material-symbols-outlined text-blue-500 bg-blue-500/10 p-2 rounded-lg"
-                  >forum</span
-                >
+                <span class="material-symbols-outlined text-blue-500 bg-blue-500/10 p-2 rounded-lg">
+                  forum
+                </span>
               </div>
             </div>
           </div>
 
-          <!-- COMPLAINTS SECTION -->
           <div class="w-full">
             <div class="flex items-center justify-between mb-6">
               <h3 class="text-lg font-bold dark:text-white">Complaints</h3>
-              <a
-                class="text-sm font-semibold text-primary hover:underline"
-                href="all-complaints.html"
-                >View All</a
-              >
+              <a class="text-sm font-semibold text-primary hover:underline" href="all-complaints.html">
+                View All
+              </a>
             </div>
-            <div class="space-y-4">
-              <!-- CARD 1 PENDING -->
-              <div
-                class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm hover:shadow-md transition-all relative"
-              >
-                <div class="flex items-center justify-between mb-2">
-                  <span
-                    class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 uppercase tracking-wide"
-                    >Pending</span
-                  >
-                  <span class="text-[10px] text-slate-400 font-medium"
-                    >2 HOURS AGO</span
-                  >
-                </div>
-                <h4 class="font-bold text-slate-900 dark:text-white text-base">
-                  Hostel Wi-Fi Connectivity Issue
-                </h4>
-                <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">
-                  The Wi-Fi in Block B is extremely slow and keeps disconnecting
-                  during evening hours...
-                </p>
-                <div class="mt-3 flex items-center justify-between">
-                  <div
-                    class="flex items-center gap-1.5 text-[10px] font-semibold text-slate-400 uppercase"
-                  >
-                    <span class="material-symbols-outlined text-sm"
-                      >category</span
-                    >
-                    Infrastructure
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <button
-                      class="text-primary text-xs font-bold flex items-center gap-1"
-                    >
-                      Details
-                      <span class="material-symbols-outlined text-xs"
-                        >arrow_forward</span
-                      >
-                    </button>
-                    <button
-                      class="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-400 hover:text-red-500 transition-colors"
-                      title="Delete complaint"
-                    >
-                      <span class="material-symbols-outlined text-lg"
-                        >delete</span
-                      >
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <!-- CARD 2 REPLIED -->
-              <div
-                class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm hover:shadow-md transition-all relative"
-              >
-                <div class="flex items-center justify-between mb-2">
-                  <span
-                    class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 uppercase tracking-wide"
-                    >Replied</span
-                  >
-                  <span class="text-[10px] text-slate-400 font-medium"
-                    >YESTERDAY</span
-                  >
-                </div>
-                <h4 class="font-bold text-slate-900 dark:text-white text-base">
-                  Missing Library Reference Books
-                </h4>
-                <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">
-                  The latest edition of "Digital Logic Design" is listed as
-                  available in the catalog but cannot be found...
-                </p>
-                <div class="mt-3 flex items-center justify-between">
-                  <div
-                    class="flex items-center gap-1.5 text-[10px] font-semibold text-slate-400 uppercase"
-                  >
-                    <span class="material-symbols-outlined text-sm"
-                      >category</span
-                    >
-                    Academic
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <button
-                      class="text-primary text-xs font-bold flex items-center gap-1"
-                    >
-                      Details
-                      <span class="material-symbols-outlined text-xs"
-                        >arrow_forward</span
-                      >
-                    </button>
-                    <button
-                      class="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-400 hover:text-red-500 transition-colors"
-                      title="Delete complaint"
-                    >
-                      <span class="material-symbols-outlined text-lg"
-                        >delete</span
-                      >
-                    </button>
-                  </div>
-                </div>
-              </div>
+
+            <div
+              id="loadingState"
+              class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 text-sm text-slate-500 dark:text-slate-400"
+            >
+              Loading dashboard data...
             </div>
+
+            <div
+              id="emptyState"
+              class="hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 text-center"
+            >
+              <div class="flex justify-center mb-3">
+                <span class="material-symbols-outlined text-4xl text-slate-400">inbox</span>
+              </div>
+              <h4 class="font-bold text-slate-900 dark:text-white">No complaints yet</h4>
+              <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                You have not submitted any complaint yet.
+              </p>
+            </div>
+
+            <div id="complaintsContainer" class="space-y-4"></div>
             <div class="mt-4 h-10"></div>
           </div>
         </div>
       </main>
     </div>
 
-    <script>
+    <!-- Modular JavaScript with services -->
+    <script type="module">
+      import { authService } from './js/authService.js';
+      import { userService } from './js/userService.js';
+      import { complaintService } from './js/complaintService.js';
+
+      // ---------- DOM References ----------
+      const alertBox = document.getElementById("alertBox");
+      const welcomeText = document.getElementById("welcomeText");
+      const sidebarStudentName = document.getElementById("sidebarStudentName");
+      const sidebarStudentId = document.getElementById("sidebarStudentId");
+      const mobileSidebarStudentName = document.getElementById("mobileSidebarStudentName");
+      const mobileSidebarStudentId = document.getElementById("mobileSidebarStudentId");
+      const sidebarProfileImage = document.getElementById("sidebarProfileImage");
+      const sidebarProfileFallback = document.getElementById("sidebarProfileFallback");
+      const mobileSidebarProfileImage = document.getElementById("mobileSidebarProfileImage");
+      const mobileSidebarProfileFallback = document.getElementById("mobileSidebarProfileFallback");
+      const totalFiledCount = document.getElementById("totalFiledCount");
+      const pendingCount = document.getElementById("pendingCount");
+      const resolvedCount = document.getElementById("resolvedCount");
+      const repliedCount = document.getElementById("repliedCount");
+      const loadingState = document.getElementById("loadingState");
+      const emptyState = document.getElementById("emptyState");
+      const complaintsContainer = document.getElementById("complaintsContainer");
+      const searchInput = document.getElementById("searchInput");
+      const logoutBtnDesktop = document.getElementById("logoutBtnDesktop");
+      const logoutBtnMobile = document.getElementById("logoutBtnMobile");
+
+      let allComplaints = [];
+
+      // ---------- Helpers ----------
+      function showAlert(message, type = "error") {
+        alertBox.classList.remove("hidden");
+        alertBox.textContent = message;
+        alertBox.className = type === "success"
+          ? "mb-6 rounded-lg border px-4 py-3 text-sm font-medium border-green-200 bg-green-50 text-green-700"
+          : "mb-6 rounded-lg border px-4 py-3 text-sm font-medium border-red-200 bg-red-50 text-red-700";
+      }
+
+      function hideAlert() {
+        alertBox.classList.add("hidden");
+        alertBox.textContent = "";
+      }
+
+      function setImageOrFallback(imageEl, fallbackEl, imageUrl) {
+        if (imageUrl) {
+          imageEl.src = imageUrl;
+          imageEl.classList.remove("hidden");
+          fallbackEl.classList.add("hidden");
+        } else {
+          imageEl.src = "";
+          imageEl.classList.add("hidden");
+          fallbackEl.classList.remove("hidden");
+        }
+      }
+
+      function truncateText(text, length = 110) {
+        return text && text.length > length ? `${text.slice(0, length)}...` : text || "";
+      }
+
+      function formatRelativeTime(dateString) {
+        if (!dateString) return "JUST NOW";
+        const diffMs = Date.now() - new Date(dateString).getTime();
+        const minutes = Math.floor(diffMs / 60000);
+        if (minutes < 1) return "JUST NOW";
+        if (minutes < 60) return `${minutes} MIN${minutes > 1 ? "S" : ""} AGO`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours} HOUR${hours > 1 ? "S" : ""} AGO`;
+        const days = Math.floor(hours / 24);
+        if (days === 1) return "YESTERDAY";
+        if (days < 7) return `${days} DAYS AGO`;
+        return new Date(dateString).toLocaleDateString();
+      }
+
+      function getStatusBadge(status) {
+        const s = (status || "pending").toLowerCase();
+        if (s === "replied") {
+          return `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 uppercase tracking-wide">Replied</span>`;
+        }
+        if (s === "resolved") {
+          return `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 uppercase tracking-wide">Resolved</span>`;
+        }
+        return `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 uppercase tracking-wide">Pending</span>`;
+      }
+
+      function updateUserUI(user) {
+        const fullName = user?.fullName || "Student";
+        const studentId = user?.studentId || "--";
+        const profilePicture = user?.profilePicture || "";
+        sidebarStudentName.textContent = fullName;
+        sidebarStudentId.textContent = `ID: ${studentId}`;
+        mobileSidebarStudentName.textContent = fullName;
+        mobileSidebarStudentId.textContent = `ID: ${studentId}`;
+        welcomeText.textContent = `Welcome back, ${fullName.split(" ")[0]}!`;
+        setImageOrFallback(sidebarProfileImage, sidebarProfileFallback, profilePicture);
+        setImageOrFallback(mobileSidebarProfileImage, mobileSidebarProfileFallback, profilePicture);
+      }
+
+      function updateStats(complaints) {
+        const total = complaints.length;
+        const pending = complaints.filter(c => c.status === "pending").length;
+        const replied = complaints.filter(c => c.status === "replied").length;
+        const resolved = complaints.filter(c => c.status === "resolved").length;
+        totalFiledCount.textContent = total;
+        pendingCount.textContent = pending;
+        repliedCount.textContent = replied;
+        resolvedCount.textContent = resolved;
+      }
+
+      function renderComplaints(complaints) {
+        complaintsContainer.innerHTML = "";
+        if (!complaints.length) {
+          emptyState.classList.remove("hidden");
+          return;
+        }
+        emptyState.classList.add("hidden");
+
+        complaints.forEach(complaint => {
+          const card = document.createElement("div");
+          card.className = "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm hover:shadow-md transition-all relative";
+
+          card.innerHTML = `
+            <div class="flex items-center justify-between mb-2">
+              ${getStatusBadge(complaint.status)}
+              <span class="text-[10px] text-slate-400 font-medium">${formatRelativeTime(complaint.createdAt)}</span>
+            </div>
+            <h4 class="font-bold text-slate-900 dark:text-white text-base">${complaint.title || "Untitled"}</h4>
+            <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">${truncateText(complaint.description)}</p>
+            <div class="mt-3 flex flex-wrap items-center gap-3 text-[10px] font-semibold text-slate-400 uppercase">
+              <div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">category</span>${complaint.category || "General"}</div>
+              ${complaint.subject ? `<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">label</span>${complaint.subject}</div>` : ""}
+              <div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">forum</span>${complaint.feedback?.length || 0} Feedback</div>
+            </div>
+            <div class="mt-4 flex items-center justify-between">
+              <button class="text-primary text-xs font-bold flex items-center gap-1 view-details-btn" data-id="${complaint._id}">
+                Details <span class="material-symbols-outlined text-xs">arrow_forward</span>
+              </button>
+              ${complaint.attachment?.url ? `<a href="${complaint.attachment.url}" target="_blank" class="text-xs font-semibold text-slate-500 hover:text-primary transition-colors">View Attachment</a>` : `<span class="text-xs text-slate-400">No Attachment</span>`}
+            </div>
+          `;
+          complaintsContainer.appendChild(card);
+        });
+
+        document.querySelectorAll(".view-details-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            window.location.href = `complaint-details.html?id=${btn.dataset.id}`;
+          });
+        });
+      }
+
+      function filterComplaints() {
+        const value = searchInput.value.trim().toLowerCase();
+        const filtered = allComplaints.filter(c =>
+          (c.title || "").toLowerCase().includes(value) ||
+          (c.subject || "").toLowerCase().includes(value) ||
+          (c.category || "").toLowerCase().includes(value) ||
+          (c.description || "").toLowerCase().includes(value) ||
+          (c.status || "").toLowerCase().includes(value)
+        );
+        renderComplaints(filtered);
+      }
+
+      function logout() {
+        authService.logout();
+        window.location.href = "student-signin.html";
+      }
+
+      // ---------- Initialization ----------
+      async function loadDashboard() {
+        hideAlert();
+        loadingState.classList.remove("hidden");
+        complaintsContainer.innerHTML = "";
+        emptyState.classList.add("hidden");
+
+        if (!authService.isLoggedIn()) {
+          showAlert("You are not logged in. Redirecting...");
+          setTimeout(() => window.location.href = "student-signin.html", 1500);
+          return;
+        }
+
+        try {
+          const userResponse = await userService.getUserInfo();
+          const user = userResponse.user || userResponse;
+
+          if (user && (user.role === "admin" || user.role === "super_admin")) {
+            window.location.href = "admin-dashboard.html";
+            return;
+          }
+
+          const storedUser = authService.getCurrentUser();
+          const displayUser = user && user._id ? user : storedUser;
+          updateUserUI(displayUser || {});
+
+          // ---------- THE FIX: use getMyComplaints ----------
+          const complaintsResponse = await complaintService.getMyComplaints();
+          const complaints = Array.isArray(complaintsResponse)
+            ? complaintsResponse
+            : complaintsResponse.complaints || complaintsResponse.data || [];
+
+          allComplaints = complaints.sort(
+            (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+          );
+
+          updateStats(allComplaints);
+          renderComplaints(allComplaints);
+        } catch (error) {
+          console.error("Dashboard load error:", error);
+          showAlert("Unable to load dashboard data. Please try again.");
+          const storedUser = authService.getCurrentUser();
+          if (storedUser) updateUserUI(storedUser);
+        } finally {
+          loadingState.classList.add("hidden");
+        }
+      }
+
+      searchInput.addEventListener("input", filterComplaints);
+      logoutBtnDesktop.addEventListener("click", logout);
+      logoutBtnMobile.addEventListener("click", logout);
+
       (function () {
         const menuBtn = document.getElementById("menuBtn");
         const mobileSidebar = document.getElementById("mobileSidebar");
@@ -535,7 +675,6 @@
           mobileSidebar.classList.remove("-translate-x-full");
           mobileSidebar.classList.add("translate-x-0");
           backdrop.classList.remove("hidden");
-          // force reflow to enable transition
           void backdrop.offsetWidth;
           backdrop.classList.remove("opacity-0");
           backdrop.classList.add("opacity-100");
@@ -554,44 +693,23 @@
           }, 300);
         }
 
-        if (menuBtn) {
-          menuBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            openSidebar();
-          });
-        }
-
-        if (backdrop) {
-          backdrop.addEventListener("click", closeSidebar);
-        }
+        if (menuBtn) menuBtn.addEventListener("click", (e) => { e.stopPropagation(); openSidebar(); });
+        if (backdrop) backdrop.addEventListener("click", closeSidebar);
 
         document.addEventListener("keydown", (e) => {
-          if (
-            e.key === "Escape" &&
-            mobileSidebar &&
-            !mobileSidebar.classList.contains("-translate-x-full")
-          ) {
+          if (e.key === "Escape" && mobileSidebar && !mobileSidebar.classList.contains("-translate-x-full")) {
             closeSidebar();
           }
         });
 
-        window.addEventListener("resize", function () {
-          if (window.innerWidth >= 768) {
-            if (
-              mobileSidebar &&
-              !mobileSidebar.classList.contains("-translate-x-full")
-            ) {
-              mobileSidebar.classList.add("-translate-x-full");
-              mobileSidebar.classList.remove("translate-x-0");
-              if (backdrop) {
-                backdrop.classList.add("hidden");
-                backdrop.classList.remove("opacity-100", "opacity-0");
-                document.body.style.overflow = "";
-              }
-            }
+        window.addEventListener("resize", () => {
+          if (window.innerWidth >= 768 && mobileSidebar && !mobileSidebar.classList.contains("-translate-x-full")) {
+            closeSidebar();
           }
         });
       })();
+
+      loadDashboard();
     </script>
   </body>
 </html>

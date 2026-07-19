@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Admin Dashboard Overview</title>
+    <title>Admin Dashboard - CampusResolve</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
@@ -52,8 +52,6 @@
         background-color: #101922;
         color: #f1f5f9;
       }
-
-      /* mobile sidebar overlay & transition */
       .sidebar-backdrop {
         position: fixed;
         inset: 0;
@@ -61,8 +59,12 @@
         z-index: 25;
         transition: opacity 300ms;
       }
-
-      /* desktop: always show sidebar, hide hamburger */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.55);
+        z-index: 80;
+      }
       @media (min-width: 1024px) {
         .mobile-only {
           display: none !important;
@@ -70,11 +72,9 @@
         .desktop-sidebar {
           display: flex !important;
           transform: none !important;
-          width: 16rem; /* w-64 */
+          width: 16rem;
         }
       }
-
-      /* tablet (between 768px and 1024px): keep desktop layout (sidebar visible) */
       @media (min-width: 768px) and (max-width: 1023px) {
         .mobile-only {
           display: none !important;
@@ -88,8 +88,6 @@
           margin-left: 16rem;
         }
       }
-
-      /* mobile: up to 767px */
       @media (max-width: 767px) {
         .desktop-sidebar {
           display: none;
@@ -100,317 +98,205 @@
         .main-content {
           width: 100%;
         }
-        /* bigger hamburger menu button */
         #menuBtn {
           padding: 0.5rem;
         }
         #menuBtn .material-symbols-outlined {
           font-size: 2.25rem;
         }
-        /* reduce search input width */
         .mobile-search-wrapper {
           max-width: 65%;
         }
       }
     </style>
   </head>
-  <body
-    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen"
-  >
+  <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
     <div class="flex h-screen overflow-hidden">
-      <!-- SIDEBAR – desktop version (visible on md and up) -->
-      <aside
-        class="desktop-sidebar w-64 flex-shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col fixed h-full z-20 hidden lg:flex md:flex"
-      >
+      <!-- DESKTOP SIDEBAR -->
+      <aside class="desktop-sidebar w-64 flex-shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col fixed h-full z-20 hidden lg:flex md:flex">
         <div class="p-6 flex items-center gap-3">
-          <div
-            class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white"
-          >
+          <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white">
             <span class="material-symbols-outlined">shield_person</span>
           </div>
           <div>
             <h1 class="text-sm font-bold leading-tight">Admin Portal</h1>
-            <p class="text-xs text-slate-500 dark:text-slate-400">
-              Feedback System
-            </p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Feedback System</p>
           </div>
         </div>
         <nav class="flex-1 px-4 space-y-1 mt-4">
-          <a
-            class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary group"
-            href="admin-dashboard.html"
-          >
+          <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="admin-dashboard.html">
             <span class="material-symbols-outlined text-[22px]">dashboard</span>
             <span class="text-sm font-medium">Dashboard</span>
           </a>
-          <a
-            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            href="student-complaints.html"
-          >
+          <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="student-complaints.html">
             <span class="material-symbols-outlined text-[22px]">inbox</span>
             <span class="text-sm font-medium">Complaints</span>
           </a>
-          <a
-            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            href="students.html"
-          >
+          <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="students.html">
             <span class="material-symbols-outlined text-[22px]">group</span>
             <span class="text-sm font-medium">Students</span>
           </a>
         </nav>
-        <div
-          class="p-4 border-t border-slate-200 dark:border-slate-800 space-y-1"
-        >
-          <a
-            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            href="settings.html"
-          >
+        <div class="p-4 border-t border-slate-200 dark:border-slate-800 space-y-1">
+          <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="settings.html">
             <span class="material-symbols-outlined text-[22px]">settings</span>
             <span class="text-sm font-medium">Settings</span>
           </a>
+          <div class="pt-3 mt-3 border-t border-slate-200 dark:border-slate-800 flex items-center gap-3 p-2">
+            <div class="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex items-center justify-center">
+              <span id="sidebarAdminAvatarFallback" class="material-symbols-outlined text-slate-500 text-xl">person</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p id="sidebarAdminName" class="text-xs font-semibold truncate dark:text-white">Loading...</p>
+              <p id="sidebarAdminEmail" class="text-[10px] text-slate-400 truncate">--</p>
+            </div>
+            <button id="logoutBtnDesktop" class="text-slate-400 hover:text-red-500 transition-colors" title="Logout">
+              <span class="material-symbols-outlined text-xl">logout</span>
+            </button>
+          </div>
         </div>
       </aside>
 
-      <!-- Mobile Sidebar - wider (70% of screen) so Admin Portal fits well, with profile at bottom -->
-      <div
-        id="mobileSidebar"
-        class="fixed top-0 left-0 h-full w-[70%] sm:w-80 bg-white dark:bg-slate-900 shadow-xl z-30 flex flex-col transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden md:hidden"
-      >
-        <!-- header with logo -->
+      <!-- MOBILE SIDEBAR -->
+      <div id="mobileSidebar" class="fixed top-0 left-0 h-full w-[70%] sm:w-80 bg-white dark:bg-slate-900 shadow-xl z-30 flex flex-col transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden md:hidden">
         <div class="p-6 flex items-center gap-3">
-          <div
-            class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white"
-          >
+          <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white">
             <span class="material-symbols-outlined">shield_person</span>
           </div>
           <div>
-            <h1 class="text-sm font-bold leading-tight whitespace-nowrap">
-              Admin Portal
-            </h1>
-            <p class="text-xs text-slate-500 dark:text-slate-400">
-              Feedback System
-            </p>
+            <h1 class="text-sm font-bold leading-tight whitespace-nowrap">Admin Portal</h1>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Feedback System</p>
           </div>
         </div>
-        <!-- navigation menu -->
         <nav class="flex-1 px-4 space-y-1 mt-2">
-          <a
-            class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary group"
-            href="admin-dashboard.html"
-          >
+          <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="admin-dashboard.html">
             <span class="material-symbols-outlined text-[22px]">dashboard</span>
             <span class="text-sm font-medium">Dashboard</span>
           </a>
-          <a
-            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            href="student-complaints.html"
-          >
+          <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="student-complaints.html">
             <span class="material-symbols-outlined text-[22px]">inbox</span>
             <span class="text-sm font-medium">Complaints</span>
           </a>
-          <a
-            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            href="students.html"
-          >
+          <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="students.html">
             <span class="material-symbols-outlined text-[22px]">group</span>
             <span class="text-sm font-medium">Students</span>
           </a>
         </nav>
-        <!-- Settings and Export at bottom (profile/logout replaced with admin actions) -->
-        <div
-          class="p-4 border-t border-slate-200 dark:border-slate-800 space-y-1"
-        >
-          <a
-            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            href="settings.html"
-          >
+        <div class="p-4 border-t border-slate-200 dark:border-slate-800 space-y-1">
+          <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="settings.html">
             <span class="material-symbols-outlined text-[22px]">settings</span>
             <span class="text-sm font-medium">Settings</span>
           </a>
+          <div class="pt-3 mt-3 border-t border-slate-200 dark:border-slate-800 flex items-center gap-3 p-2">
+            <div class="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex items-center justify-center">
+              <span id="mobileSidebarAdminAvatarFallback" class="material-symbols-outlined text-slate-500 text-xl">person</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p id="mobileSidebarAdminName" class="text-xs font-semibold truncate dark:text-white">Loading...</p>
+              <p id="mobileSidebarAdminEmail" class="text-[10px] text-slate-400 truncate">--</p>
+            </div>
+            <button id="logoutBtnMobile" class="text-slate-400 hover:text-red-500 transition-colors" title="Logout">
+              <span class="material-symbols-outlined text-xl">logout</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Backdrop (hidden by default) -->
-      <div
-        id="sidebarBackdrop"
-        class="sidebar-backdrop hidden opacity-0 transition-opacity duration-300"
-      ></div>
+      <div id="sidebarBackdrop" class="sidebar-backdrop hidden opacity-0 transition-opacity duration-300"></div>
 
-      <!-- MAIN CONTENT (margin left for desktop, no margin mobile) -->
-      <main
-        class="flex-1 flex flex-col overflow-hidden ml-0 lg:ml-64 md:ml-64 main-content"
-      >
-        <!-- Header -->
-        <header
-          class="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 sm:px-8 z-10"
-        >
-          <!-- Left: hamburger + search -->
+      <!-- MAIN CONTENT -->
+      <main class="flex-1 flex flex-col overflow-hidden ml-0 lg:ml-64 md:ml-64 main-content">
+        <header class="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 sm:px-8 z-10">
           <div class="flex items-center gap-2 flex-1">
-            <!-- Hamburger button (bigger on mobile) -->
-            <button
-              id="menuBtn"
-              class="mobile-only block lg:hidden md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            >
-              <span class="material-symbols-outlined text-3xl sm:text-4xl"
-                >menu</span
-              >
+            <button id="menuBtn" class="mobile-only block lg:hidden md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              <span class="material-symbols-outlined text-3xl sm:text-4xl">menu</span>
             </button>
-            <!-- search container with reduced width on mobile -->
-            <div
-              class="relative mobile-search-wrapper w-full max-w-[180px] sm:max-w-xs md:max-w-md"
-            >
-              <span
-                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]"
-                >search</span
-              >
+            <div class="relative mobile-search-wrapper w-full max-w-[180px] sm:max-w-xs md:max-w-md">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
               <input
+                id="searchInput"
                 class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-slate-500"
                 placeholder="Search complaints, students or IDs..."
                 type="text"
               />
             </div>
           </div>
-          <!-- placeholder for symmetry -->
           <div class="w-10"></div>
         </header>
 
-        <!-- Scrollable Content -->
-        <div
-          class="flex-1 overflow-y-auto p-4 sm:p-8 bg-background-light dark:bg-background-dark"
-        >
-          <!-- Welcome Section -->
-          <div
-            class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8"
-          >
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 bg-background-light dark:bg-background-dark">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
             <div>
-              <h1 class="text-2xl sm:text-3xl font-black tracking-tight mb-2">
-                Complaint Dashboard
-              </h1>
-              <p class="text-slate-500 dark:text-slate-400">
-                Manage and resolve student issues across the campus network.
-              </p>
+              <h1 class="text-2xl sm:text-3xl font-black tracking-tight mb-2">Complaint Dashboard</h1>
+              <p class="text-slate-500 dark:text-slate-400">Manage and resolve student issues across the campus network.</p>
             </div>
             <div class="flex gap-3">
               <div class="relative">
-                <select
+                <select id="statusFilter"
                   class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-all cursor-pointer appearance-none pr-10"
                 >
-                  <option value="filters">Filters</option>
+                  <option value="all">All Complaints</option>
                   <option value="pending">Pending</option>
-                  <option value="replies">Replies</option>
+                  <option value="replied">Replied</option>
                   <option value="resolved">Resolved</option>
                 </select>
               </div>
             </div>
           </div>
 
-          <!-- Stats Cards -->
-          <div
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
-          >
-            <div
-              class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm"
-            >
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <div class="flex items-center justify-between mb-4">
-                <span class="text-sm font-medium text-slate-500"
-                  >Total Complaints</span
-                >
-                <div
-                  class="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-lg"
-                >
-                  <span class="material-symbols-outlined text-[20px]"
-                    >assignment</span
-                  >
+                <span class="text-sm font-medium text-slate-500">Total Complaints</span>
+                <div class="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-lg">
+                  <span class="material-symbols-outlined text-[20px]">assignment</span>
                 </div>
               </div>
               <div class="flex items-baseline gap-2">
-                <span class="text-2xl font-bold">1,284</span>
-                <span
-                  class="text-xs font-semibold text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded"
-                  >+12%</span
-                >
+                <span id="totalCount" class="text-2xl font-bold">0</span>
               </div>
             </div>
-            <div
-              class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm"
-            >
+            <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <div class="flex items-center justify-between mb-4">
                 <span class="text-sm font-medium text-slate-500">Pending</span>
-                <div
-                  class="p-2 bg-orange-50 dark:bg-orange-900/20 text-orange-600 rounded-lg"
-                >
-                  <span class="material-symbols-outlined text-[20px]"
-                    >pending_actions</span
-                  >
+                <div class="p-2 bg-orange-50 dark:bg-orange-900/20 text-orange-600 rounded-lg">
+                  <span class="material-symbols-outlined text-[20px]">pending_actions</span>
                 </div>
               </div>
               <div class="flex items-baseline gap-2">
-                <span class="text-2xl font-bold">156</span>
-                <span
-                  class="text-xs font-semibold text-red-600 bg-red-50 dark:bg-red-900/20 px-2 py-0.5 rounded"
-                  >+5%</span
-                >
+                <span id="pendingCount" class="text-2xl font-bold">0</span>
               </div>
             </div>
-            <div
-              class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm"
-            >
+            <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <div class="flex items-center justify-between mb-4">
                 <span class="text-sm font-medium text-slate-500">Resolved</span>
-                <div
-                  class="p-2 bg-green-50 dark:bg-green-900/20 text-green-600 rounded-lg"
-                >
-                  <span class="material-symbols-outlined text-[20px]"
-                    >task_alt</span
-                  >
+                <div class="p-2 bg-green-50 dark:bg-green-900/20 text-green-600 rounded-lg">
+                  <span class="material-symbols-outlined text-[20px]">task_alt</span>
                 </div>
               </div>
               <div class="flex items-baseline gap-2">
-                <span class="text-2xl font-bold">1,128</span>
-                <span
-                  class="text-xs font-semibold text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded"
-                  >+22%</span
-                >
+                <span id="resolvedCount" class="text-2xl font-bold">0</span>
               </div>
             </div>
-            <div
-              class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm"
-            >
+            <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <div class="flex items-center justify-between mb-4">
-                <span class="text-sm font-medium text-slate-500">Replies</span>
-                <div
-                  class="p-2 bg-purple-50 dark:bg-purple-900/20 text-purple-600 rounded-lg"
-                >
-                  <span class="material-symbols-outlined text-[20px]"
-                    >forum</span
-                  >
+                <span class="text-sm font-medium text-slate-500">Replied</span>
+                <div class="p-2 bg-purple-50 dark:bg-purple-900/20 text-purple-600 rounded-lg">
+                  <span class="material-symbols-outlined text-[20px]">forum</span>
                 </div>
               </div>
               <div class="flex items-baseline gap-2">
-                <span class="text-2xl font-bold">147</span>
-                <span
-                  class="text-xs font-semibold text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded"
-                  >+12%</span
-                >
+                <span id="repliedCount" class="text-2xl font-bold">0</span>
               </div>
             </div>
           </div>
 
-          <!-- Complaints Table -->
-          <div
-            class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden @container"
-          >
-            <div
-              class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between"
-            >
+          <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden @container">
+            <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <h3 class="font-bold text-lg">Recent Complaints</h3>
               <div class="flex gap-2">
                 <a href="student-complaints.html">
-                  <button
-                    class="text-primary text-sm font-bold hover:underline"
-                  >
-                    View All
-                  </button>
+                  <button class="text-primary text-sm font-bold hover:underline">View All</button>
                 </a>
               </div>
             </div>
@@ -418,294 +304,15 @@
               <table class="w-full text-left border-collapse">
                 <thead>
                   <tr class="bg-slate-50 dark:bg-slate-800/50">
-                    <th
-                      class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500"
-                    >
-                      Student Name
-                    </th>
-                    <th
-                      class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500"
-                    >
-                      Student ID
-                    </th>
-                    <th
-                      class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500"
-                    >
-                      Subject
-                    </th>
-                    <th
-                      class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500"
-                    >
-                      Date Submitted
-                    </th>
-                    <th
-                      class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500"
-                    >
-                      Status
-                    </th>
-                    <th
-                      class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-right"
-                    >
-                      Actions
-                    </th>
+                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Student Name</th>
+                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Student ID</th>
+                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Subject</th>
+                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Date Submitted</th>
+                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Status</th>
+                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                  <!-- Row 1 -->
-                  <tr
-                    class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors"
-                  >
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs"
-                        >
-                          AJ
-                        </div>
-                        <span class="text-sm font-medium">Alex Johnson</span>
-                      </div>
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      STU001
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      Hostel Wi-Fi Connectivity Down
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      Oct 24, 2023
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400"
-                        >Pending</span
-                      >
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <div class="flex items-center justify-end gap-2">
-                        <button
-                          class="text-primary hover:text-primary/80 font-bold text-sm tracking-wide"
-                        >
-                          View
-                        </button>
-                        <button
-                          class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400"
-                          title="Delete complaint"
-                        >
-                          <span class="material-symbols-outlined text-[18px]"
-                            >delete</span
-                          >
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <!-- Row 2 -->
-                  <tr
-                    class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors"
-                  >
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center text-green-600 font-bold text-xs"
-                        >
-                          MG
-                        </div>
-                        <span class="text-sm font-medium">Maria Garcia</span>
-                      </div>
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      STU045
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      Library Resource Access Request
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      Oct 23, 2023
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-                        >Resolved</span
-                      >
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <div class="flex items-center justify-end gap-2">
-                        <button
-                          class="text-primary hover:text-primary/80 font-bold text-sm tracking-wide"
-                        >
-                          View
-                        </button>
-                        <button
-                          class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400"
-                          title="Delete complaint"
-                        >
-                          <span class="material-symbols-outlined text-[18px]"
-                            >delete</span
-                          >
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <!-- Row 3 -->
-                  <tr
-                    class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors"
-                  >
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-600 font-bold text-xs"
-                        >
-                          JS
-                        </div>
-                        <span class="text-sm font-medium">James Smith</span>
-                      </div>
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      STU089
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      Canteen Hygiene Standard Issue
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      Oct 23, 2023
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
-                        >Replied</span
-                      >
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <div class="flex items-center justify-end gap-2">
-                        <button
-                          class="text-primary hover:text-primary/80 font-bold text-sm tracking-wide"
-                        >
-                          View
-                        </button>
-                        <button
-                          class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400"
-                          title="Delete complaint"
-                        >
-                          <span class="material-symbols-outlined text-[18px]"
-                            >delete</span
-                          >
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <!-- Row 4 -->
-                  <tr
-                    class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors"
-                  >
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-600 font-bold text-xs"
-                        >
-                          SL
-                        </div>
-                        <span class="text-sm font-medium">Sarah Lee</span>
-                      </div>
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      STU112
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      Course Enrollment Portal Error
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      Oct 22, 2023
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400"
-                        >Pending</span
-                      >
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <div class="flex items-center justify-end gap-2">
-                        <button
-                          class="text-primary hover:text-primary/80 font-bold text-sm tracking-wide"
-                        >
-                          View
-                        </button>
-                        <button
-                          class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400"
-                          title="Delete complaint"
-                        >
-                          <span class="material-symbols-outlined text-[18px]"
-                            >delete</span
-                          >
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <!-- Row 5 -->
-                  <tr
-                    class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors"
-                  >
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-600 font-bold text-xs"
-                        >
-                          KB
-                        </div>
-                        <span class="text-sm font-medium">Kevin Brown</span>
-                      </div>
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      STU033
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      ID Card Replacement Delay
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      Oct 21, 2023
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-                        >Resolved</span
-                      >
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <div class="flex items-center justify-end gap-2">
-                        <button
-                          class="text-primary hover:text-primary/80 font-bold text-sm tracking-wide"
-                        >
-                          View
-                        </button>
-                        <button
-                          class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400"
-                          title="Delete complaint"
-                        >
-                          <span class="material-symbols-outlined text-[18px]"
-                            >delete</span
-                          >
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                <tbody id="complaintsTableBody" class="divide-y divide-slate-100 dark:divide-slate-800">
                 </tbody>
               </table>
             </div>
@@ -714,7 +321,468 @@
       </main>
     </div>
 
-    <script>
+    <!-- Complaint Detail Modal -->
+    <div id="complaintModal" class="hidden fixed inset-0 z-[90]">
+      <div id="complaintModalBackdrop" class="modal-backdrop"></div>
+      <div class="fixed inset-0 flex items-center justify-center p-4 z-[91]">
+        <div class="w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl max-h-[90vh] flex flex-col">
+          <div class="flex items-center justify-between p-5 border-b border-slate-200 dark:border-slate-800">
+            <h3 class="text-lg font-bold dark:text-white" id="modalComplaintTitle">Complaint Details</h3>
+            <button id="closeModalBtn" class="text-slate-400 hover:text-red-500 transition-colors">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+
+          <div class="flex-1 overflow-y-auto p-5 space-y-5">
+            <div id="modalLoading" class="text-sm text-slate-500">Loading...</div>
+            <div id="modalError" class="hidden text-sm text-red-500"></div>
+
+            <div id="modalContent" class="hidden space-y-5">
+              <div>
+                <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-2">Subject</h4>
+                <p id="modalSubject" class="text-sm font-medium dark:text-white"></p>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-2">Category</h4>
+                  <p id="modalCategory" class="text-sm font-medium dark:text-white"></p>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-2">Status</h4>
+                  <span id="modalStatusBadge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"></span>
+                </div>
+              </div>
+              <div>
+                <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-2">Description</h4>
+                <p id="modalDescription" class="text-sm text-slate-700 dark:text-slate-300 whitespace-pre-line"></p>
+              </div>
+
+              <div class="border-t border-slate-200 dark:border-slate-700 pt-4">
+                <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Student Information</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <span class="text-xs text-slate-500">Name:</span>
+                    <p id="modalStudentName" class="text-sm font-medium dark:text-white"></p>
+                  </div>
+                  <div>
+                    <span class="text-xs text-slate-500">Student ID:</span>
+                    <p id="modalStudentId" class="text-sm font-medium dark:text-white"></p>
+                  </div>
+                </div>
+              </div>
+
+              <div id="modalAttachmentSection" class="border-t border-slate-200 dark:border-slate-700 pt-4 hidden">
+                <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-2">Attachment</h4>
+                <a id="modalAttachmentLink" href="#" target="_blank" class="text-primary text-sm font-medium hover:underline flex items-center gap-1">
+                  <span class="material-symbols-outlined text-sm">attach_file</span> View Attachment
+                </a>
+              </div>
+
+              <div class="border-t border-slate-200 dark:border-slate-700 pt-4">
+                <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Feedback History</h4>
+                <div id="modalFeedbackList" class="space-y-3 max-h-48 overflow-y-auto"></div>
+                <p id="noFeedbackMessage" class="text-xs text-slate-500 hidden">No feedback yet.</p>
+              </div>
+
+              <div class="border-t border-slate-200 dark:border-slate-700 pt-4">
+                <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Reply as Admin</h4>
+                <form id="modalFeedbackForm" class="space-y-3">
+                  <textarea id="modalFeedbackMessage" rows="3" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary text-sm dark:text-white" placeholder="Type your reply..."></textarea>
+                  <div class="flex items-center justify-between">
+                    <button type="submit" id="modalSendFeedbackBtn" class="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg text-sm font-semibold disabled:opacity-70 disabled:cursor-not-allowed">
+                      Send Reply
+                    </button>
+                    <button type="button" id="modalMarkResolvedBtn" class="text-sm text-slate-600 dark:text-slate-400 hover:text-green-500 font-medium flex items-center gap-1">
+                      <span class="material-symbols-outlined text-sm">check_circle</span> Mark as Resolved
+                    </button>
+                  </div>
+                  <div id="modalFeedbackAlert" class="hidden text-xs font-medium mt-2"></div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modular Script (complete) -->
+    <script type="module">
+      import { authService } from './js/authService.js';
+      import { userService } from './js/userService.js';
+      import { complaintService } from './js/complaintService.js';
+
+      // ---------- DOM: Stats & Table ----------
+      const totalCountEl = document.getElementById('totalCount');
+      const pendingCountEl = document.getElementById('pendingCount');
+      const resolvedCountEl = document.getElementById('resolvedCount');
+      const repliedCountEl = document.getElementById('repliedCount');
+      const complaintsTableBody = document.getElementById('complaintsTableBody');
+      const searchInput = document.getElementById('searchInput');
+      const statusFilter = document.getElementById('statusFilter');
+
+      // Sidebar admin info
+      const sidebarAdminName = document.getElementById('sidebarAdminName');
+      const sidebarAdminEmail = document.getElementById('sidebarAdminEmail');
+      const mobileSidebarAdminName = document.getElementById('mobileSidebarAdminName');
+      const mobileSidebarAdminEmail = document.getElementById('mobileSidebarAdminEmail');
+      const logoutBtnDesktop = document.getElementById('logoutBtnDesktop');
+      const logoutBtnMobile = document.getElementById('logoutBtnMobile');
+
+      // Modal elements
+      const complaintModal = document.getElementById('complaintModal');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const complaintModalBackdrop = document.getElementById('complaintModalBackdrop');
+      const modalLoading = document.getElementById('modalLoading');
+      const modalError = document.getElementById('modalError');
+      const modalContent = document.getElementById('modalContent');
+      const modalSubject = document.getElementById('modalSubject');
+      const modalCategory = document.getElementById('modalCategory');
+      const modalStatusBadge = document.getElementById('modalStatusBadge');
+      const modalDescription = document.getElementById('modalDescription');
+      const modalStudentName = document.getElementById('modalStudentName');
+      const modalStudentId = document.getElementById('modalStudentId');
+      const modalAttachmentSection = document.getElementById('modalAttachmentSection');
+      const modalAttachmentLink = document.getElementById('modalAttachmentLink');
+      const modalFeedbackList = document.getElementById('modalFeedbackList');
+      const noFeedbackMessage = document.getElementById('noFeedbackMessage');
+      const modalFeedbackForm = document.getElementById('modalFeedbackForm');
+      const modalFeedbackMessage = document.getElementById('modalFeedbackMessage');
+      const modalSendFeedbackBtn = document.getElementById('modalSendFeedbackBtn');
+      const modalMarkResolvedBtn = document.getElementById('modalMarkResolvedBtn');
+      const modalFeedbackAlert = document.getElementById('modalFeedbackAlert');
+
+      let allComplaints = [];
+      let currentComplaintId = null;
+
+      // ---------- Helper Functions ----------
+      function getInitials(name) {
+        return (name || '').split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) || '?';
+      }
+
+      function randomColorFromName(name) {
+        let hash = 0;
+        for (let i = 0; i < (name || 'A').length; i++) {
+          hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const colors = ['primary', 'green', 'blue', 'purple', 'yellow', 'red', 'indigo'];
+        return colors[Math.abs(hash) % colors.length];
+      }
+
+      function formatDate(dateString) {
+        if (!dateString) return '--';
+        return new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      }
+
+      function formatDateTime(dateString) {
+        if (!dateString) return '--';
+        return new Date(dateString).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+      }
+
+      function getStatusBadgeClass(status) {
+        switch ((status || '').toLowerCase()) {
+          case 'replied': return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400';
+          case 'resolved': return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400';
+          default: return 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400';
+        }
+      }
+
+      function updateStats(complaints) {
+        const total = complaints.length;
+        const pending = complaints.filter(c => c.status === 'pending').length;
+        const resolved = complaints.filter(c => c.status === 'resolved').length;
+        const replied = complaints.filter(c => c.status === 'replied').length;
+        totalCountEl.textContent = total;
+        pendingCountEl.textContent = pending;
+        resolvedCountEl.textContent = resolved;
+        repliedCountEl.textContent = replied;
+      }
+
+      function renderComplaintsTable(complaints) {
+        complaintsTableBody.innerHTML = '';
+        if (!complaints.length) {
+          complaintsTableBody.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-slate-500">No complaints found.</td></tr>`;
+          return;
+        }
+
+        complaints.forEach(complaint => {
+          const studentName = complaint.studentName || complaint.user?.fullName || 'Unknown Student';
+          const studentId = complaint.studentId || complaint.user?.studentId || '--';
+          const subject = complaint.subject || complaint.title || 'No subject';
+          const createdAt = complaint.createdAt;
+          const status = complaint.status || 'pending';
+          const initials = getInitials(studentName);
+          const colorClass = randomColorFromName(studentName);
+
+          const row = document.createElement('tr');
+          row.className = 'hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors';
+          row.innerHTML = `
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-${colorClass}-500/20 flex items-center justify-center text-${colorClass}-600 font-bold text-xs">${initials}</div>
+                <span class="text-sm font-medium">${studentName}</span>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">${studentId}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">${subject}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">${formatDate(createdAt)}</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeClass(status)}">
+                ${status.charAt(0).toUpperCase() + status.slice(1)}
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right">
+              <div class="flex items-center justify-end gap-2">
+                <button class="view-btn text-primary hover:text-primary/80 font-bold text-sm tracking-wide" data-id="${complaint._id}">View</button>
+                <button class="delete-btn p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400" data-id="${complaint._id}" title="Delete complaint"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+              </div>
+            </td>
+          `;
+          complaintsTableBody.appendChild(row);
+        });
+
+        document.querySelectorAll('.view-btn').forEach(btn => {
+          btn.addEventListener('click', () => openComplaintModal(btn.dataset.id));
+        });
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+          btn.addEventListener('click', () => alert('Delete functionality can be implemented.'));
+        });
+      }
+
+      function filterComplaints() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        const statusValue = statusFilter.value;
+        let filtered = allComplaints;
+
+        if (statusValue !== 'all') {
+          filtered = filtered.filter(c => c.status === statusValue);
+        }
+        if (searchTerm) {
+          filtered = filtered.filter(c =>
+            (c.subject || '').toLowerCase().includes(searchTerm) ||
+            (c.title || '').toLowerCase().includes(searchTerm) ||
+            (c.user?.fullName || '').toLowerCase().includes(searchTerm) ||
+            (c.user?.studentId || '').toLowerCase().includes(searchTerm) ||
+            (c.studentName || '').toLowerCase().includes(searchTerm) ||
+            (c.studentId || '').toLowerCase().includes(searchTerm)
+          );
+        }
+        filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        renderComplaintsTable(filtered);
+        updateStats(filtered);
+      }
+
+      // ---------- Modal Functions ----------
+      function closeModal() {
+        complaintModal.classList.add('hidden');
+        document.body.style.overflow = '';
+        currentComplaintId = null;
+      }
+
+      async function openComplaintModal(complaintId) {
+        currentComplaintId = complaintId;
+        complaintModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+
+        modalLoading.classList.remove('hidden');
+        modalError.classList.add('hidden');
+        modalContent.classList.add('hidden');
+        modalFeedbackAlert.classList.add('hidden');
+        modalFeedbackMessage.value = '';
+
+        try {
+          let complaint = allComplaints.find(c => c._id === complaintId);
+          if (!complaint) {
+            const response = await complaintService.getComplaintById(complaintId);
+            complaint = response.complaint || response;
+            if (!complaint) throw new Error('Complaint not found');
+          }
+
+          modalSubject.textContent = complaint.subject || complaint.title || 'No subject';
+          modalCategory.textContent = complaint.category || 'General';
+          const status = complaint.status || 'pending';
+          modalStatusBadge.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+          modalStatusBadge.className = `inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeClass(status)}`;
+          modalDescription.textContent = complaint.description || 'No description provided.';
+
+          modalStudentName.textContent = complaint.studentName || complaint.user?.fullName || 'Unknown';
+          modalStudentId.textContent = complaint.studentId || complaint.user?.studentId || 'N/A';
+
+          if (complaint.attachment?.url) {
+            modalAttachmentSection.classList.remove('hidden');
+            modalAttachmentLink.href = complaint.attachment.url;
+          } else {
+            modalAttachmentSection.classList.add('hidden');
+          }
+
+          renderFeedbackInModal(complaint.feedback || []);
+
+          modalLoading.classList.add('hidden');
+          modalContent.classList.remove('hidden');
+        } catch (error) {
+          modalLoading.classList.add('hidden');
+          modalError.textContent = error.message || 'Failed to load complaint details';
+          modalError.classList.remove('hidden');
+        }
+      }
+
+      function renderFeedbackInModal(feedbackArray) {
+        modalFeedbackList.innerHTML = '';
+        if (!feedbackArray || feedbackArray.length === 0) {
+          noFeedbackMessage.classList.remove('hidden');
+          modalFeedbackList.classList.add('hidden');
+          return;
+        }
+        noFeedbackMessage.classList.add('hidden');
+        modalFeedbackList.classList.remove('hidden');
+
+        feedbackArray.forEach(fb => {
+          const div = document.createElement('div');
+          div.className = 'flex items-start gap-2 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg';
+          const senderLabel = fb.sender === 'admin' ? 'Admin' : 'Student';
+          const senderColor = fb.sender === 'admin' ? 'text-primary' : 'text-slate-600 dark:text-slate-400';
+          div.innerHTML = `
+            <span class="text-[10px] font-bold uppercase ${senderColor} min-w-[60px]">${senderLabel}</span>
+            <div class="flex-1">
+              <p class="text-xs text-slate-700 dark:text-slate-300">${fb.message}</p>
+              <span class="text-[10px] text-slate-400">${formatDateTime(fb.createdAt)}</span>
+            </div>
+          `;
+          modalFeedbackList.appendChild(div);
+        });
+      }
+
+      // Modal feedback submission
+      modalFeedbackForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const message = modalFeedbackMessage.value.trim();
+        if (!message) {
+          modalFeedbackAlert.textContent = 'Please enter a reply.';
+          modalFeedbackAlert.className = 'text-xs font-medium text-red-500';
+          modalFeedbackAlert.classList.remove('hidden');
+          return;
+        }
+
+        modalSendFeedbackBtn.disabled = true;
+        modalSendFeedbackBtn.textContent = 'Sending...';
+        modalFeedbackAlert.classList.add('hidden');
+
+        try {
+          const result = await complaintService.addFeedback(currentComplaintId, message, 'admin');
+          modalFeedbackMessage.value = '';
+          const updatedComplaint = result.complaint || result;
+          if (updatedComplaint) {
+            const index = allComplaints.findIndex(c => c._id === currentComplaintId);
+            if (index !== -1) {
+              allComplaints[index] = updatedComplaint;
+            }
+            renderFeedbackInModal(updatedComplaint.feedback || []);
+            modalStatusBadge.textContent = updatedComplaint.status.charAt(0).toUpperCase() + updatedComplaint.status.slice(1);
+            modalStatusBadge.className = `inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeClass(updatedComplaint.status)}`;
+            filterComplaints();
+          }
+          modalFeedbackAlert.textContent = 'Reply sent.';
+          modalFeedbackAlert.className = 'text-xs font-medium text-green-500';
+          modalFeedbackAlert.classList.remove('hidden');
+        } catch (error) {
+          modalFeedbackAlert.textContent = error.message || 'Failed to send reply.';
+          modalFeedbackAlert.className = 'text-xs font-medium text-red-500';
+          modalFeedbackAlert.classList.remove('hidden');
+        } finally {
+          modalSendFeedbackBtn.disabled = false;
+          modalSendFeedbackBtn.textContent = 'Send Reply';
+        }
+      });
+
+      // Mark as Resolved
+      modalMarkResolvedBtn.addEventListener('click', async () => {
+        if (!currentComplaintId) return;
+        modalMarkResolvedBtn.disabled = true;
+        modalMarkResolvedBtn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">progress_activity</span> Marking...';
+        try {
+          const result = await complaintService.markAsResolved(currentComplaintId);
+          const updatedComplaint = result.complaint || result;
+          if (updatedComplaint) {
+            const index = allComplaints.findIndex(c => c._id === currentComplaintId);
+            if (index !== -1) {
+              allComplaints[index] = updatedComplaint;
+            }
+            modalStatusBadge.textContent = 'Resolved';
+            modalStatusBadge.className = `inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeClass('resolved')}`;
+            filterComplaints();
+          }
+          modalFeedbackAlert.textContent = 'Complaint marked as resolved.';
+          modalFeedbackAlert.className = 'text-xs font-medium text-green-500';
+          modalFeedbackAlert.classList.remove('hidden');
+        } catch (error) {
+          modalFeedbackAlert.textContent = error.message || 'Failed to mark as resolved.';
+          modalFeedbackAlert.className = 'text-xs font-medium text-red-500';
+          modalFeedbackAlert.classList.remove('hidden');
+        } finally {
+          modalMarkResolvedBtn.disabled = false;
+          modalMarkResolvedBtn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> Mark as Resolved';
+        }
+      });
+
+      // Close modal events
+      closeModalBtn.addEventListener('click', closeModal);
+      complaintModalBackdrop.addEventListener('click', closeModal);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !complaintModal.classList.contains('hidden')) {
+          closeModal();
+        }
+      });
+
+      // ---------- Load Admin Profile ----------
+      async function loadAdminProfile() {
+        try {
+          const response = await userService.getUserInfo();
+          const user = response.user || response;
+          if (user) {
+            sidebarAdminName.textContent = user.fullName || 'Admin';
+            sidebarAdminEmail.textContent = user.institutionalEmail || '--';
+            mobileSidebarAdminName.textContent = user.fullName || 'Admin';
+            mobileSidebarAdminEmail.textContent = user.institutionalEmail || '--';
+          }
+        } catch {
+          const storedUser = authService.getCurrentUser();
+          if (storedUser) {
+            sidebarAdminName.textContent = storedUser.fullName || 'Admin';
+            sidebarAdminEmail.textContent = storedUser.institutionalEmail || '--';
+            mobileSidebarAdminName.textContent = storedUser.fullName || 'Admin';
+            mobileSidebarAdminEmail.textContent = storedUser.institutionalEmail || '--';
+          }
+        }
+      }
+
+      async function loadComplaints() {
+        try {
+          const response = await complaintService.getAllComplaints();  // <-- FIXED
+          const complaints = Array.isArray(response) ? response : (response.complaints || response.data || []);
+          allComplaints = complaints.map(c => ({ ...c, status: c.status || 'pending' }));
+          allComplaints.forEach(c => {
+            if (c.user) {
+              c.studentName = c.user.fullName;
+              c.studentId = c.user.studentId;
+            }
+          });
+          filterComplaints();
+        } catch (error) {
+          console.error('Failed to load complaints:', error);
+          complaintsTableBody.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-slate-500">Failed to load complaints.</td></tr>`;
+        }
+      }
+
+      function logout() {
+        authService.logout();
+        window.location.href = 'student-signin.html';
+      }
+
+      logoutBtnDesktop.addEventListener('click', logout);
+      logoutBtnMobile.addEventListener('click', logout);
+      searchInput.addEventListener('input', filterComplaints);
+      statusFilter.addEventListener('change', filterComplaints);
+
+      // Mobile sidebar toggle
       (function () {
         const menuBtn = document.getElementById("menuBtn");
         const mobileSidebar = document.getElementById("mobileSidebar");
@@ -725,7 +793,7 @@
           mobileSidebar.classList.remove("-translate-x-full");
           mobileSidebar.classList.add("translate-x-0");
           backdrop.classList.remove("hidden");
-          void backdrop.offsetWidth; // force reflow
+          void backdrop.offsetWidth;
           backdrop.classList.remove("opacity-0");
           backdrop.classList.add("opacity-100");
           document.body.style.overflow = "hidden";
@@ -755,21 +823,14 @@
         }
 
         document.addEventListener("keydown", (e) => {
-          if (
-            e.key === "Escape" &&
-            mobileSidebar &&
-            !mobileSidebar.classList.contains("-translate-x-full")
-          ) {
+          if (e.key === "Escape" && mobileSidebar && !mobileSidebar.classList.contains("-translate-x-full")) {
             closeSidebar();
           }
         });
 
         window.addEventListener("resize", function () {
           if (window.innerWidth >= 768) {
-            if (
-              mobileSidebar &&
-              !mobileSidebar.classList.contains("-translate-x-full")
-            ) {
+            if (mobileSidebar && !mobileSidebar.classList.contains("-translate-x-full")) {
               mobileSidebar.classList.add("-translate-x-full");
               mobileSidebar.classList.remove("translate-x-0");
               if (backdrop) {
@@ -781,6 +842,14 @@
           }
         });
       })();
+
+      // Initialize
+      if (!authService.isLoggedIn()) {
+        window.location.href = 'student-signin.html';
+      } else {
+        loadAdminProfile();
+        loadComplaints();
+      }
     </script>
   </body>
 </html>
