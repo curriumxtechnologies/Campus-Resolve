@@ -1,511 +1,573 @@
 <!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Submit Complaint - CampusResolve</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries">
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
     <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#137fec",
-                        "background-light": "#f6f7f8",
-                        "background-dark": "#101922",
-                    },
-                    fontFamily: {
-                        display: ["Inter"],
-                    },
-                    borderRadius: {
-                        DEFAULT: "0.25rem",
-                        lg: "0.5rem",
-                        xl: "0.75rem",
-                        full: "9999px",
-                    },
-                },
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
             },
-        };
+            fontFamily: {
+              display: ["Inter"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
     </script>
     <style>
-        body {
-            background-color: #f6f7f8;
-            color: #0f172a;
+      body {
+        background-color: #f6f7f8;
+        color: #0f172a;
+      }
+      .dark body {
+        background-color: #101922;
+        color: #f1f5f9;
+      }
+      .flex.h-full.min-h-screen {
+        min-height: 100vh;
+      }
+      .sidebar-backdrop {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 25;
+        transition: opacity 300ms;
+      }
+      @media (min-width: 1024px) {
+        .mobile-only {
+          display: none !important;
         }
-        .dark body {
-            background-color: #101922;
-            color: #f1f5f9;
+        .desktop-sidebar {
+          display: flex !important;
+          transform: none !important;
         }
-        .flex.h-full.min-h-screen {
-            min-height: 100vh;
+      }
+      @media (min-width: 768px) and (max-width: 1023px) {
+        .mobile-only {
+          display: none !important;
         }
-        .sidebar-backdrop {
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 25;
-            transition: opacity 300ms;
+        .desktop-sidebar {
+          display: flex !important;
+          transform: none !important;
         }
-        @media (min-width: 1024px) {
-            .mobile-only {
-                display: none !important;
-            }
-            .desktop-sidebar {
-                display: flex !important;
-                transform: none !important;
-            }
+        .ml-72 {
+          margin-left: 18rem;
         }
-        @media (min-width: 768px) and (max-width: 1023px) {
-            .mobile-only {
-                display: none !important;
-            }
-            .desktop-sidebar {
-                display: flex !important;
-                transform: none !important;
-            }
-            .ml-72 {
-                margin-left: 18rem;
-            }
+      }
+      @media (max-width: 767px) {
+        .desktop-sidebar {
+          display: none;
         }
-        @media (max-width: 767px) {
-            .desktop-sidebar {
-                display: none;
-            }
-            .ml-72 {
-                margin-left: 0;
-            }
-            .main-content {
-                width: 100%;
-            }
-            #menuBtn {
-                padding: 0.5rem;
-            }
-            #menuBtn .material-symbols-outlined {
-                font-size: 2.25rem;
-            }
+        .ml-72 {
+          margin-left: 0;
         }
-
-        /* Disabled button style */
-        .btn-disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
+        .main-content {
+          width: 100%;
         }
-
-        /* Warning banner pulse animation */
-        @keyframes warningPulse {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.85;
-            }
+        #menuBtn {
+          padding: 0.5rem;
         }
-        .warning-pulse {
-            animation: warningPulse 2s ease-in-out infinite;
+        #menuBtn .material-symbols-outlined {
+          font-size: 2.25rem;
         }
-
-        /* Glow for the warning icon */
-        @keyframes iconGlow {
-            0%,
-            100% {
-                filter: drop-shadow(0 0 4px rgba(234, 67, 53, 0.4));
-            }
-            50% {
-                filter: drop-shadow(0 0 12px rgba(234, 67, 53, 0.8));
-            }
-        }
-        .icon-glow {
-            animation: iconGlow 2s ease-in-out infinite;
-        }
+      }
     </style>
-</head>
-<body class="font-display min-h-screen">
+  </head>
+  <body class="font-display min-h-screen">
     <div class="flex h-full min-h-screen">
-        <!-- Desktop Sidebar -->
-        <aside class="desktop-sidebar w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col fixed h-full z-20 hidden lg:flex md:flex">
-            <div class="p-6 flex items-center gap-3">
-                <div class="flex items-center gap-3 text-primary">
-                    <div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
-                        <span class="material-symbols-outlined text-primary">campaign</span>
-                    </div>
-                    <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">
-                        CampusResolve
-                    </h2>
-                </div>
+      <!-- Desktop Sidebar -->
+      <aside
+        class="desktop-sidebar w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col fixed h-full z-20 hidden lg:flex md:flex"
+      >
+        <div class="p-6 flex items-center gap-3">
+          <div class="flex items-center gap-3 text-primary">
+            <div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+              <span class="material-symbols-outlined text-primary">campaign</span>
             </div>
-
-            <nav class="flex-1 px-4 py-4 space-y-1">
-                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="student-dashboard.html">
-                    <span class="material-symbols-outlined">dashboard</span>
-                    <span class="text-sm font-semibold">Dashboard</span>
-                </a>
-                <a class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-lg transition-colors" href="submit-complaint.html">
-                    <span class="material-symbols-outlined">add_circle</span>
-                    <span class="text-sm font-medium">Submit Complaint</span>
-                </a>
-                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="feedback.html">
-                    <span class="material-symbols-outlined">feedback</span>
-                    <span class="text-sm font-medium">Feedback</span>
-                </a>
-                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="profile.html">
-                    <span class="material-symbols-outlined">account_circle</span>
-                    <span class="text-sm font-medium">Profile</span>
-                </a>
-            </nav>
-
-            <div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
-                <div class="flex items-center gap-3 p-2">
-                    <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex items-center justify-center">
-                        <img id="sidebarProfileImage" alt="Student profile" class="w-full h-full object-cover hidden" src="" />
-                        <span id="sidebarProfileFallback" class="material-symbols-outlined text-slate-500">
-                            person
-                        </span>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <p id="sidebarStudentName" class="text-sm font-semibold truncate dark:text-white">
-                            Loading...
-                        </p>
-                        <p id="sidebarStudentId" class="text-xs text-slate-500 truncate">
-                            ID: --
-                        </p>
-                    </div>
-                    <button id="logoutBtnDesktop" class="text-slate-400 hover:text-red-500 transition-colors" type="button">
-                        <span class="material-symbols-outlined text-xl">logout</span>
-                    </button>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Mobile Sidebar -->
-        <div id="mobileSidebar" class="fixed top-0 left-0 h-full w-[70%] sm:w-80 bg-white dark:bg-slate-900 shadow-xl z-30 flex flex-col transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden md:hidden">
-            <div class="p-6 flex items-center gap-3">
-                <div class="flex items-center gap-3 text-primary">
-                    <div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
-                        <span class="material-symbols-outlined text-primary">campaign</span>
-                    </div>
-                    <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight whitespace-nowrap">
-                        CampusResolve
-                    </h2>
-                </div>
-            </div>
-
-            <nav class="flex-1 px-4 py-4 space-y-1">
-                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="student-dashboard.html">
-                    <span class="material-symbols-outlined">dashboard</span>
-                    <span class="text-sm font-semibold">Dashboard</span>
-                </a>
-                <a class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-lg transition-colors" href="submit-complaint.html">
-                    <span class="material-symbols-outlined">add_circle</span>
-                    <span class="text-sm font-medium">Submit Complaint</span>
-                </a>
-                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="feedback.html">
-                    <span class="material-symbols-outlined">feedback</span>
-                    <span class="text-sm font-medium">Feedback</span>
-                </a>
-                <a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="profile.html">
-                    <span class="material-symbols-outlined">account_circle</span>
-                    <span class="text-sm font-medium">Profile</span>
-                </a>
-            </nav>
-
-            <div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
-                <div class="flex items-center gap-3 p-2">
-                    <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex-shrink-0 flex items-center justify-center">
-                        <img id="mobileSidebarProfileImage" alt="Student profile" class="w-full h-full object-cover hidden" src="" />
-                        <span id="mobileSidebarProfileFallback" class="material-symbols-outlined text-slate-500">
-                            person
-                        </span>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <p id="mobileSidebarStudentName" class="text-sm font-semibold truncate dark:text-white">
-                            Loading...
-                        </p>
-                        <p id="mobileSidebarStudentId" class="text-xs text-slate-500 truncate">
-                            ID: --
-                        </p>
-                    </div>
-                    <button id="logoutBtnMobile" class="text-slate-400 hover:text-red-500 transition-colors" type="button">
-                        <span class="material-symbols-outlined text-xl">logout</span>
-                    </button>
-                </div>
-            </div>
+            <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">
+              CampusResolve
+            </h2>
+          </div>
         </div>
 
-        <div id="sidebarBackdrop" class="sidebar-backdrop hidden opacity-0 transition-opacity duration-300">
+        <nav class="flex-1 px-4 py-4 space-y-1">
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            href="student-dashboard.html"
+          >
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="text-sm font-semibold">Dashboard</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-lg transition-colors"
+            href="submit-complaint.html"
+          >
+            <span class="material-symbols-outlined">add_circle</span>
+            <span class="text-sm font-medium">Submit Complaint</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            href="feedback.html"
+          >
+            <span class="material-symbols-outlined">feedback</span>
+            <span class="text-sm font-medium">Feedback</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            href="profile.html"
+          >
+            <span class="material-symbols-outlined">account_circle</span>
+            <span class="text-sm font-medium">Profile</span>
+          </a>
+        </nav>
+
+        <div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
+          <div class="flex items-center gap-3 p-2">
+            <div
+              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex items-center justify-center"
+            >
+              <img
+                id="sidebarProfileImage"
+                alt="Student profile"
+                class="w-full h-full object-cover hidden"
+                src=""
+              />
+              <span
+                id="sidebarProfileFallback"
+                class="material-symbols-outlined text-slate-500"
+              >
+                person
+              </span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p
+                id="sidebarStudentName"
+                class="text-sm font-semibold truncate dark:text-white"
+              >
+                Loading...
+              </p>
+              <p id="sidebarStudentId" class="text-xs text-slate-500 truncate">
+                ID: --
+              </p>
+            </div>
+            <button
+              id="logoutBtnDesktop"
+              class="text-slate-400 hover:text-red-500 transition-colors"
+              type="button"
+            >
+              <span class="material-symbols-outlined text-xl">logout</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Mobile Sidebar -->
+      <div
+        id="mobileSidebar"
+        class="fixed top-0 left-0 h-full w-[70%] sm:w-80 bg-white dark:bg-slate-900 shadow-xl z-30 flex flex-col transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden md:hidden"
+      >
+        <div class="p-6 flex items-center gap-3">
+          <div class="flex items-center gap-3 text-primary">
+            <div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+              <span class="material-symbols-outlined text-primary">campaign</span>
+            </div>
+            <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight whitespace-nowrap">
+              CampusResolve
+            </h2>
+          </div>
         </div>
 
-        <!-- Main Content -->
-        <main class="flex-1 ml-0 lg:ml-72 md:ml-72 main-content">
-            <header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 h-20 flex items-center justify-between px-4 sm:px-8 sticky top-0 z-10">
-                <div class="flex items-center gap-2 flex-1">
-                    <button id="menuBtn" class="mobile-only block lg:hidden md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" type="button">
-                        <span class="material-symbols-outlined text-3xl sm:text-4xl">menu</span>
-                    </button>
-                    <h2 class="text-xl font-bold dark:text-white hidden sm:block">Submit Complaint</h2>
-                </div>
-                <div class="w-10"></div>
-            </header>
+        <nav class="flex-1 px-4 py-4 space-y-1">
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            href="student-dashboard.html"
+          >
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="text-sm font-semibold">Dashboard</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-lg transition-colors"
+            href="submit-complaint.html"
+          >
+            <span class="material-symbols-outlined">add_circle</span>
+            <span class="text-sm font-medium">Submit Complaint</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            href="feedback.html"
+          >
+            <span class="material-symbols-outlined">feedback</span>
+            <span class="text-sm font-medium">Feedback</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            href="profile.html"
+          >
+            <span class="material-symbols-outlined">account_circle</span>
+            <span class="text-sm font-medium">Profile</span>
+          </a>
+        </nav>
 
-            <div class="p-4 sm:p-8 max-w-3xl mx-auto">
+        <div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
+          <div class="flex items-center gap-3 p-2">
+            <div
+              class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex-shrink-0 flex items-center justify-center"
+            >
+              <img
+                id="mobileSidebarProfileImage"
+                alt="Student profile"
+                class="w-full h-full object-cover hidden"
+                src=""
+              />
+              <span
+                id="mobileSidebarProfileFallback"
+                class="material-symbols-outlined text-slate-500"
+              >
+                person
+              </span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p
+                id="mobileSidebarStudentName"
+                class="text-sm font-semibold truncate dark:text-white"
+              >
+                Loading...
+              </p>
+              <p
+                id="mobileSidebarStudentId"
+                class="text-xs text-slate-500 truncate"
+              >
+                ID: --
+              </p>
+            </div>
+            <button
+              id="logoutBtnMobile"
+              class="text-slate-400 hover:text-red-500 transition-colors"
+              type="button"
+            >
+              <span class="material-symbols-outlined text-xl">logout</span>
+            </button>
+          </div>
+        </div>
+      </div>
 
-                <!-- ========================================================= -->
-                <!--  WARNING BANNER – TRIAL EXPIRED                              -->
-                <!-- ========================================================= -->
-                <div class="mb-6 rounded-xl border-2 border-red-400/60 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950/40 dark:to-orange-950/40 p-5 shadow-lg shadow-red-500/10 warning-pulse">
-                    <div class="flex items-start gap-4">
-                        <div class="flex-shrink-0 mt-0.5">
-                            <span class="material-symbols-outlined text-4xl text-red-600 dark:text-red-400 icon-glow">
-                                warning
-                            </span>
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="text-base font-extrabold text-red-700 dark:text-red-300 tracking-tight flex items-center gap-2 flex-wrap">
-                                Trial Period Ended
-                                <span class="inline-block text-[10px] font-bold uppercase tracking-wider bg-red-200 dark:bg-red-800/60 text-red-800 dark:text-red-200 px-2.5 py-0.5 rounded-full">
-                                    Action Required
-                                </span>
-                            </h3>
-                            <p class="mt-1.5 text-sm leading-relaxed text-red-800/90 dark:text-red-200/90">
-                                Your free trial for <strong class="font-semibold">July</strong> has ended.
-                                You can no longer submit complaints through this portal.
-                            </p>
-                            <p class="mt-1.5 text-sm leading-relaxed text-red-800/90 dark:text-red-200/90">
-                                <span class="inline-flex items-center gap-1.5 bg-red-100 dark:bg-red-800/50 px-2.5 py-0.5 rounded-full text-xs font-mono font-bold text-red-700 dark:text-red-300">
-                                    <span class="material-symbols-outlined text-sm">payments</span>
-                                    $25
-                                </span>
-                                If you are the <strong class="font-semibold">developer</strong>, please make a payment of
-                                <strong class="font-semibold">$25</strong> to continue using our
-                                <span class="whitespace-nowrap">API service</span>.
-                            </p>
-                            <div class="mt-3 flex flex-wrap items-center gap-3">
-                                <span class="inline-flex items-center gap-1.5 text-xs font-medium text-red-700 dark:text-red-300 bg-red-200/70 dark:bg-red-800/40 px-3 py-1 rounded-full">
-                                    <span class="material-symbols-outlined text-sm">lock</span>
-                                    Submissions blocked
-                                </span>
-                                <span class="inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 dark:text-amber-300 bg-amber-200/70 dark:bg-amber-800/40 px-3 py-1 rounded-full">
-                                    <span class="material-symbols-outlined text-sm">support_agent</span>
-                                    Contact support
-                                </span>
-                            </div>
-                        </div>
+      <div
+        id="sidebarBackdrop"
+        class="sidebar-backdrop hidden opacity-0 transition-opacity duration-300"
+      ></div>
+
+      <!-- Main Content -->
+      <main class="flex-1 ml-0 lg:ml-72 md:ml-72 main-content">
+        <header
+          class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 h-20 flex items-center justify-between px-4 sm:px-8 sticky top-0 z-10"
+        >
+          <div class="flex items-center gap-2 flex-1">
+            <button
+              id="menuBtn"
+              class="mobile-only block lg:hidden md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              type="button"
+            >
+              <span class="material-symbols-outlined text-3xl sm:text-4xl">menu</span>
+            </button>
+            <h2 class="text-xl font-bold dark:text-white hidden sm:block">Submit Complaint</h2>
+          </div>
+          <div class="w-10"></div>
+        </header>
+
+        <div class="p-4 sm:p-8 max-w-3xl mx-auto">
+          <div class="mb-6">
+            <h2
+              class="text-2xl font-extrabold tracking-tight dark:text-white flex items-center gap-2"
+            >
+              <span class="material-symbols-outlined text-primary">feedback</span>
+              Submit a new complaint
+            </h2>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">
+              Please provide details so we can assist you efficiently.
+            </p>
+          </div>
+
+          <div
+            id="alertBox"
+            class="hidden mb-6 rounded-lg border px-4 py-3 text-sm font-medium"
+          ></div>
+
+          <div
+            class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm p-6 md:p-8"
+          >
+            <form id="complaintForm" class="space-y-6">
+              <div>
+                <label
+                  for="subject"
+                  class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
+                >
+                  Subject <span class="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  required
+                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm dark:text-white placeholder-slate-400"
+                  placeholder="e.g. Hostel issue"
+                />
+              </div>
+
+              <div>
+                <label
+                  for="title"
+                  class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
+                >
+                  Title <span class="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  required
+                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm dark:text-white placeholder-slate-400"
+                  placeholder="e.g. Hostel Wi-Fi keeps disconnecting"
+                />
+                <p class="text-xs text-slate-400 mt-1">
+                  Short and clear complaint title
+                </p>
+              </div>
+
+              <div>
+                <label
+                  for="category"
+                  class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
+                >
+                  Category <span class="text-red-500">*</span>
+                </label>
+                <select
+                  id="category"
+                  name="category"
+                  required
+                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm dark:text-white"
+                >
+                  <option value="" selected disabled>Select a category</option>
+                  <option value="Infrastructure">Infrastructure</option>
+                  <option value="Academic">Academic</option>
+                  <option value="Cafeteria">Cafeteria / Food</option>
+                  <option value="Administrative">Administrative / Fees</option>
+                  <option value="Hostel">Hostel</option>
+                  <option value="Security">Security</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div>
+                <label
+                  for="description"
+                  class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
+                >
+                  Complaint Description <span class="text-red-500">*</span>
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  rows="6"
+                  required
+                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm dark:text-white placeholder-slate-400"
+                  placeholder="Please describe the issue in detail. Include location, time, and any relevant information..."
+                ></textarea>
+              </div>
+
+              <div>
+                <label
+                  class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
+                >
+                  Attachment
+                  <span class="text-slate-400 font-normal">(optional — jpg, png, pdf)</span>
+                </label>
+
+                <div class="flex items-center justify-center w-full">
+                  <label
+                    for="attachmentFile"
+                    class="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg cursor-pointer bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  >
+                    <div class="flex flex-col items-center justify-center pt-5 pb-6 px-4 text-center">
+                      <span class="material-symbols-outlined text-3xl text-slate-400 mb-2">
+                        cloud_upload
+                      </span>
+                      <p id="fileUploadText" class="mb-1 text-sm text-slate-500 dark:text-slate-400">
+                        <span class="font-semibold">Click to upload</span> or drag and drop
+                      </p>
+                      <p class="text-xs text-slate-400 dark:text-slate-500">
+                        PNG, JPG, PDF up to 10 MB
+                      </p>
                     </div>
+                    <input
+                      id="attachmentFile"
+                      type="file"
+                      class="hidden"
+                      accept=".jpg,.jpeg,.png,.pdf,image/png,image/jpeg,application/pdf"
+                    />
+                  </label>
                 </div>
+                <p class="text-xs text-slate-400 mt-2 flex items-center gap-1">
+                  <span class="material-symbols-outlined text-xs">info</span>
+                  Only one file is supported for now.
+                </p>
+              </div>
 
-                <div class="mb-6">
-                    <h2 class="text-2xl font-extrabold tracking-tight dark:text-white flex items-center gap-2 opacity-60">
-                        <span class="material-symbols-outlined text-primary">feedback</span>
-                        Submit a new complaint
-                    </h2>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">
-                        Please provide details so we can assist you efficiently.
-                    </p>
-                </div>
-
-                <div id="alertBox" class="hidden mb-6 rounded-lg border px-4 py-3 text-sm font-medium">
-                </div>
-
-                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm p-6 md:p-8 relative">
-                    <!-- Overlay overlay to block interactions (visual reinforcement) -->
-                    <div class="absolute inset-0 rounded-xl bg-white/30 dark:bg-slate-900/30 backdrop-blur-[1px] pointer-events-none z-0">
-                    </div>
-
-                    <form id="complaintForm" class="space-y-6 relative z-0">
-                        <div>
-                            <label for="subject" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                                Subject <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" id="subject" name="subject" required
-                            class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm dark:text-white placeholder-slate-400 opacity-60"
-                            placeholder="e.g. Hostel issue" disabled />
-                        </div>
-
-                        <div>
-                            <label for="title" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                                Title <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" id="title" name="title" required
-                            class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm dark:text-white placeholder-slate-400 opacity-60"
-                            placeholder="e.g. Hostel Wi-Fi keeps disconnecting" disabled />
-                            <p class="text-xs text-slate-400 mt-1">
-                                Short and clear complaint title
-                            </p>
-                        </div>
-
-                        <div>
-                            <label for="category" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                                Category <span class="text-red-500">*</span>
-                            </label>
-                            <select id="category" name="category" required
-                            class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm dark:text-white opacity-60"
-                            disabled>
-                            <option value="" selected disabled>Select a category</option>
-                            <option value="Infrastructure">Infrastructure</option>
-                            <option value="Academic">Academic</option>
-                            <option value="Cafeteria">Cafeteria / Food</option>
-                            <option value="Administrative">Administrative / Fees</option>
-                            <option value="Hostel">Hostel</option>
-                            <option value="Security">Security</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="description" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                            Complaint Description <span class="text-red-500">*</span>
-                        </label>
-                        <textarea id="description" name="description" rows="6" required
-                        class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm dark:text-white placeholder-slate-400 opacity-60"
-                        placeholder="Please describe the issue in detail. Include location, time, and any relevant information..." disabled></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                            Attachment
-                            <span class="text-slate-400 font-normal">(optional — jpg, png, pdf)</span>
-                        </label>
-
-                        <div class="flex items-center justify-center w-full">
-                            <label for="attachmentFile"
-                            class="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg cursor-not-allowed bg-slate-50 dark:bg-slate-800/50 opacity-50 transition-colors">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6 px-4 text-center">
-                                <span class="material-symbols-outlined text-3xl text-slate-400 mb-2">
-                                    cloud_upload
-                                </span>
-                                <p id="fileUploadText" class="mb-1 text-sm text-slate-500 dark:text-slate-400">
-                                    <span class="font-semibold">Click to upload</span> or drag and drop
-                                </p>
-                                <p class="text-xs text-slate-400 dark:text-slate-500">
-                                    PNG, JPG, PDF up to 10 MB
-                                </p>
-                            </div>
-                            <input id="attachmentFile" type="file" class="hidden"
-                            accept=".jpg,.jpeg,.png,.pdf,image/png,image/jpeg,application/pdf" disabled />
-                        </label>
-                    </div>
-                    <p class="text-xs text-slate-400 mt-2 flex items-center gap-1">
-                        <span class="material-symbols-outlined text-xs">info</span>
-                        Only one file is supported for now.
-                    </p>
-                </div>
-
-                <div class="flex flex-wrap items-center gap-4 pt-2 border-t border-slate-200 dark:border-slate-800">
-                    <!-- SUBMIT BUTTON – DISABLED -->
-                    <button id="submitBtn" type="submit"
-                    class="btn-disabled bg-slate-400 dark:bg-slate-600 text-white px-8 py-3 rounded-lg text-sm font-semibold flex items-center gap-2 shadow-sm transition-all"
-                    disabled>
-                    <span id="submitBtnIcon" class="material-symbols-outlined text-sm">block</span>
-                    <span id="submitBtnText">Trial Expired — Submit Blocked</span>
+              <div
+                class="flex flex-wrap items-center gap-4 pt-2 border-t border-slate-200 dark:border-slate-800"
+              >
+                <button
+                  id="submitBtn"
+                  type="submit"
+                  class="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg text-sm font-semibold flex items-center gap-2 transition-all shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  <span id="submitBtnIcon" class="material-symbols-outlined text-sm">send</span>
+                  <span id="submitBtnText">Submit Complaint</span>
                 </button>
 
-                <button type="reset" id="resetBtn"
-                class="bg-white dark:bg-transparent border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-300 px-6 py-3 rounded-lg text-sm font-medium transition-colors opacity-50 cursor-not-allowed"
-                disabled>
-                Clear
-            </button>
+                <button
+                  type="reset"
+                  id="resetBtn"
+                  class="bg-white dark:bg-transparent border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-300 px-6 py-3 rounded-lg text-sm font-medium transition-colors"
+                >
+                  Clear
+                </button>
 
-            <a href="student-dashboard.html"
-            class="text-sm text-slate-400 hover:text-primary ml-auto transition-colors">
-            Cancel and back to dashboard
-        </a>
-    </div>
-</form>
-</div>
+                <a
+                  href="student-dashboard.html"
+                  class="text-sm text-slate-400 hover:text-primary ml-auto transition-colors"
+                >
+                  Cancel and back to dashboard
+                </a>
+              </div>
+            </form>
+          </div>
 
-<!-- Info cards -->
-<div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div class="bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-start gap-3 opacity-60">
-        <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg shrink-0">
-            lightbulb
-        </span>
-        <div>
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                Before submitting
-            </h4>
-            <p class="text-sm text-slate-700 dark:text-slate-300 mt-1">
-                Make your complaint clear and specific so it can be handled faster.
-            </p>
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div
+              class="bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-start gap-3"
+            >
+              <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg shrink-0">
+                lightbulb
+              </span>
+              <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  Before submitting
+                </h4>
+                <p class="text-sm text-slate-700 dark:text-slate-300 mt-1">
+                  Make your complaint clear and specific so it can be handled faster.
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-start gap-3"
+            >
+              <span class="material-symbols-outlined text-green-500 bg-green-500/10 p-2 rounded-lg shrink-0">
+                schedule
+              </span>
+              <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  Response time
+                </h4>
+                <p class="text-sm text-slate-700 dark:text-slate-300 mt-1">
+                  Most complaints receive an initial reply within 2 working days.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
+      </main>
     </div>
 
-    <div class="bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-start gap-3 opacity-60">
-        <span class="material-symbols-outlined text-green-500 bg-green-500/10 p-2 rounded-lg shrink-0">
-            schedule
-        </span>
-        <div>
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                Response time
-            </h4>
-            <p class="text-sm text-slate-700 dark:text-slate-300 mt-1">
-                Most complaints receive an initial reply within 2 working days.
-            </p>
-        </div>
-    </div>
-</div>
-</div>
-</main>
-</div>
+    <!-- Modular Script -->
+    <script type="module">
+      import { authService } from './js/authService.js';
+      import { userService } from './js/userService.js';
+      import { complaintService } from './js/complaintService.js';
 
-<!-- Modular Script -->
-<script type="module">
-    import { authService } from './js/authService.js';
-    import { userService } from './js/userService.js';
-    import { complaintService } from './js/complaintService.js';
+      // ---------- DOM Elements ----------
+      const alertBox = document.getElementById("alertBox");
+      const submitBtn = document.getElementById("submitBtn");
+      const submitBtnText = document.getElementById("submitBtnText");
+      const submitBtnIcon = document.getElementById("submitBtnIcon");
+      const complaintForm = document.getElementById("complaintForm");
+      const resetBtn = document.getElementById("resetBtn");
 
-    // ---------- DOM Elements ----------
-    const alertBox = document.getElementById("alertBox");
-    const submitBtn = document.getElementById("submitBtn");
-    const submitBtnText = document.getElementById("submitBtnText");
-    const submitBtnIcon = document.getElementById("submitBtnIcon");
-    const complaintForm = document.getElementById("complaintForm");
-    const resetBtn = document.getElementById("resetBtn");
+      // Sidebar elements
+      const sidebarStudentName = document.getElementById("sidebarStudentName");
+      const sidebarStudentId = document.getElementById("sidebarStudentId");
+      const mobileSidebarStudentName = document.getElementById("mobileSidebarStudentName");
+      const mobileSidebarStudentId = document.getElementById("mobileSidebarStudentId");
+      const sidebarProfileImage = document.getElementById("sidebarProfileImage");
+      const sidebarProfileFallback = document.getElementById("sidebarProfileFallback");
+      const mobileSidebarProfileImage = document.getElementById("mobileSidebarProfileImage");
+      const mobileSidebarProfileFallback = document.getElementById("mobileSidebarProfileFallback");
+      const logoutBtnDesktop = document.getElementById("logoutBtnDesktop");
+      const logoutBtnMobile = document.getElementById("logoutBtnMobile");
 
-    // Sidebar elements
-    const sidebarStudentName = document.getElementById("sidebarStudentName");
-    const sidebarStudentId = document.getElementById("sidebarStudentId");
-    const mobileSidebarStudentName = document.getElementById("mobileSidebarStudentName");
-    const mobileSidebarStudentId = document.getElementById("mobileSidebarStudentId");
-    const sidebarProfileImage = document.getElementById("sidebarProfileImage");
-    const sidebarProfileFallback = document.getElementById("sidebarProfileFallback");
-    const mobileSidebarProfileImage = document.getElementById("mobileSidebarProfileImage");
-    const mobileSidebarProfileFallback = document.getElementById("mobileSidebarProfileFallback");
-    const logoutBtnDesktop = document.getElementById("logoutBtnDesktop");
-    const logoutBtnMobile = document.getElementById("logoutBtnMobile");
-
-    // ---------- Helper Functions ----------
-    function showAlert(message, type = "error") {
+      // ---------- Helper Functions ----------
+      function showAlert(message, type = "error") {
         alertBox.classList.remove("hidden");
         alertBox.textContent = message;
-        alertBox.className = type === "success" ?
-            "mb-6 rounded-lg border px-4 py-3 text-sm font-medium border-green-200 bg-green-50 text-green-700" :
-            "mb-6 rounded-lg border px-4 py-3 text-sm font-medium border-red-200 bg-red-50 text-red-700";
-    }
+        alertBox.className = type === "success"
+          ? "mb-6 rounded-lg border px-4 py-3 text-sm font-medium border-green-200 bg-green-50 text-green-700"
+          : "mb-6 rounded-lg border px-4 py-3 text-sm font-medium border-red-200 bg-red-50 text-red-700";
+      }
 
-    function hideAlert() {
+      function hideAlert() {
         alertBox.classList.add("hidden");
         alertBox.textContent = "";
-    }
+      }
 
-    function setImageOrFallback(imageEl, fallbackEl, imageUrl) {
+      function setButtonLoading(loading) {
+        submitBtn.disabled = loading;
+        if (loading) {
+          submitBtnText.textContent = "Submitting...";
+          submitBtnIcon.textContent = "progress_activity";
+          submitBtnIcon.classList.add("animate-spin");
+        } else {
+          submitBtnText.textContent = "Submit Complaint";
+          submitBtnIcon.textContent = "send";
+          submitBtnIcon.classList.remove("animate-spin");
+        }
+      }
+
+      function setImageOrFallback(imageEl, fallbackEl, imageUrl) {
         if (!imageEl || !fallbackEl) return;
         if (imageUrl) {
-            imageEl.src = imageUrl;
-            imageEl.classList.remove("hidden");
-            fallbackEl.classList.add("hidden");
+          imageEl.src = imageUrl;
+          imageEl.classList.remove("hidden");
+          fallbackEl.classList.add("hidden");
         } else {
-            imageEl.src = "";
-            imageEl.classList.add("hidden");
-            fallbackEl.classList.remove("hidden");
+          imageEl.src = "";
+          imageEl.classList.add("hidden");
+          fallbackEl.classList.remove("hidden");
         }
-    }
+      }
 
-    function updateSidebarUser(user) {
+      function updateSidebarUser(user) {
         const fullName = user?.fullName || "Student";
         const studentId = user?.studentId || "--";
         const profilePicture = user?.profilePicture || "";
@@ -517,94 +579,130 @@
 
         setImageOrFallback(sidebarProfileImage, sidebarProfileFallback, profilePicture);
         setImageOrFallback(mobileSidebarProfileImage, mobileSidebarProfileFallback, profilePicture);
-    }
+      }
 
-    function logout() {
+      function logout() {
         authService.logout();
         window.location.href = "student-signin.html";
-    }
+      }
 
-    // ---------- Load User Info for Sidebar ----------
-    async function loadUserInfo() {
+      // ---------- Load User Info for Sidebar ----------
+      async function loadUserInfo() {
         if (!authService.isLoggedIn()) {
-            window.location.href = "student-signin.html";
-            return;
+          window.location.href = "student-signin.html";
+          return;
         }
         try {
-            const response = await userService.getUserInfo();
-            const user = response.user || response;
-            updateSidebarUser(user);
+          const response = await userService.getUserInfo();
+          const user = response.user || response;
+          updateSidebarUser(user);
         } catch (error) {
-            console.error("Failed to load user info:", error);
-            const storedUser = authService.getCurrentUser();
-            if (storedUser) updateSidebarUser(storedUser);
+          console.error("Failed to load user info:", error);
+          // Fallback to stored user
+          const storedUser = authService.getCurrentUser();
+          if (storedUser) updateSidebarUser(storedUser);
         }
-    }
+      }
 
-    // ---------- Form Submission (blocked by trial) ----------
-    complaintForm.addEventListener("submit", async (e) => {
+      // ---------- Form Submission ----------
+      complaintForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         hideAlert();
-        showAlert(
-            "Your free trial for July has ended. Please make a payment of $25 to continue using our API service.",
-            "error"
-        );
-    });
 
-    // Logout event listeners
-    logoutBtnDesktop.addEventListener("click", logout);
-    logoutBtnMobile.addEventListener("click", logout);
+        const subject = document.getElementById("subject").value.trim();
+        const title = document.getElementById("title").value.trim();
+        const category = document.getElementById("category").value;
+        const description = document.getElementById("description").value.trim();
+        const fileInput = document.getElementById("attachmentFile");
 
-    // Mobile sidebar toggle
-    (function() {
+        // Validate
+        if (!subject || !title || !category || !description) {
+          showAlert("Please fill in all required fields.");
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("subject", subject);
+        formData.append("title", title);
+        formData.append("category", category);
+        formData.append("description", description);
+
+        if (fileInput.files.length > 0) {
+          // Backend expects field name "image"
+          formData.append("image", fileInput.files[0]);
+        }
+
+        setButtonLoading(true);
+
+        try {
+          const result = await complaintService.postComplaint(formData);
+          showAlert(result.message || "Complaint submitted successfully!", "success");
+          // Reset form
+          complaintForm.reset();
+          // Redirect after short delay
+          setTimeout(() => {
+            window.location.href = "student-dashboard.html";
+          }, 1500);
+        } catch (error) {
+          showAlert(error.message || "Failed to submit complaint. Please try again.");
+        } finally {
+          setButtonLoading(false);
+        }
+      });
+
+      // Clear button already works with type="reset"
+
+      // Logout event listeners
+      logoutBtnDesktop.addEventListener("click", logout);
+      logoutBtnMobile.addEventListener("click", logout);
+
+      // Mobile sidebar toggle (unchanged logic)
+      (function () {
         const menuBtn = document.getElementById("menuBtn");
         const mobileSidebar = document.getElementById("mobileSidebar");
         const backdrop = document.getElementById("sidebarBackdrop");
 
         function openSidebar() {
-            if (!mobileSidebar || !backdrop) return;
-            mobileSidebar.classList.remove("-translate-x-full");
-            mobileSidebar.classList.add("translate-x-0");
-            backdrop.classList.remove("hidden");
-            void backdrop.offsetWidth;
-            backdrop.classList.remove("opacity-0");
-            backdrop.classList.add("opacity-100");
-            document.body.style.overflow = "hidden";
+          if (!mobileSidebar || !backdrop) return;
+          mobileSidebar.classList.remove("-translate-x-full");
+          mobileSidebar.classList.add("translate-x-0");
+          backdrop.classList.remove("hidden");
+          void backdrop.offsetWidth;
+          backdrop.classList.remove("opacity-0");
+          backdrop.classList.add("opacity-100");
+          document.body.style.overflow = "hidden";
         }
 
         function closeSidebar() {
-            if (!mobileSidebar || !backdrop) return;
-            mobileSidebar.classList.remove("translate-x-0");
-            mobileSidebar.classList.add("-translate-x-full");
-            backdrop.classList.remove("opacity-100");
-            backdrop.classList.add("opacity-0");
-            setTimeout(() => {
-                backdrop.classList.add("hidden");
-                document.body.style.overflow = "";
-            }, 300);
+          if (!mobileSidebar || !backdrop) return;
+          mobileSidebar.classList.remove("translate-x-0");
+          mobileSidebar.classList.add("-translate-x-full");
+          backdrop.classList.remove("opacity-100");
+          backdrop.classList.add("opacity-0");
+          setTimeout(() => {
+            backdrop.classList.add("hidden");
+            document.body.style.overflow = "";
+          }, 300);
         }
 
-        if (menuBtn) menuBtn.addEventListener("click", (e) => { e.stopPropagation();
-            openSidebar(); });
+        if (menuBtn) menuBtn.addEventListener("click", (e) => { e.stopPropagation(); openSidebar(); });
         if (backdrop) backdrop.addEventListener("click", closeSidebar);
 
         document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape" && mobileSidebar && !mobileSidebar.classList.contains(
-                    "-translate-x-full")) {
-                closeSidebar();
-            }
+          if (e.key === "Escape" && mobileSidebar && !mobileSidebar.classList.contains("-translate-x-full")) {
+            closeSidebar();
+          }
         });
 
         window.addEventListener("resize", () => {
-            if (window.innerWidth >= 768 && mobileSidebar && !mobileSidebar.classList.contains(
-                    "-translate-x-full")) {
-                closeSidebar();
-            }
+          if (window.innerWidth >= 768 && mobileSidebar && !mobileSidebar.classList.contains("-translate-x-full")) {
+            closeSidebar();
+          }
         });
-    })();
+      })();
 
-    // Initialize
-    loadUserInfo();
-</script>
-</body>
+      // Initialize
+      loadUserInfo();
+    </script>
+  </body>
 </html>
