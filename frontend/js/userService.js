@@ -16,5 +16,10 @@ export const userService = {
   // Toggle two-factor authentication
   toggleTwoFactor: async () => {
     return await put('/api/users/toggle-2fa');
-  }
+  },
+
+  // 👇 NEW: Get all students (admin only)
+  getAllStudents: async () => {
+    return await get('/api/users');
+  },
 };

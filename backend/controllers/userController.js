@@ -349,6 +349,21 @@ const toggleTwoFactor = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc    Get all students (admin only)
+// @route   GET /api/users
+// @access  Private/Admin
+const getAllStudents = asyncHandler(async (req, res) => {
+  // If you have a role field, filter by 'student'
+  // If not, get all users
+  const filter = req.query.role ? { role: req.query.role } : {};
+  const users = await User.find(filter).select("-password -otp -otpExpires").sort({ createdAt: -1 });
+  
+  res.status(200).json({
+    success: true,
+    users,
+  });
+});
+
 export {
   registerUser,
   loginUser,
@@ -359,4 +374,5 @@ export {
   logoutUser,
   updateProfile,
   toggleTwoFactor,
+  getAllStudents,
 };

@@ -9,6 +9,7 @@ import {
   logoutUser,
   updateProfile,
   toggleTwoFactor,
+  getAllStudents, // 👈 added import
 } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import multer from "multer";
@@ -43,6 +44,9 @@ router.post("/reset-password", resetPassword);
 
 // Private routes (require authentication)
 router.use(protect); // All routes below this line require a valid token
+
+// 👇 NEW: Get all students (admin only — or just protected)
+router.get("/", getAllStudents);
 
 router.get("/me", getUserInfo);
 router.post("/logout", logoutUser);

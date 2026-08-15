@@ -23,26 +23,15 @@
               "background-light": "#f6f7f8",
               "background-dark": "#101922",
             },
-            fontFamily: {
-              display: ["Inter"],
-            },
-            borderRadius: {
-              DEFAULT: "0.25rem",
-              lg: "0.5rem",
-              xl: "0.75rem",
-              full: "9999px",
-            },
+            fontFamily: { display: ["Inter"] },
+            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
           },
         },
       };
     </script>
     <style>
       .material-symbols-outlined {
-        font-variation-settings:
-          "FILL" 0,
-          "wght" 400,
-          "GRAD" 0,
-          "opsz" 24;
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
       }
       body {
         background-color: #f6f7f8;
@@ -52,8 +41,6 @@
         background-color: #101922;
         color: #f1f5f9;
       }
-
-      /* mobile sidebar overlay & transition */
       .sidebar-backdrop {
         position: fixed;
         inset: 0;
@@ -61,8 +48,11 @@
         z-index: 25;
         transition: opacity 300ms;
       }
-
-      /* desktop: always show sidebar, hide hamburger */
+      .avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
       @media (min-width: 1024px) {
         .mobile-only {
           display: none !important;
@@ -70,11 +60,9 @@
         .desktop-sidebar {
           display: flex !important;
           transform: none !important;
-          width: 16rem; /* w-64 */
+          width: 16rem;
         }
       }
-
-      /* tablet (between 768px and 1024px): keep desktop layout (sidebar visible) */
       @media (min-width: 768px) and (max-width: 1023px) {
         .mobile-only {
           display: none !important;
@@ -88,8 +76,6 @@
           margin-left: 16rem;
         }
       }
-
-      /* mobile: up to 767px */
       @media (max-width: 767px) {
         .desktop-sidebar {
           display: none;
@@ -100,17 +86,23 @@
         .main-content {
           width: 100%;
         }
-        /* bigger hamburger menu button */
         #menuBtn {
           padding: 0.5rem;
         }
         #menuBtn .material-symbols-outlined {
           font-size: 2.25rem;
         }
-        /* reduce search input width */
         .mobile-search-wrapper {
           max-width: 65%;
         }
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .animate-spin {
+        animation: spin 0.8s linear infinite;
       }
     </style>
   </head>
@@ -118,7 +110,7 @@
     class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen"
   >
     <div class="flex h-screen overflow-hidden">
-      <!-- SIDEBAR – desktop version (visible on md and up) -->
+      <!-- DESKTOP SIDEBAR -->
       <aside
         class="desktop-sidebar w-64 flex-shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col fixed h-full z-20 hidden lg:flex md:flex"
       >
@@ -136,7 +128,6 @@
           </div>
         </div>
         <nav class="flex-1 px-4 space-y-1 mt-4">
-          <!-- Dashboard (overview) link -->
           <a
             class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             href="admin-dashboard.html"
@@ -144,7 +135,6 @@
             <span class="material-symbols-outlined text-[22px]">dashboard</span>
             <span class="text-sm font-medium">Dashboard</span>
           </a>
-          <!-- Complaints link (points to student-complaints.html) -->
           <a
             class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             href="student-complaints.html"
@@ -152,7 +142,6 @@
             <span class="material-symbols-outlined text-[22px]">inbox</span>
             <span class="text-sm font-medium">Complaints</span>
           </a>
-          <!-- Students (current page) active -->
           <a
             class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary group"
             href="students.html"
@@ -171,10 +160,44 @@
             <span class="material-symbols-outlined text-[22px]">settings</span>
             <span class="text-sm font-medium">Settings</span>
           </a>
+          <div
+            class="pt-3 mt-3 border-t border-slate-200 dark:border-slate-800 flex items-center gap-3 p-2"
+          >
+            <div
+              class="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex items-center justify-center"
+            >
+              <span
+                id="sidebarAdminAvatarFallback"
+                class="material-symbols-outlined text-slate-500 text-xl"
+                >person</span
+              >
+            </div>
+            <div class="flex-1 min-w-0">
+              <p
+                id="sidebarAdminName"
+                class="text-xs font-semibold truncate dark:text-white"
+              >
+                Loading...
+              </p>
+              <p
+                id="sidebarAdminEmail"
+                class="text-[10px] text-slate-400 truncate"
+              >
+                --
+              </p>
+            </div>
+            <button
+              id="logoutBtnDesktop"
+              class="text-slate-400 hover:text-red-500 transition-colors"
+              title="Logout"
+            >
+              <span class="material-symbols-outlined text-xl">logout</span>
+            </button>
+          </div>
         </div>
       </aside>
 
-      <!-- Mobile Sidebar - wider (70% of screen) -->
+      <!-- MOBILE SIDEBAR -->
       <div
         id="mobileSidebar"
         class="fixed top-0 left-0 h-full w-[70%] sm:w-80 bg-white dark:bg-slate-900 shadow-xl z-30 flex flex-col transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden md:hidden"
@@ -227,10 +250,43 @@
             <span class="material-symbols-outlined text-[22px]">settings</span>
             <span class="text-sm font-medium">Settings</span>
           </a>
+          <div
+            class="pt-3 mt-3 border-t border-slate-200 dark:border-slate-800 flex items-center gap-3 p-2"
+          >
+            <div
+              class="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex items-center justify-center"
+            >
+              <span
+                id="mobileSidebarAdminAvatarFallback"
+                class="material-symbols-outlined text-slate-500 text-xl"
+                >person</span
+              >
+            </div>
+            <div class="flex-1 min-w-0">
+              <p
+                id="mobileSidebarAdminName"
+                class="text-xs font-semibold truncate dark:text-white"
+              >
+                Loading...
+              </p>
+              <p
+                id="mobileSidebarAdminEmail"
+                class="text-[10px] text-slate-400 truncate"
+              >
+                --
+              </p>
+            </div>
+            <button
+              id="logoutBtnMobile"
+              class="text-slate-400 hover:text-red-500 transition-colors"
+              title="Logout"
+            >
+              <span class="material-symbols-outlined text-xl">logout</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Backdrop -->
       <div
         id="sidebarBackdrop"
         class="sidebar-backdrop hidden opacity-0 transition-opacity duration-300"
@@ -261,8 +317,9 @@
                 >search</span
               >
               <input
+                id="searchInput"
                 class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-slate-500"
-                placeholder="Search students, IDs..."
+                placeholder="Search students, IDs, email..."
                 type="text"
               />
             </div>
@@ -286,14 +343,6 @@
                 View all students, registration dates, and manage accounts.
               </p>
             </div>
-            <div class="flex gap-3">
-              <button
-                class="bg-primary hover:bg-primary/90 text-white text-sm font-bold px-4 py-2 rounded-lg flex items-center gap-2 transition-all shadow-sm"
-              >
-                <span class="material-symbols-outlined text-[20px]">add</span>
-                Add student
-              </button>
-            </div>
           </div>
 
           <!-- Students table -->
@@ -301,12 +350,13 @@
             class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden @container"
           >
             <div
-              class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between"
+              class="p-4 sm:p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between"
             >
               <h3 class="font-bold text-lg">Student accounts</h3>
               <span
+                id="totalBadge"
                 class="text-xs bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full font-medium"
-                >347 registered</span
+                >0 registered</span
               >
             </div>
             <div class="overflow-x-auto">
@@ -314,292 +364,72 @@
                 <thead>
                   <tr class="bg-slate-50 dark:bg-slate-800/50">
                     <th
-                      class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500"
+                      class="px-4 sm:px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500"
                     >
                       Student
                     </th>
                     <th
-                      class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500"
+                      class="px-4 sm:px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 hidden sm:table-cell"
                     >
-                      ID / Reg number
+                      ID / Reg
                     </th>
                     <th
-                      class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500"
+                      class="px-4 sm:px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 hidden md:table-cell"
                     >
-                      Date registered
+                      Email
                     </th>
                     <th
-                      class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-right"
+                      class="px-4 sm:px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 hidden lg:table-cell"
+                    >
+                      Dept
+                    </th>
+                    <th
+                      class="px-4 sm:px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 hidden md:table-cell"
+                    >
+                      Registered
+                    </th>
+                    <th
+                      class="px-4 sm:px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 text-right"
                     >
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                  <!-- Row 1 -->
-                  <tr
-                    class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors group"
-                  >
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs"
-                        >
-                          AJ
-                        </div>
-                        <span class="text-sm font-medium">Alex Johnson</span>
-                      </div>
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      STU001
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      15 Aug 2023
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <button
-                        class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-bold text-sm tracking-wide flex items-center gap-1 ml-auto opacity-80 group-hover:opacity-100 transition-opacity"
-                      >
-                        <span class="material-symbols-outlined text-[18px]"
-                          >delete</span
-                        >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                  <!-- Row 2 -->
-                  <tr
-                    class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors group"
-                  >
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center text-green-600 font-bold text-xs"
-                        >
-                          MG
-                        </div>
-                        <span class="text-sm font-medium">Maria Garcia</span>
-                      </div>
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      STU045
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      2 Sep 2023
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <button
-                        class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-bold text-sm tracking-wide flex items-center gap-1 ml-auto opacity-80 group-hover:opacity-100 transition-opacity"
-                      >
-                        <span class="material-symbols-outlined text-[18px]"
-                          >delete</span
-                        >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                  <!-- Row 3 -->
-                  <tr
-                    class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors group"
-                  >
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-600 font-bold text-xs"
-                        >
-                          JS
-                        </div>
-                        <span class="text-sm font-medium">James Smith</span>
-                      </div>
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      STU089
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      20 Jun 2023
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <button
-                        class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-bold text-sm tracking-wide flex items-center gap-1 ml-auto opacity-80 group-hover:opacity-100 transition-opacity"
-                      >
-                        <span class="material-symbols-outlined text-[18px]"
-                          >delete</span
-                        >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                  <!-- Row 4 -->
-                  <tr
-                    class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors group"
-                  >
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-600 font-bold text-xs"
-                        >
-                          SL
-                        </div>
-                        <span class="text-sm font-medium">Sarah Lee</span>
-                      </div>
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      STU112
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      11 Jul 2023
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <button
-                        class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-bold text-sm tracking-wide flex items-center gap-1 ml-auto opacity-80 group-hover:opacity-100 transition-opacity"
-                      >
-                        <span class="material-symbols-outlined text-[18px]"
-                          >delete</span
-                        >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                  <!-- Row 5 -->
-                  <tr
-                    class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors group"
-                  >
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-600 font-bold text-xs"
-                        >
-                          KB
-                        </div>
-                        <span class="text-sm font-medium">Kevin Brown</span>
-                      </div>
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      STU033
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      5 May 2023
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <button
-                        class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-bold text-sm tracking-wide flex items-center gap-1 ml-auto opacity-80 group-hover:opacity-100 transition-opacity"
-                      >
-                        <span class="material-symbols-outlined text-[18px]"
-                          >delete</span
-                        >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                  <!-- Row 6 -->
-                  <tr
-                    class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors group"
-                  >
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center text-red-600 font-bold text-xs"
-                        >
-                          PN
-                        </div>
-                        <span class="text-sm font-medium">Priya Nair</span>
-                      </div>
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      STU156
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      19 Sep 2023
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <button
-                        class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-bold text-sm tracking-wide flex items-center gap-1 ml-auto opacity-80 group-hover:opacity-100 transition-opacity"
-                      >
-                        <span class="material-symbols-outlined text-[18px]"
-                          >delete</span
-                        >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                  <!-- Row 7 -->
-                  <tr
-                    class="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors group"
-                  >
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-600 font-bold text-xs"
-                        >
-                          CW
-                        </div>
-                        <span class="text-sm font-medium">Chen Wei</span>
-                      </div>
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      STU201
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-                    >
-                      28 Aug 2023
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right">
-                      <button
-                        class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-bold text-sm tracking-wide flex items-center gap-1 ml-auto opacity-80 group-hover:opacity-100 transition-opacity"
-                      >
-                        <span class="material-symbols-outlined text-[18px]"
-                          >delete</span
-                        >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
+                <tbody id="studentsTableBody" class="divide-y divide-slate-100 dark:divide-slate-800">
+                  <!-- Rows rendered by JS -->
                 </tbody>
               </table>
             </div>
             <!-- Pagination -->
             <div
-              class="p-4 bg-slate-50 dark:bg-slate-800/30 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between"
+              class="p-4 bg-slate-50 dark:bg-slate-800/30 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3"
             >
-              <p class="text-sm text-slate-500">Showing 1-7 of 347 results</p>
+              <p id="paginationInfo" class="text-sm text-slate-500">
+                Showing 0-0 of 0 results
+              </p>
               <div class="flex gap-2">
                 <button
-                  class="p-1 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 disabled:opacity-50"
+                  id="prevPageBtn"
+                  class="p-1.5 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors hover:bg-slate-100 dark:hover:bg-slate-700"
                   disabled
                 >
-                  <span class="material-symbols-outlined">chevron_left</span>
+                  <span class="material-symbols-outlined text-[20px]"
+                    >chevron_left</span
+                  >
                 </button>
-                <button
-                  class="p-1 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
+                <span
+                  id="pageIndicator"
+                  class="text-sm font-medium flex items-center px-3"
+                  >1 / 1</span
                 >
-                  <span class="material-symbols-outlined">chevron_right</span>
+                <button
+                  id="nextPageBtn"
+                  class="p-1.5 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors hover:bg-slate-100 dark:hover:bg-slate-700"
+                  disabled
+                >
+                  <span class="material-symbols-outlined text-[20px]"
+                    >chevron_right</span
+                  >
                 </button>
               </div>
             </div>
@@ -608,73 +438,434 @@
       </main>
     </div>
 
-    <script>
+    <!-- ===== MAIN SCRIPT ===== -->
+    <script type="module">
+      import { authService } from './js/authService.js';
+      import { userService } from './js/userService.js';
+
+      // ---------- DOM refs ----------
+      const studentsTableBody = document.getElementById('studentsTableBody');
+      const searchInput = document.getElementById('searchInput');
+      const totalBadge = document.getElementById('totalBadge');
+      const paginationInfo = document.getElementById('paginationInfo');
+      const pageIndicator = document.getElementById('pageIndicator');
+      const prevPageBtn = document.getElementById('prevPageBtn');
+      const nextPageBtn = document.getElementById('nextPageBtn');
+
+      const sidebarAdminName = document.getElementById('sidebarAdminName');
+      const sidebarAdminEmail = document.getElementById('sidebarAdminEmail');
+      const mobileSidebarAdminName = document.getElementById(
+        'mobileSidebarAdminName'
+      );
+      const mobileSidebarAdminEmail = document.getElementById(
+        'mobileSidebarAdminEmail'
+      );
+      const logoutBtnDesktop = document.getElementById('logoutBtnDesktop');
+      const logoutBtnMobile = document.getElementById('logoutBtnMobile');
+
+      // ---------- State ----------
+      let allStudents = [];
+      let filteredStudents = [];
+      let currentPage = 1;
+      const pageSize = 10;
+
+      // ---------- Helpers ----------
+      function getInitials(name) {
+        return (name || '')
+          .split(' ')
+          .map((n) => n[0])
+          .join('')
+          .toUpperCase()
+          .substring(0, 2) || '?';
+      }
+
+      function randomColorFromName(name) {
+        let hash = 0;
+        for (let i = 0; i < (name || 'A').length; i++) {
+          hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const colors = [
+          'primary',
+          'green',
+          'blue',
+          'purple',
+          'yellow',
+          'red',
+          'indigo',
+          'pink',
+        ];
+        return colors[Math.abs(hash) % colors.length];
+      }
+
+      function formatDate(dateString) {
+        if (!dateString) return '--';
+        return new Date(dateString).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        });
+      }
+
+      /**
+       * Generate avatar HTML for a student.
+       * If profilePicture is a valid URL, show an <img> with onerror fallback.
+       * Otherwise, show initials in a colored circle.
+       */
+      function getAvatarHtml(student) {
+        const { fullName, profilePicture } = student;
+        const initials = getInitials(fullName);
+        const colorClass = randomColorFromName(fullName);
+
+        // If profilePicture is a non‑empty string, try to show the image
+        if (profilePicture && typeof profilePicture === 'string' && profilePicture.trim() !== '') {
+          // Return an <img> with onerror that replaces itself with initials
+          return `
+            <img
+              src="${profilePicture}"
+              alt="${fullName || 'Student'}"
+              class="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover"
+              onerror="this.onerror=null; this.parentElement.innerHTML=\`
+                <div class=\\"w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-${colorClass}-500/20 flex items-center justify-center text-${colorClass}-600 font-bold text-[10px] sm:text-xs\\">
+                  ${initials}
+                </div>
+              \`"
+            />
+          `;
+        } else {
+          // No profile picture – show initials
+          return `
+            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-${colorClass}-500/20 flex items-center justify-center text-${colorClass}-600 font-bold text-[10px] sm:text-xs">
+              ${initials}
+            </div>
+          `;
+        }
+      }
+
+      // ---------- Render Table ----------
+      function renderStudentsTable(students) {
+        studentsTableBody.innerHTML = '';
+        if (!students.length) {
+          studentsTableBody.innerHTML = `
+            <tr>
+              <td colspan="6" class="px-6 py-12 text-center text-slate-500">
+                No students found.
+              </td>
+            </tr>
+          `;
+          paginationInfo.textContent = 'Showing 0-0 of 0 results';
+          pageIndicator.textContent = '0 / 0';
+          prevPageBtn.disabled = true;
+          nextPageBtn.disabled = true;
+          return;
+        }
+
+        students.forEach((student) => {
+          const isVerified = student.isVerified || false;
+          const avatarHtml = getAvatarHtml(student);
+
+          const row = document.createElement('tr');
+          row.className =
+            'hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors group';
+          row.innerHTML = `
+            <td class="px-4 sm:px-6 py-3 whitespace-nowrap">
+              <div class="flex items-center gap-2 sm:gap-3">
+                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden flex-shrink-0">
+                  ${avatarHtml}
+                </div>
+                <div>
+                  <span class="text-xs sm:text-sm font-medium truncate max-w-[80px] sm:max-w-none block">
+                    ${student.fullName || 'Unknown'}
+                  </span>
+                  ${
+                    isVerified
+                      ? '<span class="text-[10px] text-green-500 flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px]">verified</span> verified</span>'
+                      : ''
+                  }
+                </div>
+              </div>
+            </td>
+            <td class="px-4 sm:px-6 py-3 whitespace-nowrap text-xs sm:text-sm text-slate-500 hidden sm:table-cell">
+              ${student.studentId || '--'}
+            </td>
+            <td class="px-4 sm:px-6 py-3 whitespace-nowrap text-xs sm:text-sm text-slate-500 hidden md:table-cell max-w-[150px] truncate">
+              ${student.institutionalEmail || '--'}
+            </td>
+            <td class="px-4 sm:px-6 py-3 whitespace-nowrap text-xs sm:text-sm text-slate-500 hidden lg:table-cell">
+              ${student.department || '--'}
+            </td>
+            <td class="px-4 sm:px-6 py-3 whitespace-nowrap text-xs sm:text-sm text-slate-500 hidden md:table-cell">
+              ${formatDate(student.createdAt)}
+            </td>
+            <td class="px-4 sm:px-6 py-3 whitespace-nowrap text-right">
+              <button
+                class="delete-student-btn text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-bold text-xs sm:text-sm tracking-wide flex items-center gap-1 ml-auto opacity-70 group-hover:opacity-100 transition-opacity"
+                data-id="${student._id}"
+                data-name="${student.fullName || 'Student'}"
+              >
+                <span class="material-symbols-outlined text-[16px] sm:text-[18px]">delete</span>
+                Delete
+              </button>
+            </td>
+          `;
+          studentsTableBody.appendChild(row);
+        });
+
+        // Delete event listeners
+        document.querySelectorAll('.delete-student-btn').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            const id = btn.dataset.id;
+            const name = btn.dataset.name;
+            if (
+              confirm(`Delete student "${name}"? This action cannot be undone.`)
+            ) {
+              await deleteStudent(id);
+            }
+          });
+        });
+
+        // Pagination info
+        const total = filteredStudents.length;
+        const start = (currentPage - 1) * pageSize + 1;
+        const end = Math.min(currentPage * pageSize, total);
+        paginationInfo.textContent = `Showing ${total ? start : 0}-${end} of ${total} results`;
+        totalBadge.textContent = `${total} registered`;
+        const totalPages = Math.ceil(total / pageSize) || 1;
+        pageIndicator.textContent = `${currentPage} / ${totalPages}`;
+        prevPageBtn.disabled = currentPage <= 1;
+        nextPageBtn.disabled = currentPage >= totalPages;
+      }
+
+      // ---------- Filter & Paginate ----------
+      function applyFiltersAndPaginate() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+
+        let filtered = allStudents;
+
+        if (searchTerm) {
+          filtered = filtered.filter(
+            (s) =>
+              (s.fullName || '').toLowerCase().includes(searchTerm) ||
+              (s.studentId || '').toLowerCase().includes(searchTerm) ||
+              (s.institutionalEmail || '').toLowerCase().includes(searchTerm) ||
+              (s.department || '').toLowerCase().includes(searchTerm)
+          );
+        }
+
+        // Sort by createdAt desc (newest first)
+        filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        filteredStudents = filtered;
+
+        const totalPages = Math.ceil(filtered.length / pageSize) || 1;
+        if (currentPage > totalPages) currentPage = totalPages;
+        const start = (currentPage - 1) * pageSize;
+        const end = Math.min(start + pageSize, filtered.length);
+        const pageData = filtered.slice(start, end);
+
+        renderStudentsTable(pageData);
+      }
+
+      // ---------- Delete Student ----------
+      async function deleteStudent(id) {
+        try {
+          const token = authService.getToken?.() || localStorage.getItem('token');
+          const response = await fetch(`/api/users/${id}`, {
+            method: 'DELETE',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+          if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.message || 'Failed to delete student');
+          }
+          allStudents = allStudents.filter((s) => s._id !== id);
+          applyFiltersAndPaginate();
+        } catch (error) {
+          alert('Failed to delete student: ' + (error.message || 'Unknown error'));
+        }
+      }
+
+      // ---------- Load Students ----------
+      async function loadStudents() {
+        try {
+          // Show loading state
+          studentsTableBody.innerHTML = `
+            <tr>
+              <td colspan="6" class="px-6 py-12 text-center text-slate-500">
+                <span class="inline-flex items-center gap-2">
+                  <span class="material-symbols-outlined animate-spin text-primary">progress_activity</span>
+                  Loading students...
+                </span>
+              </td>
+            </tr>
+          `;
+
+          const response = await userService.getAllStudents();
+          const users = Array.isArray(response)
+            ? response
+            : response.users || response.data || [];
+
+          allStudents = users.map((s) => ({
+            ...s,
+            fullName: s.fullName || 'Unknown',
+            studentId: s.studentId || '--',
+            institutionalEmail: s.institutionalEmail || '--',
+            department: s.department || '--',
+            createdAt: s.createdAt || new Date().toISOString(),
+            isVerified: s.isVerified || false,
+            profilePicture: s.profilePicture || '',
+          }));
+
+          currentPage = 1;
+          applyFiltersAndPaginate();
+        } catch (error) {
+          console.error('Failed to load students:', error);
+          studentsTableBody.innerHTML = `
+            <tr>
+              <td colspan="6" class="px-6 py-12 text-center text-red-500">
+                Failed to load students. ${error.message || 'Please try again.'}
+              </td>
+            </tr>
+          `;
+        }
+      }
+
+      // ---------- Admin Profile ----------
+      async function loadAdminProfile() {
+        try {
+          const response = await userService.getUserInfo();
+          const user = response.user || response;
+          if (user) {
+            sidebarAdminName.textContent = user.fullName || 'Admin';
+            sidebarAdminEmail.textContent = user.institutionalEmail || '--';
+            mobileSidebarAdminName.textContent = user.fullName || 'Admin';
+            mobileSidebarAdminEmail.textContent = user.institutionalEmail || '--';
+          }
+        } catch {
+          const storedUser =
+            authService.getCurrentUser?.() ||
+            JSON.parse(localStorage.getItem('user') || '{}');
+          if (storedUser) {
+            sidebarAdminName.textContent = storedUser.fullName || 'Admin';
+            sidebarAdminEmail.textContent = storedUser.institutionalEmail || '--';
+            mobileSidebarAdminName.textContent = storedUser.fullName || 'Admin';
+            mobileSidebarAdminEmail.textContent = storedUser.institutionalEmail || '--';
+          }
+        }
+      }
+
+      // ---------- Logout ----------
+      function logout() {
+        if (typeof authService.logout === 'function') {
+          authService.logout();
+        } else {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+        }
+        window.location.href = 'student-signin.html';
+      }
+
+      // ---------- Event Listeners ----------
+      searchInput.addEventListener('input', () => {
+        currentPage = 1;
+        applyFiltersAndPaginate();
+      });
+
+      prevPageBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          applyFiltersAndPaginate();
+        }
+      });
+
+      nextPageBtn.addEventListener('click', () => {
+        const totalPages = Math.ceil(filteredStudents.length / pageSize);
+        if (currentPage < totalPages) {
+          currentPage++;
+          applyFiltersAndPaginate();
+        }
+      });
+
+      logoutBtnDesktop.addEventListener('click', logout);
+      logoutBtnMobile.addEventListener('click', logout);
+
+      // ---------- Mobile Sidebar ----------
       (function () {
-        const menuBtn = document.getElementById("menuBtn");
-        const mobileSidebar = document.getElementById("mobileSidebar");
-        const backdrop = document.getElementById("sidebarBackdrop");
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const backdrop = document.getElementById('sidebarBackdrop');
 
         function openSidebar() {
           if (!mobileSidebar || !backdrop) return;
-          mobileSidebar.classList.remove("-translate-x-full");
-          mobileSidebar.classList.add("translate-x-0");
-          backdrop.classList.remove("hidden");
-          void backdrop.offsetWidth; // force reflow
-          backdrop.classList.remove("opacity-0");
-          backdrop.classList.add("opacity-100");
-          document.body.style.overflow = "hidden";
+          mobileSidebar.classList.remove('-translate-x-full');
+          mobileSidebar.classList.add('translate-x-0');
+          backdrop.classList.remove('hidden');
+          void backdrop.offsetWidth;
+          backdrop.classList.remove('opacity-0');
+          backdrop.classList.add('opacity-100');
+          document.body.style.overflow = 'hidden';
         }
 
         function closeSidebar() {
           if (!mobileSidebar || !backdrop) return;
-          mobileSidebar.classList.remove("translate-x-0");
-          mobileSidebar.classList.add("-translate-x-full");
-          backdrop.classList.remove("opacity-100");
-          backdrop.classList.add("opacity-0");
+          mobileSidebar.classList.remove('translate-x-0');
+          mobileSidebar.classList.add('-translate-x-full');
+          backdrop.classList.remove('opacity-100');
+          backdrop.classList.add('opacity-0');
           setTimeout(() => {
-            backdrop.classList.add("hidden");
-            document.body.style.overflow = "";
+            backdrop.classList.add('hidden');
+            document.body.style.overflow = '';
           }, 300);
         }
 
         if (menuBtn) {
-          menuBtn.addEventListener("click", (e) => {
+          menuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             openSidebar();
           });
         }
-
         if (backdrop) {
-          backdrop.addEventListener("click", closeSidebar);
+          backdrop.addEventListener('click', closeSidebar);
         }
-
-        document.addEventListener("keydown", (e) => {
+        document.addEventListener('keydown', (e) => {
           if (
-            e.key === "Escape" &&
+            e.key === 'Escape' &&
             mobileSidebar &&
-            !mobileSidebar.classList.contains("-translate-x-full")
+            !mobileSidebar.classList.contains('-translate-x-full')
           ) {
             closeSidebar();
           }
         });
-
-        window.addEventListener("resize", function () {
+        window.addEventListener('resize', function () {
           if (window.innerWidth >= 768) {
             if (
               mobileSidebar &&
-              !mobileSidebar.classList.contains("-translate-x-full")
+              !mobileSidebar.classList.contains('-translate-x-full')
             ) {
-              mobileSidebar.classList.add("-translate-x-full");
-              mobileSidebar.classList.remove("translate-x-0");
+              mobileSidebar.classList.add('-translate-x-full');
+              mobileSidebar.classList.remove('translate-x-0');
               if (backdrop) {
-                backdrop.classList.add("hidden");
-                backdrop.classList.remove("opacity-100", "opacity-0");
-                document.body.style.overflow = "";
+                backdrop.classList.add('hidden');
+                backdrop.classList.remove('opacity-100', 'opacity-0');
+                document.body.style.overflow = '';
               }
             }
           }
         });
       })();
+
+      // ---------- Init ----------
+      const isLoggedIn =
+        authService.isLoggedIn?.() || !!localStorage.getItem('token');
+
+      if (!isLoggedIn) {
+        window.location.href = 'student-signin.html';
+      } else {
+        loadAdminProfile();
+        loadStudents();
+      }
     </script>
   </body>
 </html>
