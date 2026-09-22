@@ -7,7 +7,7 @@ const getBaseUrl = () => {
     return 'http://127.0.0.1:8000';
   }
   // Otherwise, use the production Render API
-  return 'https://campus-resolve-api-eqof.onrender.com';
+  return 'https://campus-resolve-kt7m.onrender.com';
 };
 
 const BASE_URL = getBaseUrl();
