@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Admin · Students</title>
+    <title>Admin · Staff</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
@@ -24,14 +24,23 @@
               "background-dark": "#101922",
             },
             fontFamily: { display: ["Inter"] },
-            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
           },
         },
       };
     </script>
     <style>
       .material-symbols-outlined {
-        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
       }
       body {
         background-color: #f6f7f8;
@@ -147,7 +156,7 @@
             href="students.html"
           >
             <span class="material-symbols-outlined text-[22px]">group</span>
-            <span class="text-sm font-medium">Students</span>
+            <span class="text-sm font-medium">Staff</span>
           </a>
         </nav>
         <div
@@ -237,7 +246,7 @@
             href="students.html"
           >
             <span class="material-symbols-outlined text-[22px]">group</span>
-            <span class="text-sm font-medium">Students</span>
+            <span class="text-sm font-medium">Staff</span>
           </a>
         </nav>
         <div
@@ -319,7 +328,7 @@
               <input
                 id="searchInput"
                 class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-slate-500"
-                placeholder="Search students, IDs, email..."
+                placeholder="Search staff, IDs, email..."
                 type="text"
               />
             </div>
@@ -337,22 +346,22 @@
           >
             <div>
               <h1 class="text-2xl sm:text-3xl font-black tracking-tight mb-2">
-                Registered students
+                Registered staff
               </h1>
               <p class="text-slate-500 dark:text-slate-400">
-                View all students, registration dates, and manage accounts.
+                View all staff, registration dates, and manage accounts.
               </p>
             </div>
           </div>
 
-          <!-- Students table -->
+          <!-- Staff table -->
           <div
             class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden @container"
           >
             <div
               class="p-4 sm:p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between"
             >
-              <h3 class="font-bold text-lg">Student accounts</h3>
+              <h3 class="font-bold text-lg">Staff accounts</h3>
               <span
                 id="totalBadge"
                 class="text-xs bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full font-medium"
@@ -366,7 +375,7 @@
                     <th
                       class="px-4 sm:px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500"
                     >
-                      Student
+                      Staff
                     </th>
                     <th
                       class="px-4 sm:px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 hidden sm:table-cell"
@@ -395,7 +404,10 @@
                     </th>
                   </tr>
                 </thead>
-                <tbody id="studentsTableBody" class="divide-y divide-slate-100 dark:divide-slate-800">
+                <tbody
+                  id="studentsTableBody"
+                  class="divide-y divide-slate-100 dark:divide-slate-800"
+                >
                   <!-- Rows rendered by JS -->
                 </tbody>
               </table>
@@ -440,28 +452,28 @@
 
     <!-- ===== MAIN SCRIPT ===== -->
     <script type="module">
-      import { authService } from './js/authService.js';
-      import { userService } from './js/userService.js';
+      import { authService } from "./js/authService.js";
+      import { userService } from "./js/userService.js";
 
       // ---------- DOM refs ----------
-      const studentsTableBody = document.getElementById('studentsTableBody');
-      const searchInput = document.getElementById('searchInput');
-      const totalBadge = document.getElementById('totalBadge');
-      const paginationInfo = document.getElementById('paginationInfo');
-      const pageIndicator = document.getElementById('pageIndicator');
-      const prevPageBtn = document.getElementById('prevPageBtn');
-      const nextPageBtn = document.getElementById('nextPageBtn');
+      const studentsTableBody = document.getElementById("studentsTableBody");
+      const searchInput = document.getElementById("searchInput");
+      const totalBadge = document.getElementById("totalBadge");
+      const paginationInfo = document.getElementById("paginationInfo");
+      const pageIndicator = document.getElementById("pageIndicator");
+      const prevPageBtn = document.getElementById("prevPageBtn");
+      const nextPageBtn = document.getElementById("nextPageBtn");
 
-      const sidebarAdminName = document.getElementById('sidebarAdminName');
-      const sidebarAdminEmail = document.getElementById('sidebarAdminEmail');
+      const sidebarAdminName = document.getElementById("sidebarAdminName");
+      const sidebarAdminEmail = document.getElementById("sidebarAdminEmail");
       const mobileSidebarAdminName = document.getElementById(
-        'mobileSidebarAdminName'
+        "mobileSidebarAdminName",
       );
       const mobileSidebarAdminEmail = document.getElementById(
-        'mobileSidebarAdminEmail'
+        "mobileSidebarAdminEmail",
       );
-      const logoutBtnDesktop = document.getElementById('logoutBtnDesktop');
-      const logoutBtnMobile = document.getElementById('logoutBtnMobile');
+      const logoutBtnDesktop = document.getElementById("logoutBtnDesktop");
+      const logoutBtnMobile = document.getElementById("logoutBtnMobile");
 
       // ---------- State ----------
       let allStudents = [];
@@ -471,38 +483,40 @@
 
       // ---------- Helpers ----------
       function getInitials(name) {
-        return (name || '')
-          .split(' ')
-          .map((n) => n[0])
-          .join('')
-          .toUpperCase()
-          .substring(0, 2) || '?';
+        return (
+          (name || "")
+            .split(" ")
+            .map((n) => n[0])
+            .join("")
+            .toUpperCase()
+            .substring(0, 2) || "?"
+        );
       }
 
       function randomColorFromName(name) {
         let hash = 0;
-        for (let i = 0; i < (name || 'A').length; i++) {
+        for (let i = 0; i < (name || "A").length; i++) {
           hash = name.charCodeAt(i) + ((hash << 5) - hash);
         }
         const colors = [
-          'primary',
-          'green',
-          'blue',
-          'purple',
-          'yellow',
-          'red',
-          'indigo',
-          'pink',
+          "primary",
+          "green",
+          "blue",
+          "purple",
+          "yellow",
+          "red",
+          "indigo",
+          "pink",
         ];
         return colors[Math.abs(hash) % colors.length];
       }
 
       function formatDate(dateString) {
-        if (!dateString) return '--';
-        return new Date(dateString).toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric',
+        if (!dateString) return "--";
+        return new Date(dateString).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
         });
       }
 
@@ -517,12 +531,16 @@
         const colorClass = randomColorFromName(fullName);
 
         // If profilePicture is a non‑empty string, try to show the image
-        if (profilePicture && typeof profilePicture === 'string' && profilePicture.trim() !== '') {
+        if (
+          profilePicture &&
+          typeof profilePicture === "string" &&
+          profilePicture.trim() !== ""
+        ) {
           // Return an <img> with onerror that replaces itself with initials
           return `
             <img
               src="${profilePicture}"
-              alt="${fullName || 'Student'}"
+              alt="${fullName || "Staff"}"
               class="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover"
               onerror="this.onerror=null; this.parentElement.innerHTML=\`
                 <div class=\\"w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-${colorClass}-500/20 flex items-center justify-center text-${colorClass}-600 font-bold text-[10px] sm:text-xs\\">
@@ -543,17 +561,17 @@
 
       // ---------- Render Table ----------
       function renderStudentsTable(students) {
-        studentsTableBody.innerHTML = '';
+        studentsTableBody.innerHTML = "";
         if (!students.length) {
           studentsTableBody.innerHTML = `
             <tr>
               <td colspan="6" class="px-6 py-12 text-center text-slate-500">
-                No students found.
+                No staff found.
               </td>
             </tr>
           `;
-          paginationInfo.textContent = 'Showing 0-0 of 0 results';
-          pageIndicator.textContent = '0 / 0';
+          paginationInfo.textContent = "Showing 0-0 of 0 results";
+          pageIndicator.textContent = "0 / 0";
           prevPageBtn.disabled = true;
           nextPageBtn.disabled = true;
           return;
@@ -563,9 +581,9 @@
           const isVerified = student.isVerified || false;
           const avatarHtml = getAvatarHtml(student);
 
-          const row = document.createElement('tr');
+          const row = document.createElement("tr");
           row.className =
-            'hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors group';
+            "hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors group";
           row.innerHTML = `
             <td class="px-4 sm:px-6 py-3 whitespace-nowrap">
               <div class="flex items-center gap-2 sm:gap-3">
@@ -574,24 +592,24 @@
                 </div>
                 <div>
                   <span class="text-xs sm:text-sm font-medium truncate max-w-[80px] sm:max-w-none block">
-                    ${student.fullName || 'Unknown'}
+                    ${student.fullName || "Unknown"}
                   </span>
                   ${
                     isVerified
                       ? '<span class="text-[10px] text-green-500 flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px]">verified</span> verified</span>'
-                      : ''
+                      : ""
                   }
                 </div>
               </div>
             </td>
             <td class="px-4 sm:px-6 py-3 whitespace-nowrap text-xs sm:text-sm text-slate-500 hidden sm:table-cell">
-              ${student.studentId || '--'}
+              ${student.studentId || "--"}
             </td>
             <td class="px-4 sm:px-6 py-3 whitespace-nowrap text-xs sm:text-sm text-slate-500 hidden md:table-cell max-w-[150px] truncate">
-              ${student.institutionalEmail || '--'}
+              ${student.institutionalEmail || "--"}
             </td>
             <td class="px-4 sm:px-6 py-3 whitespace-nowrap text-xs sm:text-sm text-slate-500 hidden lg:table-cell">
-              ${student.department || '--'}
+              ${student.department || "--"}
             </td>
             <td class="px-4 sm:px-6 py-3 whitespace-nowrap text-xs sm:text-sm text-slate-500 hidden md:table-cell">
               ${formatDate(student.createdAt)}
@@ -600,7 +618,7 @@
               <button
                 class="delete-student-btn text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-bold text-xs sm:text-sm tracking-wide flex items-center gap-1 ml-auto opacity-70 group-hover:opacity-100 transition-opacity"
                 data-id="${student._id}"
-                data-name="${student.fullName || 'Student'}"
+                data-name="${student.fullName || "Staff"}"
               >
                 <span class="material-symbols-outlined text-[16px] sm:text-[18px]">delete</span>
                 Delete
@@ -611,12 +629,14 @@
         });
 
         // Delete event listeners
-        document.querySelectorAll('.delete-student-btn').forEach((btn) => {
-          btn.addEventListener('click', async () => {
+        document.querySelectorAll(".delete-student-btn").forEach((btn) => {
+          btn.addEventListener("click", async () => {
             const id = btn.dataset.id;
             const name = btn.dataset.name;
             if (
-              confirm(`Delete student "${name}"? This action cannot be undone.`)
+              confirm(
+                `Delete staff member "${name}"? This action cannot be undone.`,
+              )
             ) {
               await deleteStudent(id);
             }
@@ -644,10 +664,10 @@
         if (searchTerm) {
           filtered = filtered.filter(
             (s) =>
-              (s.fullName || '').toLowerCase().includes(searchTerm) ||
-              (s.studentId || '').toLowerCase().includes(searchTerm) ||
-              (s.institutionalEmail || '').toLowerCase().includes(searchTerm) ||
-              (s.department || '').toLowerCase().includes(searchTerm)
+              (s.fullName || "").toLowerCase().includes(searchTerm) ||
+              (s.studentId || "").toLowerCase().includes(searchTerm) ||
+              (s.institutionalEmail || "").toLowerCase().includes(searchTerm) ||
+              (s.department || "").toLowerCase().includes(searchTerm),
           );
         }
 
@@ -668,22 +688,25 @@
       // ---------- Delete Student ----------
       async function deleteStudent(id) {
         try {
-          const token = authService.getToken?.() || localStorage.getItem('token');
+          const token =
+            authService.getToken?.() || localStorage.getItem("token");
           const response = await fetch(`/api/users/${id}`, {
-            method: 'DELETE',
+            method: "DELETE",
             headers: {
               Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           });
           if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.message || 'Failed to delete student');
+            throw new Error(err.message || "Failed to delete staff");
           }
           allStudents = allStudents.filter((s) => s._id !== id);
           applyFiltersAndPaginate();
         } catch (error) {
-          alert('Failed to delete student: ' + (error.message || 'Unknown error'));
+          alert(
+            "Failed to delete staff: " + (error.message || "Unknown error"),
+          );
         }
       }
 
@@ -696,7 +719,7 @@
               <td colspan="6" class="px-6 py-12 text-center text-slate-500">
                 <span class="inline-flex items-center gap-2">
                   <span class="material-symbols-outlined animate-spin text-primary">progress_activity</span>
-                  Loading students...
+                  Loading staff...
                 </span>
               </td>
             </tr>
@@ -709,23 +732,23 @@
 
           allStudents = users.map((s) => ({
             ...s,
-            fullName: s.fullName || 'Unknown',
-            studentId: s.studentId || '--',
-            institutionalEmail: s.institutionalEmail || '--',
-            department: s.department || '--',
+            fullName: s.fullName || "Unknown",
+            studentId: s.studentId || "--",
+            institutionalEmail: s.institutionalEmail || "--",
+            department: s.department || "--",
             createdAt: s.createdAt || new Date().toISOString(),
             isVerified: s.isVerified || false,
-            profilePicture: s.profilePicture || '',
+            profilePicture: s.profilePicture || "",
           }));
 
           currentPage = 1;
           applyFiltersAndPaginate();
         } catch (error) {
-          console.error('Failed to load students:', error);
+          console.error("Failed to load staff:", error);
           studentsTableBody.innerHTML = `
             <tr>
               <td colspan="6" class="px-6 py-12 text-center text-red-500">
-                Failed to load students. ${error.message || 'Please try again.'}
+                Failed to load staff. ${error.message || "Please try again."}
               </td>
             </tr>
           `;
@@ -738,49 +761,52 @@
           const response = await userService.getUserInfo();
           const user = response.user || response;
           if (user) {
-            sidebarAdminName.textContent = user.fullName || 'Admin';
-            sidebarAdminEmail.textContent = user.institutionalEmail || '--';
-            mobileSidebarAdminName.textContent = user.fullName || 'Admin';
-            mobileSidebarAdminEmail.textContent = user.institutionalEmail || '--';
+            sidebarAdminName.textContent = user.fullName || "Admin";
+            sidebarAdminEmail.textContent = user.institutionalEmail || "--";
+            mobileSidebarAdminName.textContent = user.fullName || "Admin";
+            mobileSidebarAdminEmail.textContent =
+              user.institutionalEmail || "--";
           }
         } catch {
           const storedUser =
             authService.getCurrentUser?.() ||
-            JSON.parse(localStorage.getItem('user') || '{}');
+            JSON.parse(localStorage.getItem("user") || "{}");
           if (storedUser) {
-            sidebarAdminName.textContent = storedUser.fullName || 'Admin';
-            sidebarAdminEmail.textContent = storedUser.institutionalEmail || '--';
-            mobileSidebarAdminName.textContent = storedUser.fullName || 'Admin';
-            mobileSidebarAdminEmail.textContent = storedUser.institutionalEmail || '--';
+            sidebarAdminName.textContent = storedUser.fullName || "Admin";
+            sidebarAdminEmail.textContent =
+              storedUser.institutionalEmail || "--";
+            mobileSidebarAdminName.textContent = storedUser.fullName || "Admin";
+            mobileSidebarAdminEmail.textContent =
+              storedUser.institutionalEmail || "--";
           }
         }
       }
 
       // ---------- Logout ----------
       function logout() {
-        if (typeof authService.logout === 'function') {
+        if (typeof authService.logout === "function") {
           authService.logout();
         } else {
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
         }
-        window.location.href = 'student-signin.html';
+        window.location.href = "student-signin.html";
       }
 
       // ---------- Event Listeners ----------
-      searchInput.addEventListener('input', () => {
+      searchInput.addEventListener("input", () => {
         currentPage = 1;
         applyFiltersAndPaginate();
       });
 
-      prevPageBtn.addEventListener('click', () => {
+      prevPageBtn.addEventListener("click", () => {
         if (currentPage > 1) {
           currentPage--;
           applyFiltersAndPaginate();
         }
       });
 
-      nextPageBtn.addEventListener('click', () => {
+      nextPageBtn.addEventListener("click", () => {
         const totalPages = Math.ceil(filteredStudents.length / pageSize);
         if (currentPage < totalPages) {
           currentPage++;
@@ -788,68 +814,68 @@
         }
       });
 
-      logoutBtnDesktop.addEventListener('click', logout);
-      logoutBtnMobile.addEventListener('click', logout);
+      logoutBtnDesktop.addEventListener("click", logout);
+      logoutBtnMobile.addEventListener("click", logout);
 
       // ---------- Mobile Sidebar ----------
       (function () {
-        const menuBtn = document.getElementById('menuBtn');
-        const mobileSidebar = document.getElementById('mobileSidebar');
-        const backdrop = document.getElementById('sidebarBackdrop');
+        const menuBtn = document.getElementById("menuBtn");
+        const mobileSidebar = document.getElementById("mobileSidebar");
+        const backdrop = document.getElementById("sidebarBackdrop");
 
         function openSidebar() {
           if (!mobileSidebar || !backdrop) return;
-          mobileSidebar.classList.remove('-translate-x-full');
-          mobileSidebar.classList.add('translate-x-0');
-          backdrop.classList.remove('hidden');
+          mobileSidebar.classList.remove("-translate-x-full");
+          mobileSidebar.classList.add("translate-x-0");
+          backdrop.classList.remove("hidden");
           void backdrop.offsetWidth;
-          backdrop.classList.remove('opacity-0');
-          backdrop.classList.add('opacity-100');
-          document.body.style.overflow = 'hidden';
+          backdrop.classList.remove("opacity-0");
+          backdrop.classList.add("opacity-100");
+          document.body.style.overflow = "hidden";
         }
 
         function closeSidebar() {
           if (!mobileSidebar || !backdrop) return;
-          mobileSidebar.classList.remove('translate-x-0');
-          mobileSidebar.classList.add('-translate-x-full');
-          backdrop.classList.remove('opacity-100');
-          backdrop.classList.add('opacity-0');
+          mobileSidebar.classList.remove("translate-x-0");
+          mobileSidebar.classList.add("-translate-x-full");
+          backdrop.classList.remove("opacity-100");
+          backdrop.classList.add("opacity-0");
           setTimeout(() => {
-            backdrop.classList.add('hidden');
-            document.body.style.overflow = '';
+            backdrop.classList.add("hidden");
+            document.body.style.overflow = "";
           }, 300);
         }
 
         if (menuBtn) {
-          menuBtn.addEventListener('click', (e) => {
+          menuBtn.addEventListener("click", (e) => {
             e.stopPropagation();
             openSidebar();
           });
         }
         if (backdrop) {
-          backdrop.addEventListener('click', closeSidebar);
+          backdrop.addEventListener("click", closeSidebar);
         }
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener("keydown", (e) => {
           if (
-            e.key === 'Escape' &&
+            e.key === "Escape" &&
             mobileSidebar &&
-            !mobileSidebar.classList.contains('-translate-x-full')
+            !mobileSidebar.classList.contains("-translate-x-full")
           ) {
             closeSidebar();
           }
         });
-        window.addEventListener('resize', function () {
+        window.addEventListener("resize", function () {
           if (window.innerWidth >= 768) {
             if (
               mobileSidebar &&
-              !mobileSidebar.classList.contains('-translate-x-full')
+              !mobileSidebar.classList.contains("-translate-x-full")
             ) {
-              mobileSidebar.classList.add('-translate-x-full');
-              mobileSidebar.classList.remove('translate-x-0');
+              mobileSidebar.classList.add("-translate-x-full");
+              mobileSidebar.classList.remove("translate-x-0");
               if (backdrop) {
-                backdrop.classList.add('hidden');
-                backdrop.classList.remove('opacity-100', 'opacity-0');
-                document.body.style.overflow = '';
+                backdrop.classList.add("hidden");
+                backdrop.classList.remove("opacity-100", "opacity-0");
+                document.body.style.overflow = "";
               }
             }
           }
@@ -858,10 +884,10 @@
 
       // ---------- Init ----------
       const isLoggedIn =
-        authService.isLoggedIn?.() || !!localStorage.getItem('token');
+        authService.isLoggedIn?.() || !!localStorage.getItem("token");
 
       if (!isLoggedIn) {
-        window.location.href = 'student-signin.html';
+        window.location.href = "student-signin.html";
       } else {
         loadAdminProfile();
         loadStudents();

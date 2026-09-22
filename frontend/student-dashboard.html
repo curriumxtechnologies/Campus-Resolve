@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Student Dashboard - CampusResolve</title>
+    <title>Staff Dashboard - CampusResolve</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
@@ -153,7 +153,7 @@
             >
               <img
                 id="sidebarProfileImage"
-                alt="Student profile"
+                alt="Staff profile"
                 class="w-full h-full object-cover hidden"
                 src=""
               />
@@ -243,7 +243,7 @@
             >
               <img
                 id="mobileSidebarProfileImage"
-                alt="Student profile"
+                alt="Staff profile"
                 class="w-full h-full object-cover hidden"
                 src=""
               />
@@ -532,7 +532,7 @@
       }
 
       function updateUserUI(user) {
-        const fullName = user?.fullName || "Student";
+        const fullName = user?.fullName || "Staff";
         const studentId = user?.studentId || "--";
         const profilePicture = user?.profilePicture || "";
         sidebarStudentName.textContent = fullName;

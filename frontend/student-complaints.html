@@ -129,7 +129,7 @@
                 </a>
                 <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="students.html">
                     <span class="material-symbols-outlined text-[22px]">group</span>
-                    <span class="text-sm font-medium">Students</span>
+                    <span class="text-sm font-medium">Staff</span>
                 </a>
             </nav>
             <div class="p-4 border-t border-slate-200 dark:border-slate-800 space-y-1">
@@ -174,7 +174,7 @@
                 </a>
                 <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="students.html">
                     <span class="material-symbols-outlined text-[22px]">group</span>
-                    <span class="text-sm font-medium">Students</span>
+                    <span class="text-sm font-medium">Staff</span>
                 </a>
             </nav>
             <div class="p-4 border-t border-slate-200 dark:border-slate-800 space-y-1">
@@ -210,7 +210,7 @@
                     </button>
                     <div class="relative mobile-search-wrapper w-full max-w-[180px] sm:max-w-xs md:max-w-md">
                         <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
-                        <input id="searchInput" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-slate-500" placeholder="Search complaints, students or IDs..." type="text" />
+                        <input id="searchInput" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-slate-500" placeholder="Search complaints, staff or IDs..." type="text" />
                     </div>
                 </div>
                 <div class="w-10"></div>
@@ -222,7 +222,7 @@
                 <!-- Page Title & Filters -->
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                     <div>
-                        <h1 class="text-2xl sm:text-3xl font-black tracking-tight mb-2">All student complaints</h1>
+                        <h1 class="text-2xl sm:text-3xl font-black tracking-tight mb-2">All staff complaints</h1>
                         <p class="text-slate-500 dark:text-slate-400">View, filter and respond to every complaint submitted.</p>
                     </div>
                     <div class="flex gap-3">
@@ -288,7 +288,7 @@
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-50 dark:bg-slate-800/50">
-                                    <th class="px-4 sm:px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">Student</th>
+                                    <th class="px-4 sm:px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">Staff</th>
                                     <th class="px-4 sm:px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 hidden sm:table-cell">ID</th>
                                     <th class="px-4 sm:px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">Subject</th>
                                     <th class="px-4 sm:px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 hidden md:table-cell">Date</th>
@@ -356,14 +356,14 @@
                         </div>
 
                         <div class="border-t border-slate-200 dark:border-slate-700 pt-4">
-                            <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Student Information</h4>
+                            <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Staff Information</h4>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
                                     <span class="text-xs text-slate-500">Name:</span>
                                     <p id="modalStudentName" class="text-sm font-medium dark:text-white"></p>
                                 </div>
                                 <div>
-                                    <span class="text-xs text-slate-500">Student ID:</span>
+                                    <span class="text-xs text-slate-500">Staff ID:</span>
                                     <p id="modalStudentId" class="text-sm font-medium dark:text-white"></p>
                                 </div>
                             </div>
@@ -539,7 +539,7 @@
             }
 
             complaints.forEach(complaint => {
-                const studentName = complaint.studentName || complaint.user?.fullName || 'Unknown Student';
+                const studentName = complaint.studentName || complaint.user?.fullName || 'Unknown Staff';
                 const studentId = complaint.studentId || complaint.user?.studentId || '--';
                 const subject = complaint.subject || complaint.title || 'No subject';
                 const createdAt = complaint.createdAt;
@@ -761,7 +761,7 @@
             feedbackArray.forEach(fb => {
                 const div = document.createElement('div');
                 div.className = 'flex items-start gap-2 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg';
-                const senderLabel = fb.sender === 'admin' ? 'Admin' : 'Student';
+                const senderLabel = fb.sender === 'admin' ? 'Admin' : 'Staff';
                 const senderColor = fb.sender === 'admin' ? 'text-primary' : 'text-slate-600 dark:text-slate-400';
                 div.innerHTML = `
                     <span class="text-[10px] font-bold uppercase ${senderColor} min-w-[60px]">${senderLabel}</span>

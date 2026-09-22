@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Student Sign In - CampusResolve</title>
+    <title>Staff Sign In - CampusResolve</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
@@ -87,7 +87,7 @@
                 ></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                 <div class="absolute bottom-4 left-6">
-                  <h1 class="text-white text-2xl font-bold">Student Portal</h1>
+                  <h1 class="text-white text-2xl font-bold">Staff Portal</h1>
                   <p class="text-white/80 text-sm">Welcome back to CampusResolve</p>
                 </div>
               </div>
@@ -104,10 +104,10 @@
                 <form id="loginForm" class="space-y-5">
                   <!-- Identifier -->
                   <div class="space-y-2">
-                    <label for="identifier" class="text-sm font-semibold text-slate-700 dark:text-slate-300 block">Student ID or Email</label>
+                    <label for="identifier" class="text-sm font-semibold text-slate-700 dark:text-slate-300 block">Staff ID or Email</label>
                     <div class="relative">
                       <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">person</span>
-                      <input id="identifier" name="identifier" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="e.g. 2023STU001 or name@uni.edu" type="text" required />
+                      <input id="identifier" name="identifier" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="e.g. 2024STA001 or name@campus.edu" type="text" required />
                     </div>
                   </div>
 
@@ -141,7 +141,7 @@
                 <div class="mt-8 text-center">
                   <p class="text-slate-500 dark:text-slate-400 text-sm">
                     Don't have an account?
-                    <a class="text-primary font-semibold hover:underline" href="student-signup.html">Sign up</a>
+                    <a class="text-primary font-semibold hover:underline" href="student-signup.html">Create staff account</a>
                   </p>
                 </div>
               </div>
@@ -189,7 +189,7 @@
                 <form id="forgotEmailForm" class="space-y-4">
                   <div>
                     <label for="forgotEmailInput" class="text-sm font-semibold text-slate-700 dark:text-slate-300 block mb-2">Institutional Email</label>
-                    <input id="forgotEmailInput" name="email" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="student@university.edu" type="email" required />
+                    <input id="forgotEmailInput" name="email" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="staff@university.edu" type="email" required />
                   </div>
                   <button id="sendOtpBtn" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 rounded-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed" type="submit">
                     <span id="sendOtpBtnText">Send OTP</span>
@@ -348,7 +348,7 @@
         const identifier = identifierInput.value.trim();
         const password = passwordInput.value;
         if (!identifier || !password) {
-          showAlert(alertBox, "Please enter your Student ID or Email and password.");
+          showAlert(alertBox, "Please enter your Staff ID or Email and password.");
           return;
         }
 
